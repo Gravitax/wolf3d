@@ -12,9 +12,18 @@
 
 #include "../includes/wolf3d.h"
 
+static void     lst_del(t_bloc *list)
+{
+    if (list)
+    {
+        lst_del(list->next);
+        free(list);
+        list = NULL;
+    }
+}
+
 void            clean_exit(t_wolf *data, char *str, int token)
 {
-    t_list  *tmp;
 
     if (data)
     {
@@ -23,15 +32,12 @@ void            clean_exit(t_wolf *data, char *str, int token)
         if (data->map.map)
             free(data->map.map);
         if (data->bloclist)
-        {
-            tmp = (t_list *)data->bloclist;
-            ft_lstdel(&tmp);
-        }
+            lst_del(data->bloclist);
         if (data->pWindow)
             SDL_DestroyWindow(data->pWindow);
         if (data->renderer)
             SDL_DestroyRenderer(data->renderer);
-        if (data->sdl)
+        if (data->sdl_token)
             SDL_Quit();
     }
     if (str)

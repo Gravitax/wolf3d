@@ -15,11 +15,7 @@
 static int      stock_map(t_wolf *data, char c, int i)
 {
     if (c == '3' && data->player.pos == -1)
-	{
         data->player.pos = i;
-		data->player.x = 0.33;
-		data->player.y = 0.33;
-	}
     if (c >= '0' && c <= '4')
 	    data->map.map[i] = c - '0';
     else

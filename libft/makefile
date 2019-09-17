@@ -15,7 +15,6 @@ NAME	=	libft.a
 HEADER	=	libft.h
 
 #DIR LIST
-D_LIST	=	./list
 D_MATHS	=	./maths
 D_MEM	=	./mem
 D_PRINT	=	./print
@@ -23,11 +22,6 @@ D_STR	=	./str
 D_TAB	=	./tab
 
 #SRC LIST
-S_LIST	=	ft_lstat.c\
-			ft_lstdel.c\
-			ft_lstmerge.c\
-			ft_lstsize.c
-
 S_MATHS	=	ft_isprime.c\
 			ft_power.c\
 			ft_sqrt.c
@@ -106,8 +100,7 @@ S_TAB	=	ft_tabaddelem.c\
 			ft_tabmerge.c\
 			ft_tabprint.c
 
-SRC		=	$(addprefix $(D_LIST)/,$(S_LIST))\
-			$(addprefix $(D_MATHS)/,$(S_MATHS))\
+SRC		=	$(addprefix $(D_MATHS)/,$(S_MATHS))\
 			$(addprefix $(D_MEM)/,$(S_MEM))\
 			$(addprefix $(D_PRINT)/,$(S_PRINT))\
 			$(addprefix $(D_STR)/,$(S_STR))\

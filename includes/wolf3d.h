@@ -32,12 +32,9 @@ typedef struct  s_bloc  t_bloc;
 
 struct          s_bloc
 {
-    int         a;
-    int         b;
-    int         c;
-    int         d;
+    int         x;
+    int         y;
     int         index;
-    int         token;
     int         wall;
     int         door;
     t_bloc      *next;
@@ -45,14 +42,16 @@ struct          s_bloc
 
 typedef struct  s_player
 {
-    int         prev_pos;
+    int         x;
+    int         y;
+    int         speed;
     int         pos;
-    double      x;
-    double      y;
+    int         padding;
 }               t_player;
 
 typedef struct  s_map
 {
+    int         start;
     int         len;
     int         height;
     int         width;
@@ -63,7 +62,7 @@ typedef struct  s_map
 
 typedef struct  s_wolf
 {
-    int             sdl;
+    int             sdl_token;
     char            *str;
     t_map           map;
     t_player        player;
@@ -75,7 +74,13 @@ typedef struct  s_wolf
 
 void            clean_exit(t_wolf *data, char *str, int token);
 void            wolf3d(t_wolf *data);
-int				init_SDL(t_wolf *data);
+
+void    		display_game(t_wolf *data);
+void            handle_sdl_event(t_wolf *data);
+
+void            keydown_event(t_wolf *data);
+void            keyup_event(t_wolf *data);
+void            mouse_event(t_wolf *data);
 
 int				inblock(t_wolf *data, int x, int y);
 

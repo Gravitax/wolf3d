@@ -42,11 +42,6 @@ int				ft_isupper(int c);
 
 char			*ft_itoa(int n);
 
-t_list			*ft_lstat(t_list *begin_list, unsigned int nbr);
-void			ft_lstdel(t_list **list);
-void			ft_lstmerge(t_list **list1, t_list *list2);
-size_t			ft_lstsize(t_list *list);
-
 void			*ft_memalloc(size_t size);
 void			*ft_memcpy(void *dest, const void *src, size_t n);
 void			*ft_memccpy(void *dest, const void *src, int c, size_t n);

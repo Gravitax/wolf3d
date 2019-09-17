@@ -29,7 +29,7 @@ int				inblock(t_wolf *data, int x, int y)
 	int	pos;
 
 	pos = x + y * data->map.width;
-	if (pos > data->map.len)
+	if (pos > data->map.len || pos < 0)
 		return (-1);
 	return (data->map.map[pos] == 1 ? 1 : 0);
 }
@@ -45,17 +45,15 @@ void			get_list(t_wolf *data)
 	i = -1;
 	while (++i < data->map.len)
 	{
+		data->bloclist->index = i;
 		if (data->map.map[i] == 1)
 		{
-			data->bloclist->token = 1;
 			data->bloclist->wall = 1;
 		}
 		else if (data->map.map[i] == 2)
 		{
-			data->bloclist->token = 1;
 			data->bloclist->door = 1;
 		}
-		data->bloclist->index = i;
 		if (!(data->bloclist->next = (t_bloc *)ft_memalloc(sizeof(t_bloc))))
 			clean_exit(data, "wolf3d: malloc error: bloclist 2", 0);
 		data->bloclist = data->bloclist->next;
@@ -63,13 +61,42 @@ void			get_list(t_wolf *data)
 	data->bloclist = head;
 }
 
+void			get_blocpos(t_wolf *data)
+{
+	t_bloc	*tmp;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	tmp = data->bloclist;
+	while (tmp->next)
+	{
+		if (i >= data->map.width)
+		{
+			i = 0;
+			++j;
+		}
+		tmp->x = data->map.start + data->map.padding * i;
+		tmp->y = data->map.padding * j;
+		++i;
+		tmp = tmp->next;
+	}
+	tmp = data->bloclist;
+	while (tmp->index != data->player.pos)
+		tmp = tmp->next;
+	data->player.x = tmp->x + data->player.padding / 2;
+	data->player.y = tmp->y + data->player.padding / 2;
+}
+
 void			wolf3d(t_wolf *data)
 {
 	int		i;
 
+	data->map.start = 3 * W_WIDTH / 4;
+	data->map.padding = (W_WIDTH - data->map.start) / 6 + 1;
 	data->map.len = data->map.height * data->map.width;
-	get_padding(data);
-    printf("player block: (%d)\n\n", (data->player.pos + 1));
+	data->player.padding = data->map.padding / 2;
 	i = -1;
 	while (++i < data->map.len)
 	{
@@ -81,10 +108,7 @@ void			wolf3d(t_wolf *data)
 		    ft_putnbr(data->map.map[i]);
 	}
 	ft_putchar('\n');
-	printf("ww: (%d), wh: (%d)\n", W_WIDTH, W_HEIGTH);
-	printf("\npadding: (%d)\n", data->map.padding);
-	printf("len: (%d)\n", data->map.len);
-	printf("w: (%d), h: (%d)\n", data->map.width, data->map.height);
 	get_list(data);
-	init_SDL(data);
+	get_blocpos(data);
+	display_game(data);
 }
