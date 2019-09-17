@@ -20,37 +20,50 @@ void            draw_map(t_wolf *data)
     i = 0;
     j = 0;
     SDL_SetRenderDrawColor(data->renderer, 255, 0, 0, 255);
-    while (i * j < data->len + 1)
+    while (i * j < data->map.len + 1)
     {
-    	if (i >= data->width + 1) {
+    	if (i >= data->map.width + 1) {
 			++j;
             i = 0;
         }
-        if (i + j * data->width == data->player.prev_pos)
+        if (inblock(data, i, j) > 0)
+        {
+            SDL_SetRenderDrawColor(data->renderer, 150, 0, 0, 150);
+            SDL_Rect pos = {data->map.padding * i + spc,
+                data->map.padding * j, data->map.padding, data->map.padding};
+            SDL_RenderFillRect(data->renderer, &pos);
+            SDL_SetRenderDrawColor(data->renderer, 255, 0, 0, 255);
+        }
+        if (i + j * data->map.width == data->player.prev_pos)
         {
             SDL_SetRenderDrawColor(data->renderer, 0, 0, 0, 0);
-            SDL_Rect pos = {data->padding * i + spc,  data->padding * j,
-                data->padding, data->padding};
+            SDL_Rect pos = {data->map.padding * i + spc,
+                data->map.padding * j, data->map.padding, data->map.padding};
             SDL_RenderFillRect(data->renderer, &pos);
             SDL_SetRenderDrawColor(data->renderer, 255, 0, 0, 255);
         }
         if (j > 0)
         {
             SDL_RenderDrawLine(data->renderer,
-                data->padding * i + spc, data->padding * (j - 1),
-                data->padding * i + spc, data->padding * j);
+                data->map.padding * i + spc, data->map.padding * (j - 1),
+                data->map.padding * i + spc, data->map.padding * j);
         }
-        if (i < data->width)
+        if (i < data->map.width)
         {
             SDL_RenderDrawLine(data->renderer,
-                data->padding * i + spc, data->padding * j,
-                data->padding * (i + 1) + spc, data->padding * j);
+                data->map.padding * i + spc, data->map.padding * j,
+                data->map.padding * (i + 1) + spc, data->map.padding * j);
         }
-        if (i + j * data->width == data->player.pos)
+        if (i + j * data->map.width == data->player.pos)
         {
             //printf("player pos: (%d)\n", i + j * data->height);
-            SDL_Rect pos = {data->padding * i + spc,  data->padding * j,
-                data->padding, data->padding};
+            if (inblock(data, i, j))
+            {
+                data->player.pos = data->player.prev_pos;
+                continue ;
+            }
+            SDL_Rect pos = {data->map.padding * i + spc, 
+                data->map.padding * j, data->map.padding, data->map.padding};
             SDL_RenderFillRect(data->renderer, &pos);
         }
         ++i;
@@ -61,28 +74,32 @@ void            draw_map(t_wolf *data)
 
 void            handle_event(t_wolf *data)
 {
+    t_bloc  *tmp;
+
+    tmp = data->bloclist;
+    ft_lstat(tmp, data->player.pos);
     data->player.prev_pos = data->player.pos;
     if (data->event.key.keysym.sym == SDLK_UP)
     {
-        if (data->player.pos - data->width < 0)
+        if (data->player.pos - data->map.width < 0)
             return ;
-        data->player.pos -= data->width;
+        data->player.y -= 0.33;
     }
     if (data->event.key.keysym.sym == SDLK_DOWN)
     {
-        if (data->player.pos + data->width > data->len - 1)
+        if (data->player.pos + data->map.width > data->map.len - 1)
             return ;
-        data->player.pos += data->width;
+        data->player.pos += data->map.width;
     }
     if (data->event.key.keysym.sym == SDLK_LEFT)
     {
-        if (data->player.pos % data->width == 0)
+        if (data->player.pos % data->map.width == 0)
             return ;
         data->player.pos--;
     }
     if (data->event.key.keysym.sym == SDLK_RIGHT)
     {
-        if ((data->player.pos + 1) % data->width == 0)
+        if ((data->player.pos + 1) % data->map.width == 0)
             return ;
         data->player.pos++;
     }
@@ -96,8 +113,7 @@ int             init_SDL(t_wolf *data)
         fprintf(stderr, "Erreur d'initialisation de la SDL: %s\n", SDL_GetError());
         exit (EXIT_FAILURE);
     }
-
-
+    data->sdl = 1;
     data->pWindow = SDL_CreateWindow("maboye wolf3d",
 		SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
 		W_WIDTH, W_HEIGTH, 0);

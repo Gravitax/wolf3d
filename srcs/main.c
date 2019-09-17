@@ -14,10 +14,14 @@
 
 static int      stock_map(t_wolf *data, char c, int i)
 {
-    if (c >= '0' && c <= '9')
-	    data->map[i] = c - '0';
-    else if (c == 'X' && data->player.pos == -1)
+    if (c == '3' && data->player.pos == -1)
+	{
         data->player.pos = i;
+		data->player.x = 0.33;
+		data->player.y = 0.33;
+	}
+    if (c >= '0' && c <= '4')
+	    data->map.map[i] = c - '0';
     else
         return (0);
     return (1);
@@ -28,7 +32,7 @@ static int		parse_map(t_wolf *data)
 	int		i;
 	char	*tmp;
 
-	if (data->map == NULL || data->str == NULL || data->len < 1)
+	if (data->map.map == NULL || data->str == NULL || data->map.len < 1)
 		return (0);
     data->player.pos = -1;
 	i = 0;
@@ -37,19 +41,19 @@ static int		parse_map(t_wolf *data)
 	{
         while (stock_map(data, tmp[i], i) == 1)
             ++i;
-		if (tmp[i] == '\n')
+		if (tmp[i] == '\n' && tmp[i + 1] != '\n')
 		{
-			data->width = data->width < 1 ? i : data->width;
+			data->map.width = data->map.width < 1 ? i : data->map.width;
 			++tmp;
-			++data->height;
+			++data->map.height;
 		}
 		else
 			break ;
 	}
 	if (data->player.pos == -1)
 		return (0);
-	data->width = data->width < 1 ? 1 : data->width;
-	return (i % data->width == tmp[i] ? 1 : 0);
+	data->map.width = data->map.width < 1 ? 1 : data->map.width;
+	return (i % data->map.width == tmp[i] ? 1 : 0);
 }
 
 static int		get_map(t_wolf *data, int file)
@@ -58,25 +62,19 @@ static int		get_map(t_wolf *data, int file)
 	char	buff[BUFF_SIZE];
 
 	if (file == -1)
-	{
-		close(file);
-		return (0);
-	}
-	data->str = (char *)ft_memalloc(1);
+		clean_exit(data, "wolf3d: open error: main.c", 0);
+	if (!(data->str = (char *)ft_memalloc(1)))
+		clean_exit(data, "wolf3d: malloc error: main.c", 0);
 	while (data->str && (r = read(file, buff, BUFF_SIZE)))
 	{
 		if (r == -1)
-		{
-			close(file);
-			return (0);
-		}
+			clean_exit(data, "wolf3d: read error: main.c", 0);
 		buff[r] = '\0';
 		data->str = ft_strfjoin(data->str, buff, 1);
 	}
+	data->map.len = (int)ft_strlen(data->str) + 1;
+	data->map.map = (int *)ft_memalloc(sizeof(int) * data->map.len);
 	close(file);
-	data->len = (int)ft_strlen(data->str) + 1;
-	data->map = (int *)ft_memalloc(sizeof(int)
-		* (data->len - (int)ft_sqrt(data->len)));
 	return (parse_map(data));
 }
 
@@ -88,13 +86,14 @@ int				main(int ac, char **av)
 	{
 		ft_memset(&data, 0, sizeof(t_wolf));
 		if (get_map(&data, open(av[1], O_RDONLY)) == 1)
+		{
 			wolf3d(&data);
+			clean_exit(&data, NULL, 1);
+		}
 		else
-			write(2, "wolf3d: map error\n", 18);
-		ft_strdel(&data.str);
-		free_thewolf(&data, NULL, 0);
+			clean_exit(&data, "wolf3d: map error", 0);
 	}
 	else
-		write(2, "wolf3d: usage: ./wolf3d [ valid_map ]\n", 38);
-	return (-ac);
+		ft_putstr_fd("wolf3d: usage: ./wolf3d [ valid_map ]\n", 2);
+	return (EXIT_FAILURE);
 }

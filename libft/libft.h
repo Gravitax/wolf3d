@@ -27,7 +27,6 @@ int				ft_absolute(int nb);
 long			ft_atoi_base(const char *str, unsigned int base);
 int				ft_atoi(const char *str);
 void			ft_bzero(void *s, size_t n);
-void			ft_bubblesort(void **add, int (*f)());
 
 int				ft_intlen(int nb);
 
@@ -43,9 +42,6 @@ int				ft_isupper(int c);
 
 char			*ft_itoa(int n);
 
-void			ft_lstaddback(t_list **list, t_list *prev, t_list *next);
-t_list			*ft_lstaddelem(t_list *prev, t_list *next);
-void			ft_lstaddfront(t_list **list, t_list *prev, t_list *next);
 t_list			*ft_lstat(t_list *begin_list, unsigned int nbr);
 void			ft_lstdel(t_list **list);
 void			ft_lstmerge(t_list **list1, t_list *list2);
@@ -56,7 +52,7 @@ void			*ft_memcpy(void *dest, const void *src, size_t n);
 void			*ft_memccpy(void *dest, const void *src, int c, size_t n);
 void			*ft_memchr(const void *s, int c, size_t n);
 int				ft_memcmp(const void *s1, const void *s2, size_t n);
-void			ft_memdel(void **ap);
+void			ft_memdel(void **ptr);
 void			*ft_memmove(void *dest, const void *src, size_t n);
 void			*ft_memset(void *s, int c, size_t n);
 
@@ -73,8 +69,6 @@ void			ft_putnbr_fd(int n, int fd);
 void			ft_putstr(char const *s);
 void			ft_putstr_fd(char const *s, int fd);
 
-int				ft_quicksort(void **add, int start, int size, int (*f)());
-
 char			*ft_readfile(char *file);
 void			*ft_realloc(void *ptr, size_t new_size);
 char			**ft_splitwspc(const char *str);
@@ -86,7 +80,7 @@ char			*ft_strchr(const char *str, int c);
 int				ft_strclen(const char *str, char c);
 int				ft_strcmp(const char *s1, const char *s2);
 char			*ft_strcpy(char *dest, const char *src);
-void			ft_strdel(char **as);
+void			ft_strdel(char **str);
 char			*ft_strdup(const char *src);
 char			*ft_strfjoin(const char *s1, const char *s2, int choose);
 char			*ft_strjoin(char const *s1, char const *s2);

@@ -23,10 +23,7 @@ D_STR	=	./str
 D_TAB	=	./tab
 
 #SRC LIST
-S_LIST	=	ft_lstaddback.c\
-			ft_lstaddelem.c\
-			ft_lstaddfront.c\
-			ft_lstat.c\
+S_LIST	=	ft_lstat.c\
 			ft_lstdel.c\
 			ft_lstmerge.c\
 			ft_lstsize.c
@@ -102,9 +99,7 @@ S_STR	=	ft_absolute.c\
 			ft_wordcount.c\
 			get_next_line.c
 
-S_TAB	=	ft_bubblesort.c\
-			ft_quicksort.c\
-			ft_tabaddelem.c\
+S_TAB	=	ft_tabaddelem.c\
 			ft_tabdup.c\
 			ft_tabfree.c\
 			ft_tablen.c\

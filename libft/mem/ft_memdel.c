@@ -12,10 +12,10 @@
 
 #include <stdlib.h>
 
-void		ft_memdel(void **ap)
+void		ft_memdel(void **ptr)
 {
-	if (!ap || !*ap)
+	if (!ptr || !*ptr)
 		return ;
-	free(*ap);
-	*ap = NULL;
+	free(*ptr);
+	*ptr = NULL;
 }

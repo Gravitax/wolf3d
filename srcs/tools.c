@@ -12,19 +12,29 @@
 
 #include "../includes/wolf3d.h"
 
-void        free_thewolf(t_wolf *data, char *str, int token)
+void            clean_exit(t_wolf *data, char *str, int token)
 {
+    t_list  *tmp;
+
     if (data)
     {
         if (data->str)
             ft_strdel(&data->str);
-        if (data->map)
-            free((void *)data->map);
+        if (data->map.map)
+            free(data->map.map);
+        if (data->bloclist)
+        {
+            tmp = (t_list *)data->bloclist;
+            ft_lstdel(&tmp);
+        }
+        if (data->pWindow)
+            SDL_DestroyWindow(data->pWindow);
+        if (data->renderer)
+            SDL_DestroyRenderer(data->renderer);
+        if (data->sdl)
+            SDL_Quit();
     }
-    if (token)
-    {
-        if (str)
-            write(2, &str, ft_strlen(str));
-        exit(0);
-    }
+    if (str)
+       ft_putendl_fd(str, 2);
+    exit(token ? EXIT_SUCCESS : EXIT_FAILURE);
 }

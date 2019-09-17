@@ -28,6 +28,21 @@
 # define    W_WIDTH     800
 # define    W_HEIGTH    600
 
+typedef struct  s_bloc  t_bloc;
+
+struct          s_bloc
+{
+    int         a;
+    int         b;
+    int         c;
+    int         d;
+    int         index;
+    int         token;
+    int         wall;
+    int         door;
+    t_bloc      *next;
+};
+
 typedef struct  s_player
 {
     int         prev_pos;
@@ -36,33 +51,32 @@ typedef struct  s_player
     double      y;
 }               t_player;
 
-typedef struct  s_ray
+typedef struct  s_map
 {
     int         len;
-}               t_ray;
+    int         height;
+    int         width;
+    int         padding;
+    int         *map;
+}               t_map;
 
-typedef struct  s_vector
-{
-    double      x;
-    double      y;
-}               t_vector;
 
 typedef struct  s_wolf
 {
-    int             len;
-    int             height;
-    int             width;
-    int             *map;
-    int             padding;
+    int             sdl;
     char            *str;
+    t_map           map;
     t_player        player;
+    t_bloc          *bloclist;
+    SDL_Event       event;
     SDL_Window	    *pWindow;
     SDL_Renderer    *renderer;
-    SDL_Event       event;
 }               t_wolf;
 
+void            clean_exit(t_wolf *data, char *str, int token);
 void            wolf3d(t_wolf *data);
-void            free_thewolf(t_wolf *data, char *str, int token);
 int				init_SDL(t_wolf *data);
+
+int				inblock(t_wolf *data, int x, int y);
 
 #endif
