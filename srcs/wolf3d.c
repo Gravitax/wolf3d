@@ -12,35 +12,13 @@
 
 #include "../includes/wolf3d.h"
 
-void			get_padding(t_wolf *data)
-{
-	int		w;
-	int		h;
-
-	w = W_WIDTH / data->map.width;
-	h = W_HEIGTH / data->map.height;
-	data->map.padding = w > h ? h : w;
-	if (data->map.padding < 7)
-		data->map.padding = 7;
-}
-
-int				inblock(t_wolf *data, int x, int y)
-{
-	int	pos;
-
-	pos = x + y * data->map.width;
-	if (pos > data->map.len || pos < 0)
-		return (-1);
-	return (data->map.map[pos] == 1 ? 1 : 0);
-}
-
-void			get_list(t_wolf *data)
+static void			get_list(t_wolf *data)
 {
 	int		i;
 	t_bloc	*head;
 
 	if (!(data->bloclist = (t_bloc *)ft_memalloc(sizeof(t_bloc))))
-		clean_exit(data, "wolf3d: error malloc: bloclist 1", 0);
+		clean_exit(data, "wolf3d: error malloc: wolf3d.c 1", 0);
 	head = data->bloclist;
 	i = -1;
 	while (++i < data->map.len)
@@ -55,13 +33,13 @@ void			get_list(t_wolf *data)
 			data->bloclist->door = 1;
 		}
 		if (!(data->bloclist->next = (t_bloc *)ft_memalloc(sizeof(t_bloc))))
-			clean_exit(data, "wolf3d: malloc error: bloclist 2", 0);
+			clean_exit(data, "wolf3d: malloc error: wolf3d.c 2", 0);
 		data->bloclist = data->bloclist->next;
 	}
 	data->bloclist = head;
 }
 
-void			get_blocpos(t_wolf *data)
+static void			get_blocpos(t_wolf *data)
 {
 	t_bloc	*tmp;
 	int		i;
@@ -93,8 +71,9 @@ void			wolf3d(t_wolf *data)
 {
 	int		i;
 
-	data->map.start = 3 * W_WIDTH / 4;
-	data->map.padding = (W_WIDTH - data->map.start) / 6 + 1;
+	data->map.limit = W_HEIGTH / 4;
+	data->map.start = 2 * W_WIDTH / 3;
+	data->map.padding = (W_WIDTH - data->map.start) / 8 + 1;
 	data->map.len = data->map.height * data->map.width;
 	data->player.padding = data->map.padding / 2;
 	i = -1;
@@ -110,5 +89,5 @@ void			wolf3d(t_wolf *data)
 	ft_putchar('\n');
 	get_list(data);
 	get_blocpos(data);
-	display_game(data);
+	launch_game(data);
 }

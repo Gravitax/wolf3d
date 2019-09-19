@@ -12,7 +12,7 @@
 
 #include "../includes/wolf3d.h"
 
-static int      get_bloc(t_wolf *data, int x, int y)
+static int      forbidden_bloc(t_wolf *data, int x, int y)
 {
     int xc;
     int yc;
@@ -32,7 +32,7 @@ static int      get_bloc(t_wolf *data, int x, int y)
         y -= data->map.padding;
         ++yc;
     }
-    return (inblock(data, xc, yc));
+    return (inbloc(data, xc, yc));
 }
 
 static void     check_playeraccess(t_wolf *data, int xs, int ys)
@@ -45,8 +45,8 @@ static void     check_playeraccess(t_wolf *data, int xs, int ys)
     y = data->player.y;
     x = data->player.x;
     x -= data->map.start;
-    if (get_bloc(data, x, y) || get_bloc(data, x + i, y)
-        || get_bloc(data, x, y + i) || get_bloc(data, x + i, y + i))
+    if (forbidden_bloc(data, x, y) || forbidden_bloc(data, x + i, y)
+    || forbidden_bloc(data, x, y + i) || forbidden_bloc(data, x + i, y + i))
     {
         data->player.x = xs;
         data->player.y = ys;
@@ -67,6 +67,15 @@ void            keyup_event(t_wolf *data)
     else if (data->event.key.keysym.sym == SDLK_RIGHT)
         data->player.x += 2 + data->player.speed;
     else if (data->event.key.keysym.sym == SDLK_LSHIFT)
-        data->player.speed = 0;
+        data->player.speed = 4;
     check_playeraccess(data, xs, ys);
+    data->player.pos = get_blocindex(data,
+        data->player.x - data->map.start, data->player.y);
+}
+
+void            key_event(t_wolf *data)
+{
+    if (data->event.key.keysym.sym == SDLK_LCTRL)
+        data->player.speed = 0;
+    keyup_event(data);
 }

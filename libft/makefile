@@ -50,7 +50,7 @@ S_PRINT	=	ft_printf.c\
 			my_putnbr_fd.c\
 			my_putstr_fd.c
 
-S_STR	=	ft_absolute.c\
+S_STR	=	ft_abs.c\
 			ft_atoi_base.c\
 			ft_atoi.c\
 			ft_bzero.c\

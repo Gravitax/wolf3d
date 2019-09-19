@@ -24,7 +24,8 @@
 
 # include "../libft/libft.h"
 
-# define    BLOCK_SIZE  10
+# define    FPS         60
+# define    FRAME_DELAY 1000 / FPS
 # define    W_WIDTH     800
 # define    W_HEIGTH    600
 
@@ -34,6 +35,7 @@ struct          s_bloc
 {
     int         x;
     int         y;
+    int         mid;
     int         index;
     int         wall;
     int         door;
@@ -52,6 +54,8 @@ typedef struct  s_player
 typedef struct  s_map
 {
     int         start;
+    int         limit;
+    int         diff;
     int         len;
     int         height;
     int         width;
@@ -64,6 +68,9 @@ typedef struct  s_wolf
 {
     int             sdl_token;
     char            *str;
+    int             x;
+    int             y;
+    unsigned int   frame_start;
     t_map           map;
     t_player        player;
     t_bloc          *bloclist;
@@ -74,14 +81,17 @@ typedef struct  s_wolf
 
 void            clean_exit(t_wolf *data, char *str, int token);
 void            wolf3d(t_wolf *data);
+void            draw_map(t_wolf *data);
 
-void    		display_game(t_wolf *data);
-void            handle_sdl_event(t_wolf *data);
+void    		launch_game(t_wolf *data);
+void            sdl_event(t_wolf *data);
 
-void            keydown_event(t_wolf *data);
-void            keyup_event(t_wolf *data);
+void            key_event(t_wolf *data);
 void            mouse_event(t_wolf *data);
 
-int				inblock(t_wolf *data, int x, int y);
+int				inbloc(t_wolf *data, int x, int y);
+int             get_blocindex(t_wolf *data, int x, int y);
+
+void            frame_delay(unsigned int frame);
 
 #endif

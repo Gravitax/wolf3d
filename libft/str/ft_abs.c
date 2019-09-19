@@ -12,7 +12,7 @@
 
 #include "../libft.h"
 
-int			ft_absolute(int nb)
+int			ft_abs(int nb)
 {
 	return (nb < 0 ? -nb : nb);
 }

@@ -30,12 +30,12 @@ INCDIR	=	./includes
 OBJDIR	=	./obj
 
 # src / obj files
-SRC		=	display.c \
-			handle_sdl_event.c \
-			keydown_event.c \
-			keyup_event.c \
+SRC		=	key_event.c \
+			launcher.c \
 			main.c \
+			map.c \
 			mouse_event.c \
+			sdl_event.c \
 			tools.c \
 			wolf3d.c
 INC		=	wolf3d.h

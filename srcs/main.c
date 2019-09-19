@@ -12,7 +12,7 @@
 
 #include "../includes/wolf3d.h"
 
-static int      stock_map(t_wolf *data, char c, int i)
+static int      is_goodvalue(t_wolf *data, char c, int i)
 {
     if (c == '3' && data->player.pos == -1)
         data->player.pos = i;
@@ -28,14 +28,14 @@ static int		parse_map(t_wolf *data)
 	int		i;
 	char	*tmp;
 
-	if (data->map.map == NULL || data->str == NULL || data->map.len < 1)
-		return (0);
+	if (data->map.len < 1)
+		clean_exit(data, "wolf3d: map error", 0);
     data->player.pos = -1;
 	i = 0;
 	tmp = data->str;
 	while (tmp && tmp[i])
 	{
-        while (stock_map(data, tmp[i], i) == 1)
+        while (is_goodvalue(data, tmp[i], i) == 1)
             ++i;
 		if (tmp[i] == '\n' && tmp[i + 1] != '\n')
 		{
@@ -47,7 +47,7 @@ static int		parse_map(t_wolf *data)
 			break ;
 	}
 	if (data->player.pos == -1)
-		return (0);
+		clean_exit(data, "wolf3d: map error: no player found", 0);
 	data->map.width = data->map.width < 1 ? 1 : data->map.width;
 	return (i % data->map.width == tmp[i] ? 1 : 0);
 }
@@ -60,7 +60,7 @@ static int		get_map(t_wolf *data, int file)
 	if (file == -1)
 		clean_exit(data, "wolf3d: open error: main.c", 0);
 	if (!(data->str = (char *)ft_memalloc(1)))
-		clean_exit(data, "wolf3d: malloc error: main.c", 0);
+		clean_exit(data, "wolf3d: malloc error: main.c 1", 0);
 	while (data->str && (r = read(file, buff, BUFF_SIZE)))
 	{
 		if (r == -1)
@@ -69,7 +69,8 @@ static int		get_map(t_wolf *data, int file)
 		data->str = ft_strfjoin(data->str, buff, 1);
 	}
 	data->map.len = (int)ft_strlen(data->str) + 1;
-	data->map.map = (int *)ft_memalloc(sizeof(int) * data->map.len);
+	if (!(data->map.map = (int *)ft_memalloc(sizeof(int) * data->map.len)))
+		clean_exit(data, "wolf3d: malloc error: main.c 2", 0);
 	close(file);
 	return (parse_map(data));
 }
