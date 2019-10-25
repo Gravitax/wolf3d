@@ -14,13 +14,15 @@
 
 static int      is_goodvalue(t_wolf *data, char c, int i)
 {
-    if (c == '3' && data->player.pos == -1)
-        data->player.pos = i;
-    if (c >= '0' && c <= '4')
+    if (c >= '0' && c <= '9')
+	{
+    	if (data->player.pos == -1 && c == '2')
+        	data->player.pos = i;
 	    data->map.map[i] = c - '0';
+		return (1);
+	}
     else
         return (0);
-    return (1);
 }
 
 static int		parse_map(t_wolf *data)
@@ -28,7 +30,7 @@ static int		parse_map(t_wolf *data)
 	int		i;
 	char	*tmp;
 
-	if (data->map.len < 1)
+	if (data->map.len < 25)
 		clean_exit(data, "wolf3d: map error", 0);
     data->player.pos = -1;
 	i = 0;
@@ -46,8 +48,8 @@ static int		parse_map(t_wolf *data)
 		else
 			break ;
 	}
-	// if (data->player.pos == -1)
-	// 	clean_exit(data, "wolf3d: map error: no player found", 0);
+	if (data->player.pos == -1)
+		clean_exit(data, "wolf3d: map error: no player found", 0);
 	data->map.width = data->map.width < 1 ? 1 : data->map.width;
 	return (i % data->map.width == tmp[i] ? 1 : 0);
 }

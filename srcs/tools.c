@@ -16,7 +16,7 @@ static void     free_surface(t_wolf *data)
 {
     int i;
 
-    i = 8;
+    i = SNB;
     while (i--)
         if (data->surface[i].img)
             SDL_FreeSurface(data->surface[i].img);
@@ -33,7 +33,7 @@ void            clean_exit(t_wolf *data, char *str, int token)
         if (data->sdl_on)
         {
             if (data->pWindow)
-            SDL_DestroyWindow(data->pWindow);
+                SDL_DestroyWindow(data->pWindow);
             if (data->renderer)
                 SDL_DestroyRenderer(data->renderer);
             free_surface(data);

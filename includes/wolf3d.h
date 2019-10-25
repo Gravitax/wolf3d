@@ -15,14 +15,13 @@
 
 # include <fcntl.h>
 # include <math.h>
+# include <pthread.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <time.h>
 # include <unistd.h>
 
 # include <SDL2/SDL.h>
-# include <SDL2/SDL_image.h>
-# include <SDL2/SDL_ttf.h>
-# include <time.h>
 
 # include "../libft/libft.h"
 
@@ -30,13 +29,11 @@
 # define    FRAME_DELAY 1000 / FPS
 # define    W_WIDTH     800
 # define    W_HEIGTH    600
+# define    SNB         8
 
 typedef struct  s_surface
 {
     SDL_Surface *img;
-    u_int8_t    r;
-    u_int8_t    g;
-    u_int8_t    b;
 }               t_surface;
 
 typedef struct  s_player
@@ -60,14 +57,14 @@ typedef struct  s_map
 
 typedef struct  s_wolf
 {
+    int             frame_start;
     int             sdl_on;
     int             si;
     char            *str;
-    unsigned int    frame_start;
     float           ray_step;
     t_map           map;
     t_player        player;
-    t_surface       surface[8];
+    t_surface       surface[SNB];
     SDL_Event       event;
     SDL_Window	    *pWindow;
     SDL_Renderer    *renderer;
@@ -77,14 +74,11 @@ void    		raycasting(t_wolf *data);
 void            minimap(t_wolf *data);
 
 void            clean_exit(t_wolf *data, char *str, int token);
+void            frame_delay(int frame);
 void            wolf3d(t_wolf *data);
-void            draw_map(t_wolf *data);
 
 void            sdl_event(t_wolf *data);
-
 void            key_event(t_wolf *data);
 void            mouse_event(t_wolf *data);
-
-void            frame_delay(int frame);
 
 #endif

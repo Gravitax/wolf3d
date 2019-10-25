@@ -86,8 +86,8 @@ void			wolf3d(t_wolf *data)
 	}
 	ft_putchar('\n');
 
-	data->player.x = 8;
-	data->player.y = 8;
+	data->player.y = data->player.pos / data->map.width;
+	data->player.x = data->player.pos - (data->player.y * data->map.width) + 1;
 	data->player.angle = 0;
     data->player.fov = 3.14159 / 4;
 	data->player.speed = 0.1;

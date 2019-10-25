@@ -17,7 +17,6 @@ void			draw_pixel(t_wolf *data, int i, float x, float y)
 	int			sx;
 	int			sy;
 	uint8_t		*p;
-	uint32_t	pixel;
 	t_surface	surface;
 
 	surface = data->surface[i];
@@ -26,10 +25,8 @@ void			draw_pixel(t_wolf *data, int i, float x, float y)
 	sy = y * surface.img->h;
 	p = (uint8_t *)surface.img->pixels + sy
 		* surface.img->pitch + sx * surface.img->format->BytesPerPixel;
-	pixel = p[0] | p[1] << 8 | p[2] << 16;
-	SDL_GetRGB(pixel, surface.img->format,  &surface.r, &surface.g, &surface.b);
 	SDL_UnlockSurface(surface.img);
-	SDL_SetRenderDrawColor(data->renderer, surface.r, surface.g, surface.b, 100);
+	SDL_SetRenderDrawColor(data->renderer, p[2], p[1], p[0], 100);
 }
 
 void			draw_ray(t_wolf *data, int x, float samplex, float dst_towall)
