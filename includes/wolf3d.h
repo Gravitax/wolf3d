@@ -18,7 +18,7 @@
 # include <pthread.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <time.h>
+//# include <time.h>
 # include <unistd.h>
 
 # include <SDL2/SDL.h>
@@ -26,12 +26,12 @@
 # include "../libft/libft.h"
 
 # define    FPS         60
-# define    FRAME_DELAY FPS / 1000
+# define    FRAME_DELAY 1000 / FPS
 # define    W_WIDTH     800
 # define    W_HEIGTH    600
 # define    SNB         8
 
-# define    NBTHREAD    4
+# define    NBTHREAD    8
 # define    WTHREAD     W_WIDTH / NBTHREAD
 
 typedef struct  s_surface
@@ -41,21 +41,41 @@ typedef struct  s_surface
 
 typedef struct  s_player
 {
-    float       x;
-    float       y;
+    int         pos;
     float       angle;
     float       fov;
     float       speed;
-    int         pos;
+    float       x;
+    float       y;
 }               t_player;
+
+typedef struct  s_raydata
+{
+    int         ceiling;
+    int         floor;
+    int         x;
+    int         x_max;
+    float       angle;
+    float       bmx;
+    float       bmy;
+    float       dst_towall;
+    float       eyex;
+    float       eyey;
+    float       ray_step;
+    float       samplex;
+    float       sampley;
+    float       testangle;
+    float       testx;
+    float       testy;
+}               t_raydata;
 
 typedef struct  s_map
 {
     int         len;
     int         height;
     int         width;
-    float       depth;
     int         *map;
+    float       depth;
 }               t_map;
 
 typedef struct  s_wolf
@@ -64,12 +84,10 @@ typedef struct  s_wolf
     int             frame_start;
     int             sdl_on;
     int             si;
-    int             x;
-    int             x_max;
     char            *str;
-    float           ray_step;
     t_map           map;
     t_player        player;
+    t_raydata       raydata;
     t_surface       surface[SNB];
     SDL_Event       event;
     SDL_Window	    *pWindow;
@@ -77,6 +95,7 @@ typedef struct  s_wolf
 }               t_wolf;
 
 void    		*raycasting(void *d);
+void			get_blockside(t_wolf *data, int testx, int testy);
 void            raythread(t_wolf *data);
 void            minimap(t_wolf *data);
 

@@ -22,8 +22,8 @@ void            raythread(t_wolf *data)
     while (++i < NBTHREAD)
     {
         ft_memcpy(&tab[i], data, sizeof(t_wolf));
-        tab[i].x = WTHREAD * i;
-        tab[i].x_max = WTHREAD * (i + 1);
+        tab[i].raydata.x = WTHREAD * i;
+        tab[i].raydata.x_max = WTHREAD * (i + 1);
         pthread_create(&t[i], NULL, raycasting, &tab[i]);
     }
     while (i--)

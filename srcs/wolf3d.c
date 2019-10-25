@@ -23,7 +23,7 @@ static void     init_sdl(t_wolf *data)
 		W_WIDTH, W_HEIGTH, 0);
 }
 
-void            load_texture(t_wolf *data)
+static void     load_texture(t_wolf *data)
 {
 	if (!(data->surface[0].img = SDL_LoadBMP("img/doom.bmp")))
         clean_exit(data, "wolf3d: sdl loadbmp error: wolf3d.c", 0);
@@ -57,8 +57,8 @@ static void		launch_game(t_wolf *data)
             //data->etime = frame_delay(SDL_GetTicks() - data->frame_start);
             SDL_RenderClear(data->renderer);
 			sdl_event(data);
-            raythread(data);
-            //raycasting(data);
+            //raythread(data);
+            raycasting(data);
             //minimap(data);
             SDL_RenderPresent(data->renderer);
 		}
@@ -92,6 +92,6 @@ void			wolf3d(t_wolf *data)
 	data->player.angle = 0;
     data->player.fov = 3.14159 / 4;
 	data->player.speed = 0.1;
-    data->ray_step = 0.01;
+    data->raydata.ray_step = 0.01;
 	launch_game(data);
 }

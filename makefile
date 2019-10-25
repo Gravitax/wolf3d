@@ -30,7 +30,8 @@ INCDIR	=	./includes
 OBJDIR	=	./obj
 
 # src / obj files
-SRC		=	key_event.c \
+SRC		=	blockside.c \
+			key_event.c \
 			main.c \
 			minimap.c \
 			mouse_event.c \

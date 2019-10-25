@@ -12,7 +12,7 @@
 
 #include "../includes/wolf3d.h"
 
-void			draw_pixel(t_wolf *data, int i, float x, float y)
+void			draw_pixel(t_wolf *data, int i)
 {
 	int			sx;
 	int			sy;
@@ -21,38 +21,37 @@ void			draw_pixel(t_wolf *data, int i, float x, float y)
 
 	surface = data->surface[i];
 	SDL_LockSurface(surface.img);
-	sx = x * surface.img->w;
-	sy = y * surface.img->h;
+	sx = data->raydata.samplex * surface.img->w;
+	sy = data->raydata.sampley * surface.img->h;
 	p = (uint8_t *)surface.img->pixels + sy * surface.img->pitch
 		+ sx * surface.img->format->BytesPerPixel;
 	SDL_UnlockSurface(surface.img);
 	SDL_SetRenderDrawColor(data->renderer, p[2], p[1], p[0], 100);
 }
 
-void			draw_ray(t_wolf *data, int x, float samplex, float dst_towall)
+static void		draw_ray(t_wolf *data, int x)
 {
-	int			ceiling = W_HEIGTH / 2 - W_HEIGTH / dst_towall;
-	int			floor = W_HEIGTH - ceiling;
-	float		sampley = 0;
+	int	y;
 
-	(void)samplex;
-	(void)sampley;
-
-	for (int y = 0; y < W_HEIGTH; y++)
+	data->raydata.ceiling = W_HEIGTH / 2 - W_HEIGTH / data->raydata.dst_towall;
+	data->raydata.floor = W_HEIGTH - data->raydata.ceiling;
+	y = -1;
+	while (++y < W_HEIGTH)
 	{
-		if (y <= ceiling)
+		if (y <= data->raydata.ceiling)
 		{
-			// sampley = ((float)y)  / ((float)ceiling);
-			// draw_pixel(data, 7, samplex, sampley);
+			// data->raydata.sampley = ((float)y)  / ((float)data->raydata.ceiling);
+			// draw_pixel(data, 7);
 
 			SDL_SetRenderDrawColor(data->renderer, 0, 0, 0, 100);
 		}
-		else if (y > ceiling && y <= floor)
+		else if (y > data->raydata.ceiling && y <= data->raydata.floor)
 		{
-			if (dst_towall < data->map.depth)
+			if (data->raydata.dst_towall < data->map.depth)
 			{
-				// sampley = ((float)y - (float)ceiling) / ((float)floor - (float)ceiling);
-				// draw_pixel(data, data->si, samplex, sampley);
+				// data->raydata.sampley = ((float)y - (float)data->raydata.ceiling)
+				// 	/ ((float)data->raydata.floor - (float)data->raydata.ceiling);
+				// draw_pixel(data, data->si);
 
 				SDL_SetRenderDrawColor(data->renderer, 0, 0, 100, 100);
 			}
@@ -62,85 +61,63 @@ void			draw_ray(t_wolf *data, int x, float samplex, float dst_towall)
 		else
 		{
 			// float	b = (((float)y - W_HEIGTH / 2) / ((float)W_HEIGTH / 2));
-			// SDL_SetRenderDrawColor(data->renderer, 200 * b, 200 * b, 200 * b, 100);
+			// SDL_SetRenderDrawColor(data->renderer, 200 * b, 200 * b, 200 * b, 100)
 
-			// samplex = ((float)x) / (float)floor;
-			// sampley = ((float)y - (float)floor) / ((float)floor);
-			// draw_pixel(data, 6, samplex, sampley);
-			
+			// data->raydata.samplex = ((float)x) / (float)data->raydata.floor;
+			// data->raydata.sampley = ((float)y - (float)data->raydata.floor)
+			// 	/ ((float)data->raydata.floor);
+			// draw_pixel(data, 6);
+
 			SDL_SetRenderDrawColor(data->renderer, 100, 0, 0, 100);
 		}
 		SDL_RenderDrawPoint(data->renderer, x, y);
 	}
 }
 
+static int		hitwall(t_wolf *data)
+{
+	int	testx;
+	int	testy;
+	
+	testx = (int)(data->player.x
+		+ data->raydata.eyex * data->raydata.dst_towall);
+	testy = (int)(data->player.y
+		+ data->raydata.eyey * data->raydata.dst_towall);
+	if (testx < 0 || testx >= data->map.width
+		|| testy < 0 || testy >= data->map.height)
+	{
+		data->raydata.dst_towall = data->map.depth;
+		return (1);
+	}
+	else
+		if (data->map.map[testy * data->map.width + testx] == 1)
+		{
+			//get_blockside(data, testx, testy);
+			return (1);
+		}
+	return (0);
+}
+
 void			*raycasting(void *d)
 {
-	t_wolf		*data = (t_wolf *)d;
-	float		fov = data->player.fov;
-	float		samplex = 0;
+	t_wolf	*data = (t_wolf *)d;
+	int		x;
 
-	while (data->x < data->x_max)
+	x = -1;
+	while (++x < W_WIDTH)
 	{
-		//printf("x: %d, xmax: %d\n", data->x, data->x_max);
-		float	ray_angle = (data->player.angle - fov / 2)
-			+ ((float)data->x / (float)W_WIDTH) * fov;
-
-		float	dst_towall = 0;
-		int		hitwall = 0;
-
-		float	eyex = cosf(ray_angle);
-		float	eyey = sinf(ray_angle);
-		while (!hitwall && dst_towall < data->map.depth)
+		data->raydata.angle = (data->player.angle - data->player.fov / 2)
+			+ ((float)x / (float)W_WIDTH) * data->player.fov;
+		data->raydata.dst_towall = 0;
+		data->raydata.eyex = cosf(data->raydata.angle);
+		data->raydata.eyey = sinf(data->raydata.angle);
+		while (data->raydata.dst_towall < data->map.depth)
 		{
-			dst_towall += data->ray_step;
-			int	testx = (int)(data->player.x + eyex * dst_towall);
-			int	testy = (int)(data->player.y + eyey * dst_towall);
-			if (testx < 0 || testx >= data->map.width
-				|| testy < 0 || testy >= data->map.height)
-			{
-				hitwall = 1;
-				dst_towall = data->map.depth;
-			}
-			else
-			{
-				if (data->map.map[testy * data->map.width + testx] == 1)
-				{
-					hitwall = 1;
-
-					// float	blockmidx = (float)testx + 0.5;
-					// float	blockmidy = (float)testy + 0.5;
-
-					// float	testpointx = data->player.x + eyex * dst_towall;
-					// float	testpointy = data->player.y + eyey * dst_towall;
-					// float	testangle = atan2f((testpointy - blockmidy), (testpointx - blockmidx));
-
-					// samplex = (float)testy - testpointy;
-					// if (testangle >= -3.14159 * 0.25 && testangle < 3.14159 * 0.25)
-					// {
-					// 	samplex = (float)testy - testpointy;
-					// 	data->si = 1;
-					// }
-					// else if (testangle >= 3.14159 * 0.25 && testangle < 3.14159 * 0.75)
-					// {
-					// 	samplex = testpointx - (float)testx;
-					// 	data->si = 2;
-					// }
-					// else if (testangle < -3.14159 * 0.25 && testangle >= -3.14159 * 0.75)
-					// {
-					// 	samplex = (float)testx - testpointx;
-					// 	data->si = 3;
-					// }
-					// else if (testangle >= -3.14159 * 0.75 || testangle < -3.14159 * 0.75)
-					// {
-					// 	samplex = testpointy - (float)testy;
-					// 	data->si = 4;
-					// }
-				}	
-			}
+			if (hitwall(data) == 1)
+				break ;
+			data->raydata.dst_towall += data->raydata.ray_step;
 		}
-		draw_ray(data, data->x, samplex, dst_towall);
-		++data->x;
+		draw_ray(data, x);
 	}
 	return (d);
 }
