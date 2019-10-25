@@ -12,6 +12,19 @@
 
 #include "../includes/wolf3d.h"
 
+int				is_outrange(t_wolf *data)
+{
+	if (data->map.map[(int)data->player.y * data->map.width
+	+ (int)data->player.x] == 1)
+		return (1);
+	else if (data->player.y < 0 || data->player.y > data->map.height)
+		return (1);
+	else if (data->player.x < 0 || data->player.x > data->map.width)
+		return (1);
+	else
+		return (0);
+}
+
 void            key_event(t_wolf *data)
 {
 	if (data->event.key.keysym.sym == SDLK_a)
@@ -27,8 +40,7 @@ void            key_event(t_wolf *data)
 		data->player.y += sinf(data->player.angle)
 			* data->player.speed;
 
-		if (data->map.map[(int)data->player.y * data->map.width
-			+ (int)data->player.x] == 1)
+		if (is_outrange(data))
 		{
 			data->player.x -= cosf(data->player.angle)
 				* data->player.speed;
@@ -43,8 +55,7 @@ void            key_event(t_wolf *data)
 		data->player.y -= sinf(data->player.angle)
 			* data->player.speed;
 
-		if (data->map.map[(int)data->player.y * data->map.width
-			+ (int)data->player.x] == 1)
+		if (is_outrange(data))
 		{
 			data->player.x += cosf(data->player.angle)
 				* data->player.speed;
@@ -59,8 +70,7 @@ void            key_event(t_wolf *data)
 		data->player.y += cosf(data->player.angle)
 			* data->player.speed;
 
-		if (data->map.map[(int)data->player.y * data->map.width
-			+ (int)data->player.x] == 1)
+		if (is_outrange(data))
 		{
 			data->player.x += sinf(data->player.angle)
 				* data->player.speed;
@@ -75,8 +85,7 @@ void            key_event(t_wolf *data)
 		data->player.y -= cosf(data->player.angle)
 			* data->player.speed;
 
-		if (data->map.map[(int)data->player.y * data->map.width
-			+ (int)data->player.x] == 1)
+		if (is_outrange(data))
 		{
 			data->player.x -= sinf(data->player.angle)
 				* data->player.speed;

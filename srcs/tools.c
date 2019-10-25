@@ -16,7 +16,7 @@ static void     free_surface(t_wolf *data)
 {
     int i;
 
-    i = 5;
+    i = 8;
     while (i--)
         if (data->surface[i].img)
             SDL_FreeSurface(data->surface[i].img);

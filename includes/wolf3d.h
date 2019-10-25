@@ -22,10 +22,11 @@
 # include <SDL2/SDL.h>
 # include <SDL2/SDL_image.h>
 # include <SDL2/SDL_ttf.h>
+# include <time.h>
 
 # include "../libft/libft.h"
 
-# define    FPS         120
+# define    FPS         60
 # define    FRAME_DELAY 1000 / FPS
 # define    W_WIDTH     800
 # define    W_HEIGTH    600
@@ -64,7 +65,7 @@ typedef struct  s_wolf
     float           ray_step;
     t_map           map;
     t_player        player;
-    t_surface       surface[5];
+    t_surface       surface[8];
     SDL_Event       event;
     SDL_Window	    *pWindow;
     SDL_Renderer    *renderer;

@@ -35,6 +35,12 @@ void            load_texture(t_wolf *data)
         clean_exit(data, "wolf3d: sdl loadbmp error: wolf3d.c", 0);
     if (!(data->surface[4].img = SDL_LoadBMP("img/wood.bmp")))
         clean_exit(data, "wolf3d: sdl loadbmp error: wolf3d.c", 0);
+    if (!(data->surface[5].img = SDL_LoadBMP("img/grass.bmp")))
+        clean_exit(data, "wolf3d: sdl loadbmp error: wolf3d.c", 0);
+    if (!(data->surface[6].img = SDL_LoadBMP("img/sand.bmp")))
+        clean_exit(data, "wolf3d: sdl loadbmp error: wolf3d.c", 0);
+    if (!(data->surface[7].img = SDL_LoadBMP("img/cloud.bmp")))
+        clean_exit(data, "wolf3d: sdl loadbmp error: wolf3d.c", 0);
 }
 
 static void		launch_game(t_wolf *data)
