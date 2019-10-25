@@ -26,10 +26,13 @@
 # include "../libft/libft.h"
 
 # define    FPS         60
-# define    FRAME_DELAY 1000 / FPS
+# define    FRAME_DELAY FPS / 1000
 # define    W_WIDTH     800
 # define    W_HEIGTH    600
 # define    SNB         8
+
+# define    NBTHREAD    4
+# define    WTHREAD     W_WIDTH / NBTHREAD
 
 typedef struct  s_surface
 {
@@ -57,9 +60,12 @@ typedef struct  s_map
 
 typedef struct  s_wolf
 {
+    int             etime;
     int             frame_start;
     int             sdl_on;
     int             si;
+    int             x;
+    int             x_max;
     char            *str;
     float           ray_step;
     t_map           map;
@@ -70,11 +76,12 @@ typedef struct  s_wolf
     SDL_Renderer    *renderer;
 }               t_wolf;
 
-void    		raycasting(t_wolf *data);
+void    		*raycasting(void *d);
+void            raythread(t_wolf *data);
 void            minimap(t_wolf *data);
 
 void            clean_exit(t_wolf *data, char *str, int token);
-void            frame_delay(int frame);
+int             frame_delay(int frame);
 void            wolf3d(t_wolf *data);
 
 void            sdl_event(t_wolf *data);

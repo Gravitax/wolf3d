@@ -10,34 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <stdint.h>
+#include "../libft.h"
 
 void		*ft_memcpy(void *dest, const void *src, size_t n)
 {
 	size_t	x;
 	char	*tmp;
 	char	*tmp2;
-	long	*d;
-	long	*s;
 
 	x = -1;
 	if (!dest || !src)
-		return (NULL);
-	if ((uintptr_t)dest % sizeof(long) == 0 && (uintptr_t)src
-		% sizeof(long) == 0 && n % sizeof(long) == 0)
-	{
-		d = (long*)dest;
-		s = (long*)src;
-		while (++x < (n / sizeof(long)))
-			d[x] = s[x];
-	}
-	else
-	{
-		tmp2 = (char*)dest;
-		tmp = (char*)src;
-		while (++x < n)
-			tmp2[x] = tmp[x];
-	}
+		return ((void *)0);
+	tmp = (char *)src;
+	tmp2 = (char *)dest;
+	while (++x < n)
+		tmp2[x] = tmp[x];
 	return (dest);
 }

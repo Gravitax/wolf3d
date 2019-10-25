@@ -53,13 +53,14 @@ static void		launch_game(t_wolf *data)
         load_texture(data);
 		while (1)
 		{
-            SDL_RenderClear(data->renderer);
             //data->frame_start = SDL_GetTicks();
+            //data->etime = frame_delay(SDL_GetTicks() - data->frame_start);
+            SDL_RenderClear(data->renderer);
 			sdl_event(data);
-            raycasting(data);
+            raythread(data);
+            //raycasting(data);
             //minimap(data);
             SDL_RenderPresent(data->renderer);
-            //frame_delay(SDL_GetTicks() - data->frame_start);
 		}
         SDL_DestroyRenderer(data->renderer);
 		SDL_DestroyWindow(data->pWindow);

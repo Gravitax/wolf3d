@@ -28,7 +28,6 @@ S_MATHS	=	ft_isprime.c\
 
 S_MEM	=	ft_memalloc.c\
 			ft_memcpy.c\
-			ft_memccpy.c\
 			ft_memchr.c\
 			ft_memcmp.c\
 			ft_memdel.c\

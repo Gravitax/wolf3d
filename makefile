@@ -35,6 +35,7 @@ SRC		=	key_event.c \
 			minimap.c \
 			mouse_event.c \
 			raycasting.c \
+			raythread.c \
 			sdl_event.c \
 			tools.c \
 			wolf3d.c
@@ -65,7 +66,7 @@ $(FT_LIB):
 			@echo "${GREEN}[LIBRARY COMPILED]${END}"
 
 $(NAME):	$(OBJ) $(FT_LIB)
-			@$(CC) $(CFLAGS) $(OBJ) $(FT_LIB) $(SDL) -lm `sdl-config --cflags --libs` -o $@
+			@$(CC) $(CFLAGS) $(OBJ) $(FT_LIB) $(SDL) -lm -lpthread -o $@
 			@echo "${GREEN}[$@ COMPILED]${END}"
 
 clean:

@@ -28,9 +28,9 @@ int				is_outrange(t_wolf *data)
 void            key_event(t_wolf *data)
 {
 	if (data->event.key.keysym.sym == SDLK_a)
-		data->player.angle -= 0.1;
+		data->player.angle -= data->player.speed;
 	if (data->event.key.keysym.sym == SDLK_e)
-		data->player.angle += 0.1;
+		data->player.angle += data->player.speed;
 
 
 	if (data->event.key.keysym.sym == SDLK_z)

@@ -45,8 +45,9 @@ void            clean_exit(t_wolf *data, char *str, int token)
     exit(token ? EXIT_SUCCESS : EXIT_FAILURE);
 }
 
-void            frame_delay(int frame)
+int         frame_delay(int frame)
 {
     if (FRAME_DELAY > frame)
         SDL_Delay(frame - FRAME_DELAY);
+    return (frame - FRAME_DELAY);
 }

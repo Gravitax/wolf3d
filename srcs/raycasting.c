@@ -23,8 +23,8 @@ void			draw_pixel(t_wolf *data, int i, float x, float y)
 	SDL_LockSurface(surface.img);
 	sx = x * surface.img->w;
 	sy = y * surface.img->h;
-	p = (uint8_t *)surface.img->pixels + sy
-		* surface.img->pitch + sx * surface.img->format->BytesPerPixel;
+	p = (uint8_t *)surface.img->pixels + sy * surface.img->pitch
+		+ sx * surface.img->format->BytesPerPixel;
 	SDL_UnlockSurface(surface.img);
 	SDL_SetRenderDrawColor(data->renderer, p[2], p[1], p[0], 100);
 }
@@ -74,15 +74,17 @@ void			draw_ray(t_wolf *data, int x, float samplex, float dst_towall)
 	}
 }
 
-void			raycasting(t_wolf *data)
+void			*raycasting(void *d)
 {
+	t_wolf		*data = (t_wolf *)d;
 	float		fov = data->player.fov;
 	float		samplex = 0;
 
-	for (int x = 0; x < W_WIDTH; x++)
+	while (data->x < data->x_max)
 	{
+		//printf("x: %d, xmax: %d\n", data->x, data->x_max);
 		float	ray_angle = (data->player.angle - fov / 2)
-			+ ((float)x / (float)W_WIDTH) * fov;
+			+ ((float)data->x / (float)W_WIDTH) * fov;
 
 		float	dst_towall = 0;
 		int		hitwall = 0;
@@ -137,6 +139,8 @@ void			raycasting(t_wolf *data)
 				}	
 			}
 		}
-		draw_ray(data, x, samplex, dst_towall);
+		draw_ray(data, data->x, samplex, dst_towall);
+		++data->x;
 	}
+	return (d);
 }
