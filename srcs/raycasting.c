@@ -12,14 +12,14 @@
 
 #include "../includes/wolf3d.h"
 
-void			draw_pixel(t_wolf *data, int i)
+void			draw_pixel(t_wolf *data, int surface_index)
 {
 	int			sx;
 	int			sy;
 	uint8_t		*p;
 	t_surface	surface;
 
-	surface = data->surface[i];
+	surface = data->surface[surface_index];
 	SDL_LockSurface(surface.img);
 	sx = data->raydata.samplex * surface.img->w;
 	sy = data->raydata.sampley * surface.img->h;
@@ -65,7 +65,7 @@ static void		draw_ray(t_wolf *data, int x)
 
 			// data->raydata.samplex = ((float)x) / (float)data->raydata.floor;
 			// data->raydata.sampley = ((float)y - (float)data->raydata.floor)
-			// 	/ ((float)data->raydata.floor);
+			// 	((float)data->raydata.floor);
 			// draw_pixel(data, 6);
 
 			SDL_SetRenderDrawColor(data->renderer, 100, 0, 0, 100);
@@ -84,18 +84,18 @@ static int		hitwall(t_wolf *data)
 	testy = (int)(data->player.y
 		+ data->raydata.eyey * data->raydata.dst_towall);
 	if (testx < 0 || testx >= data->map.width
-		|| testy < 0 || testy >= data->map.height)
+	|| testy < 0 || testy >= data->map.height)
 	{
 		data->raydata.dst_towall = data->map.depth;
 		return (1);
 	}
+	else if (data->map.map[testy * data->map.width + testx] == 1)
+	{
+		//get_blockside(data, testx, testy);
+		return (1);
+	}
 	else
-		if (data->map.map[testy * data->map.width + testx] == 1)
-		{
-			//get_blockside(data, testx, testy);
-			return (1);
-		}
-	return (0);
+		return (0);
 }
 
 void			*raycasting(void *d)
