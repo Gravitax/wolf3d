@@ -30,7 +30,7 @@ void            clean_exit(t_wolf *data, char *str, int token)
             ft_strdel(&data->str);
         if (data->map.map)
             free(data->map.map);
-        if (data->sdl_token)
+        if (data->sdl_on)
         {
             if (data->pWindow)
             SDL_DestroyWindow(data->pWindow);

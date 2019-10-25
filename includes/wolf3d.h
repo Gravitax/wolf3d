@@ -44,6 +44,7 @@ typedef struct  s_player
     float       x;
     float       y;
     float       angle;
+    float       fov;
     float       speed;
     int         pos;
 }               t_player;
@@ -59,7 +60,8 @@ typedef struct  s_map
 
 typedef struct  s_wolf
 {
-    int             sdl_token;
+    int             sdl_on;
+    int             si;
     char            *str;
     unsigned int    frame_start;
     float           ray_step;

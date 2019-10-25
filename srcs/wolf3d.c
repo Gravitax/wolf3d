@@ -16,7 +16,7 @@ static void     init_sdl(t_wolf *data)
 {
     if (SDL_Init(SDL_INIT_VIDEO) == -1) 
         clean_exit(data, "wolf3d: sdl init error: launcher.c", 0);
-    data->sdl_token = 1;
+    data->sdl_on = 1;
     data->pWindow = SDL_CreateWindow("maboye wolf3d",
 		SDL_WINDOWPOS_UNDEFINED,
         SDL_WINDOWPOS_UNDEFINED,
@@ -88,8 +88,9 @@ void			wolf3d(t_wolf *data)
 
 	data->player.x = 8;
 	data->player.y = 8;
-	data->player.speed = 0.1;
 	data->player.angle = 0;
+    data->player.fov = 3.14159 / 4;
+	data->player.speed = 0.1;
     data->ray_step = 0.01;
 	launch_game(data);
 }

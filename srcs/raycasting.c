@@ -12,7 +12,7 @@
 
 #include "../includes/wolf3d.h"
 
-void			drawpixel(t_wolf *data, int i, float x, float y)
+void			draw_pixel(t_wolf *data, int i, float x, float y)
 {
 	int			sx;
 	int			sy;
@@ -32,13 +32,55 @@ void			drawpixel(t_wolf *data, int i, float x, float y)
 	SDL_SetRenderDrawColor(data->renderer, surface.r, surface.g, surface.b, 100);
 }
 
+void			draw_ray(t_wolf *data, int x, float samplex, float dst_towall)
+{
+	int			ceiling = W_HEIGTH / 2 - W_HEIGTH / dst_towall;
+	int			floor = W_HEIGTH - ceiling;
+	float		sampley = 0;
+
+	(void)samplex;
+	(void)sampley;
+
+	for (int y = 0; y < W_HEIGTH; y++)
+	{
+		if (y <= ceiling)
+		{
+			// sampley = ((float)y)  / ((float)ceiling);
+			// draw_pixel(data, 7, samplex, sampley);
+
+			SDL_SetRenderDrawColor(data->renderer, 0, 0, 0, 100);
+		}
+		else if (y > ceiling && y <= floor)
+		{
+			if (dst_towall < data->map.depth)
+			{
+				// sampley = ((float)y - (float)ceiling) / ((float)floor - (float)ceiling);
+				// draw_pixel(data, data->si, samplex, sampley);
+
+				SDL_SetRenderDrawColor(data->renderer, 0, 0, 100, 100);
+			}
+			else
+				SDL_SetRenderDrawColor(data->renderer, 0, 0, 0, 100);
+		}
+		else
+		{
+			// float	b = (((float)y - W_HEIGTH / 2) / ((float)W_HEIGTH / 2));
+			// SDL_SetRenderDrawColor(data->renderer, 200 * b, 200 * b, 200 * b, 100);
+
+			// samplex = ((float)x) / (float)floor;
+			// sampley = ((float)y - (float)floor) / ((float)floor);
+			// draw_pixel(data, 6, samplex, sampley);
+			
+			SDL_SetRenderDrawColor(data->renderer, 100, 0, 0, 100);
+		}
+		SDL_RenderDrawPoint(data->renderer, x, y);
+	}
+}
+
 void			raycasting(t_wolf *data)
 {
-	float	fov = 3.14159 / 4;
-	float	depth = data->map.depth;
-	// float	samplex = 0;
-	// float	sampley = 0;
-	// int		surface = 0;
+	float		fov = data->player.fov;
+	float		samplex = 0;
 
 	for (int x = 0; x < W_WIDTH; x++)
 	{
@@ -50,7 +92,7 @@ void			raycasting(t_wolf *data)
 
 		float	eyex = cosf(ray_angle);
 		float	eyey = sinf(ray_angle);
-		while (!hitwall && dst_towall < depth)
+		while (!hitwall && dst_towall < data->map.depth)
 		{
 			dst_towall += data->ray_step;
 			int	testx = (int)(data->player.x + eyex * dst_towall);
@@ -59,7 +101,7 @@ void			raycasting(t_wolf *data)
 				|| testy < 0 || testy >= data->map.height)
 			{
 				hitwall = 1;
-				dst_towall = depth;
+				dst_towall = data->map.depth;
 			}
 			else
 			{
@@ -78,63 +120,26 @@ void			raycasting(t_wolf *data)
 					// if (testangle >= -3.14159 * 0.25 && testangle < 3.14159 * 0.25)
 					// {
 					// 	samplex = (float)testy - testpointy;
-					// 	surface = 1;
+					// 	data->si = 1;
 					// }
 					// else if (testangle >= 3.14159 * 0.25 && testangle < 3.14159 * 0.75)
 					// {
 					// 	samplex = testpointx - (float)testx;
-					// 	surface = 2;
+					// 	data->si = 2;
 					// }
 					// else if (testangle < -3.14159 * 0.25 && testangle >= -3.14159 * 0.75)
 					// {
 					// 	samplex = (float)testx - testpointx;
-					// 	surface = 3;
+					// 	data->si = 3;
 					// }
 					// else if (testangle >= -3.14159 * 0.75 || testangle < -3.14159 * 0.75)
 					// {
 					// 	samplex = testpointy - (float)testy;
-					// 	surface = 4;
+					// 	data->si = 4;
 					// }
 				}	
 			}
 		}
-
-		int	ceiling = W_HEIGTH / 2 - W_HEIGTH / dst_towall;
-		int	floor = W_HEIGTH - ceiling;
-
-		for (int y = 0; y < W_HEIGTH; y++)
-		{
-			if (y <= ceiling)
-			{
-				// sampley = ((float)y)  / ((float)ceiling);
-				// drawpixel(data, 7, samplex, sampley);
-
-				SDL_SetRenderDrawColor(data->renderer, 0, 0, 0, 100);
-			}
-			else if (y > ceiling && y <= floor)
-			{
-				if (dst_towall < depth)
-				{
-					// sampley = ((float)y - (float)ceiling) / ((float)floor - (float)ceiling);
-					// drawpixel(data, surface, samplex, sampley);
-
-					SDL_SetRenderDrawColor(data->renderer, 0, 0, 100, 100);
-				}
-				else
-					SDL_SetRenderDrawColor(data->renderer, 0, 0, 0, 100);
-			}
-			else
-			{
-				// float	b = (((float)y - W_HEIGTH / 2) / ((float)W_HEIGTH / 2));
-				// SDL_SetRenderDrawColor(data->renderer, 200 * b, 200 * b, 200 * b, 100);
-
-				//sampley = ((float)y - (float)floor) / ((float)floor);
-				//samplex = ((float)x) / (float)floor;
-				//drawpixel(data, 6, samplex, sampley);
-				
-				SDL_SetRenderDrawColor(data->renderer, 100, 0, 0, 100);
-			}
-			SDL_RenderDrawPoint(data->renderer, x, y);
-		}
+		draw_ray(data, x, samplex, dst_towall);
 	}
 }
