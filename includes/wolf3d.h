@@ -18,21 +18,30 @@
 # include <pthread.h>
 # include <stdio.h>
 # include <stdlib.h>
-//# include <time.h>
+# include <time.h>
 # include <unistd.h>
 
 # include <SDL2/SDL.h>
 
 # include "../libft/libft.h"
 
-# define    FPS         60
-# define    FRAME_DELAY 1000 / FPS
 # define    W_WIDTH     800
 # define    W_HEIGTH    600
 # define    SNB         8
 
+# define    FPS         60
+# define    FRAME_DELAY 1000 / FPS
+
 # define    NBTHREAD    8
 # define    WTHREAD     W_WIDTH / NBTHREAD
+
+# define    KA          0
+# define    KZ          1
+# define    KE          2
+# define    KQ          3
+# define    KS          4
+# define    KD          5
+# define    KNB         6
 
 typedef struct  s_surface
 {
@@ -81,9 +90,11 @@ typedef struct  s_map
 typedef struct  s_wolf
 {
     int             etime;
+    int             fps;
     int             frame_start;
     int             sdl_on;
     int             si;
+    int             key[KNB];
     char            *str;
     t_map           map;
     t_player        player;
@@ -94,17 +105,16 @@ typedef struct  s_wolf
     SDL_Renderer    *renderer;
 }               t_wolf;
 
-void    		*raycasting(void *d);
 void			get_blockside(t_wolf *data, int testx, int testy);
-void            raythread(t_wolf *data);
 void            minimap(t_wolf *data);
+void    		*raycasting(void *d);
+void            raythread(t_wolf *data);
+void            wolf3d(t_wolf *data);
 
 void            clean_exit(t_wolf *data, char *str, int token);
 int             frame_delay(int frame);
-void            wolf3d(t_wolf *data);
 
-void            sdl_event(t_wolf *data);
-void            key_event(t_wolf *data);
 void            mouse_event(t_wolf *data);
+void            sdl_event(t_wolf *data);
 
 #endif

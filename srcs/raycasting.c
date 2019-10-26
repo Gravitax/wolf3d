@@ -101,13 +101,13 @@ static int		hitwall(t_wolf *data)
 void			*raycasting(void *d)
 {
 	t_wolf	*data = (t_wolf *)d;
-	int		x;
 
-	x = -1;
-	while (++x < W_WIDTH)
+	data->raydata.x = -1;
+	data->raydata.x_max = W_WIDTH;
+	while (++data->raydata.x < data->raydata.x_max)
 	{
 		data->raydata.angle = (data->player.angle - data->player.fov / 2)
-			+ ((float)x / (float)W_WIDTH) * data->player.fov;
+			+ ((float)data->raydata.x / (float)W_WIDTH) * data->player.fov;
 		data->raydata.dst_towall = 0;
 		data->raydata.eyex = cosf(data->raydata.angle);
 		data->raydata.eyey = sinf(data->raydata.angle);
@@ -117,7 +117,7 @@ void			*raycasting(void *d)
 				break ;
 			data->raydata.dst_towall += data->raydata.ray_step;
 		}
-		draw_ray(data, x);
+		draw_ray(data, data->raydata.x);
 	}
 	return (d);
 }

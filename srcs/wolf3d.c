@@ -15,7 +15,7 @@
 static void     init_sdl(t_wolf *data)
 {
     if (SDL_Init(SDL_INIT_VIDEO) == -1) 
-        clean_exit(data, "wolf3d: sdl init error: launcher.c", 0);
+        clean_exit(data, "wolf3d: sdl init error: wolf3d.c", 0);
     data->sdl_on = 1;
     data->pWindow = SDL_CreateWindow("maboye wolf3d",
 		SDL_WINDOWPOS_UNDEFINED,
@@ -26,21 +26,31 @@ static void     init_sdl(t_wolf *data)
 static void     load_texture(t_wolf *data)
 {
 	if (!(data->surface[0].img = SDL_LoadBMP("img/doom.bmp")))
-        clean_exit(data, "wolf3d: sdl loadbmp error: wolf3d.c", 0);
+        clean_exit(data, "wolf3d: sdl loadbmp error: wolf3d.c 1", 0);
     if (!(data->surface[1].img = SDL_LoadBMP("img/brick.bmp")))
-        clean_exit(data, "wolf3d: sdl loadbmp error: wolf3d.c", 0);
+        clean_exit(data, "wolf3d: sdl loadbmp error: wolf3d.c 2", 0);
     if (!(data->surface[2].img = SDL_LoadBMP("img/rock.bmp")))
-        clean_exit(data, "wolf3d: sdl loadbmp error: wolf3d.c", 0);
+        clean_exit(data, "wolf3d: sdl loadbmp error: wolf3d.c 3", 0);
     if (!(data->surface[3].img = SDL_LoadBMP("img/stone.bmp")))
-        clean_exit(data, "wolf3d: sdl loadbmp error: wolf3d.c", 0);
+        clean_exit(data, "wolf3d: sdl loadbmp error: wolf3d.c 4", 0);
     if (!(data->surface[4].img = SDL_LoadBMP("img/wood.bmp")))
-        clean_exit(data, "wolf3d: sdl loadbmp error: wolf3d.c", 0);
+        clean_exit(data, "wolf3d: sdl loadbmp error: wolf3d.c 5", 0);
     if (!(data->surface[5].img = SDL_LoadBMP("img/grass.bmp")))
-        clean_exit(data, "wolf3d: sdl loadbmp error: wolf3d.c", 0);
+        clean_exit(data, "wolf3d: sdl loadbmp error: wolf3d.c 6", 0);
     if (!(data->surface[6].img = SDL_LoadBMP("img/sand.bmp")))
-        clean_exit(data, "wolf3d: sdl loadbmp error: wolf3d.c", 0);
+        clean_exit(data, "wolf3d: sdl loadbmp error: wolf3d.c 7", 0);
     if (!(data->surface[7].img = SDL_LoadBMP("img/cloud.bmp")))
-        clean_exit(data, "wolf3d: sdl loadbmp error: wolf3d.c", 0);
+        clean_exit(data, "wolf3d: sdl loadbmp error: wolf3d.c 8", 0);
+}
+
+static void		make_frame(t_wolf *data)
+{
+	data->etime = SDL_GetTicks();
+    int elapsed = data->etime - data->frame_start;
+
+    //printf("etime: %d, start: %d diff: %d\n", data->etime, data->frame_start, elapsed);
+    data->fps = 100 - elapsed;
+    //printf("fps: %d\n", data->fps);
 }
 
 static void		launch_game(t_wolf *data)
@@ -53,7 +63,7 @@ static void		launch_game(t_wolf *data)
         load_texture(data);
 		while (1)
 		{
-            //data->frame_start = SDL_GetTicks();
+            data->frame_start = SDL_GetTicks();
             //data->etime = frame_delay(SDL_GetTicks() - data->frame_start);
             SDL_RenderClear(data->renderer);
 			sdl_event(data);
@@ -61,6 +71,8 @@ static void		launch_game(t_wolf *data)
             raycasting(data);
             //minimap(data);
             SDL_RenderPresent(data->renderer);
+            make_frame(data);
+            SDL_FlushEvent(SDL_KEYUP | SDL_KEYDOWN | SDL_MOUSEMOTION);
 		}
         SDL_DestroyRenderer(data->renderer);
 		SDL_DestroyWindow(data->pWindow);

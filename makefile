@@ -31,7 +31,6 @@ OBJDIR	=	./obj
 
 # src / obj files
 SRC		=	blockside.c \
-			key_event.c \
 			main.c \
 			minimap.c \
 			mouse_event.c \
