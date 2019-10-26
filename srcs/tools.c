@@ -44,10 +44,3 @@ void            clean_exit(t_wolf *data, char *str, int token)
        ft_putendl_fd(str, 2);
     exit(token ? EXIT_SUCCESS : EXIT_FAILURE);
 }
-
-int         frame_delay(int frame)
-{
-    if (FRAME_DELAY > frame)
-        SDL_Delay(frame - FRAME_DELAY);
-    return (frame - FRAME_DELAY);
-}

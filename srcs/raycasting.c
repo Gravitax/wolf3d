@@ -60,13 +60,8 @@ static void		draw_ray(t_wolf *data, int x)
 		}
 		else
 		{
-			// data->raydata.samplex = ((float)x) / (float)data->raydata.floor;
-			// data->raydata.sampley = ((float)y - (float)data->raydata.floor)
-			// 	((float)data->raydata.floor);
-			// draw_pixel(data, 6);
-
 			// float	b = (((float)y - W_HEIGTH / 2) / ((float)W_HEIGTH / 2));
-			// SDL_SetRenderDrawColor(data->renderer, 200 * b, 200 * b, 200 * b, 100)
+			// SDL_SetRenderDrawColor(data->renderer, 200 * b, 200 * b, 200 * b, 100);
 			
 			SDL_SetRenderDrawColor(data->renderer, 100, 0, 0, 100);
 		}

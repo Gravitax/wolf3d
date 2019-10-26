@@ -29,15 +29,14 @@
 # define    W_HEIGTH    600
 # define    SNB         8
 
-# define    FPS         60
-# define    FRAME_DELAY 1000 / FPS
+# define    FPS         20
 
 # define    NBTHREAD    8
 # define    WTHREAD     W_WIDTH / NBTHREAD
 
 # define    KA          0
-# define    KZ          1
-# define    KE          2
+# define    KE          1
+# define    KZ          2
 # define    KQ          3
 # define    KS          4
 # define    KD          5
@@ -89,13 +88,13 @@ typedef struct  s_map
 
 typedef struct  s_wolf
 {
-    int             etime;
     int             fps;
-    int             frame_start;
     int             sdl_on;
     int             si;
     int             key[KNB];
     char            *str;
+    float           etime;
+    float           frame_start;
     t_map           map;
     t_player        player;
     t_raydata       raydata;
@@ -112,7 +111,6 @@ void            raythread(t_wolf *data);
 void            wolf3d(t_wolf *data);
 
 void            clean_exit(t_wolf *data, char *str, int token);
-int             frame_delay(int frame);
 
 void            mouse_event(t_wolf *data);
 void            sdl_event(t_wolf *data);

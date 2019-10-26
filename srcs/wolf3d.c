@@ -43,14 +43,17 @@ static void     load_texture(t_wolf *data)
         clean_exit(data, "wolf3d: sdl loadbmp error: wolf3d.c 8", 0);
 }
 
-static void		make_frame(t_wolf *data)
+static void     makeframe(t_wolf *data)
 {
-	data->etime = SDL_GetTicks();
-    int elapsed = data->etime - data->frame_start;
-
-    //printf("etime: %d, start: %d diff: %d\n", data->etime, data->frame_start, elapsed);
-    data->fps = 100 - elapsed;
-    //printf("fps: %d\n", data->fps);
+    float       pframe;
+    
+    pframe = clock();
+    data->etime = pframe - data->frame_start;
+    data->etime = data->etime / CLOCKS_PER_SEC;
+    data->fps =  (int)(1 / data->etime);
+    if (data->fps > FPS)
+        SDL_Delay(data->fps - FPS);
+    printf("fps: %d\n", data->fps);
 }
 
 static void		launch_game(t_wolf *data)
@@ -63,23 +66,22 @@ static void		launch_game(t_wolf *data)
         load_texture(data);
 		while (1)
 		{
-            data->frame_start = SDL_GetTicks();
-            //data->etime = frame_delay(SDL_GetTicks() - data->frame_start);
+            data->frame_start = clock();
             SDL_RenderClear(data->renderer);
 			sdl_event(data);
             //raythread(data);
             raycasting(data);
             //minimap(data);
             SDL_RenderPresent(data->renderer);
-            make_frame(data);
             SDL_FlushEvent(SDL_KEYUP | SDL_KEYDOWN | SDL_MOUSEMOTION);
+            makeframe(data);
 		}
         SDL_DestroyRenderer(data->renderer);
 		SDL_DestroyWindow(data->pWindow);
+        SDL_Quit();
     } 
     else
         clean_exit(data, "wolf3d: sdl window error: wolf3d.c", 0);
-    SDL_Quit();
 }
 
 void			wolf3d(t_wolf *data)
@@ -103,7 +105,7 @@ void			wolf3d(t_wolf *data)
 	data->player.x = data->player.pos - (data->player.y * data->map.width) + 1;
 	data->player.angle = 0;
     data->player.fov = 3.14159 / 4;
-	data->player.speed = 0.1;
+	data->player.speed = 3;
     data->raydata.ray_step = 0.01;
 	launch_game(data);
 }

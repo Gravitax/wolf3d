@@ -31,7 +31,7 @@ static int		parse_map(t_wolf *data)
 	char	*tmp;
 
 	if (data->map.len < 25)
-		clean_exit(data, "wolf3d: map error", 0);
+		clean_exit(data, "wolf3d: map error (too small al: 5*5)", 0);
     data->player.pos = -1;
 	i = 0;
 	tmp = data->str;
@@ -90,7 +90,7 @@ int				main(int ac, char **av)
 			clean_exit(&data, NULL, 1);
 		}
 		else
-			clean_exit(&data, "wolf3d: map error", 0);
+			clean_exit(&data, "wolf3d: map error (parse error)", 0);
 	}
 	else
 		ft_putstr_fd("wolf3d: usage: ./wolf3d [ valid_map ]\n", 2);
