@@ -60,14 +60,14 @@ static void		draw_ray(t_wolf *data, int x)
 		}
 		else
 		{
-			// float	b = (((float)y - W_HEIGTH / 2) / ((float)W_HEIGTH / 2));
-			// SDL_SetRenderDrawColor(data->renderer, 200 * b, 200 * b, 200 * b, 100)
-
 			// data->raydata.samplex = ((float)x) / (float)data->raydata.floor;
 			// data->raydata.sampley = ((float)y - (float)data->raydata.floor)
 			// 	((float)data->raydata.floor);
 			// draw_pixel(data, 6);
 
+			// float	b = (((float)y - W_HEIGTH / 2) / ((float)W_HEIGTH / 2));
+			// SDL_SetRenderDrawColor(data->renderer, 200 * b, 200 * b, 200 * b, 100)
+			
 			SDL_SetRenderDrawColor(data->renderer, 100, 0, 0, 100);
 		}
 		SDL_RenderDrawPoint(data->renderer, x, y);
@@ -102,9 +102,9 @@ void			*raycasting(void *d)
 {
 	t_wolf	*data = (t_wolf *)d;
 
-	data->raydata.x = -1;
+	data->raydata.x = 0;
 	data->raydata.x_max = W_WIDTH;
-	while (++data->raydata.x < data->raydata.x_max)
+	while (data->raydata.x < data->raydata.x_max)
 	{
 		data->raydata.angle = (data->player.angle - data->player.fov / 2)
 			+ ((float)data->raydata.x / (float)W_WIDTH) * data->player.fov;
@@ -118,6 +118,7 @@ void			*raycasting(void *d)
 			data->raydata.dst_towall += data->raydata.ray_step;
 		}
 		draw_ray(data, data->raydata.x);
+		++data->raydata.x;
 	}
 	return (d);
 }
