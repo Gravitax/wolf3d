@@ -32,6 +32,8 @@ static void		draw_pixel(t_wolf *data, int sprite_index, int x, int y)
 	uint32_t	pixels;
 	t_sprite	surface;
 
+	if (x < 0 || x > W_WIDTH || y < 0 || y > W_HEIGHT)
+		return ;
 	surface = data->sprite[sprite_index];
 	SDL_LockSurface(surface.img);
 	sx = data->raydata.samplex * surface.img->w;

@@ -111,7 +111,6 @@ typedef struct  s_wolf
 void            display(t_wolf *data);
 void			get_blockside(t_wolf *data, int testx, int testy);
 void            load_surface_andtexture(t_wolf *data);
-void            minimap(t_wolf *data);
 void            *raycasting(void *d);
 void            raythread(t_wolf *data);
 void            wolf3d(t_wolf *data);

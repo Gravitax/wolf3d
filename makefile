@@ -33,7 +33,6 @@ OBJDIR	=	./obj
 SRC		=	blockside.c \
 			display.c \
 			main.c \
-			minimap.c \
 			mouse_event.c \
 			raycasting.c \
 			raythread.c \

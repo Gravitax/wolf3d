@@ -24,21 +24,9 @@ static SDL_Surface  *new_surface(int w, int h)
         color[0], color[1], color[2], color[3]));
 }
 
-static void         create_texture(t_wolf *data)
+static void         create_surface(t_wolf *data)
 {
-    SDL_LockSurface(data->sprite[6].img);
-    if (!(data->bgc = SDL_CreateTextureFromSurface(data->renderer, data->sprite[6].img)))
-        clean_exit(data, "wolf3d: sdl creating texture fail: texture.c 1", 0);
-    SDL_UnlockSurface(data->sprite[6].img);
-    SDL_LockSurface(data->sprite[7].img);
-    if (!(data->bgf = SDL_CreateTextureFromSurface(data->renderer, data->sprite[7].img)))
-        clean_exit(data, "wolf3d: sdl creating texture fail: texture.c 2", 0);
-    SDL_UnlockSurface(data->sprite[7].img);
-}
-
-void                load_surface_andtexture(t_wolf *data)
-{
-	if (!(data->sprite[0].img = SDL_LoadBMP("img/doom.bmp")))
+    if (!(data->sprite[0].img = SDL_LoadBMP("img/doom.bmp")))
         clean_exit(data, "wolf3d: sdl loadbmp error: texture.c 1", 0);
     if (!(data->sprite[1].img = SDL_LoadBMP("img/brick.bmp")))
         clean_exit(data, "wolf3d: sdl loadbmp error: texture.c 2", 0);
@@ -54,6 +42,23 @@ void                load_surface_andtexture(t_wolf *data)
         clean_exit(data, "wolf3d: sdl loadbmp error: texture.c 7", 0);
     if (!(data->sprite[7].img = SDL_LoadBMP("img/sand.bmp")))
         clean_exit(data, "wolf3d: sdl loadbmp error: texture.c 8", 0);
+}
+
+static void         create_texture(t_wolf *data)
+{
+    SDL_LockSurface(data->sprite[6].img);
+    if (!(data->bgc = SDL_CreateTextureFromSurface(data->renderer, data->sprite[6].img)))
+        clean_exit(data, "wolf3d: sdl creating texture fail: texture.c 1", 0);
+    SDL_UnlockSurface(data->sprite[6].img);
+    SDL_LockSurface(data->sprite[7].img);
+    if (!(data->bgf = SDL_CreateTextureFromSurface(data->renderer, data->sprite[7].img)))
+        clean_exit(data, "wolf3d: sdl creating texture fail: texture.c 2", 0);
+    SDL_UnlockSurface(data->sprite[7].img);
+}
+
+void                load_surface_andtexture(t_wolf *data)
+{
+    create_surface(data);
     create_texture(data);
     if (!(data->screen = new_surface(W_WIDTH, W_HEIGHT)))
         clean_exit(data, "wolf3d: error creating RGB surface: texture.c", 0);
