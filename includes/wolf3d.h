@@ -29,7 +29,7 @@
 # define    W_HEIGTH    600
 # define    SNB         8
 
-# define    FPS         20
+# define    FPS         60
 
 # define    NBTHREAD    8
 # define    WTHREAD     W_WIDTH / NBTHREAD
@@ -52,6 +52,7 @@ typedef struct  s_player
     int         pos;
     float       angle;
     float       fov;
+    float       ms;
     float       speed;
     float       x;
     float       y;
@@ -86,6 +87,14 @@ typedef struct  s_map
     float       depth;
 }               t_map;
 
+// struct						s_thread
+// {
+// 	pthread_t			th;
+// 	t_data				*data;
+// 	int					x_start;
+// 	t_ray				ray[WIN_W / 8];
+// };
+
 typedef struct  s_wolf
 {
     int             fps;
@@ -99,9 +108,11 @@ typedef struct  s_wolf
     t_player        player;
     t_raydata       raydata;
     t_surface       surface[SNB];
+    SDL_Texture     *bgc;
+    SDL_Texture     *bgf;
     SDL_Event       event;
-    SDL_Window	    *pWindow;
     SDL_Renderer    *renderer;
+    SDL_Window	    *pWindow;
 }               t_wolf;
 
 void			get_blockside(t_wolf *data, int testx, int testy);

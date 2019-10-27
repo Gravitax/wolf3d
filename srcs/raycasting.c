@@ -31,40 +31,28 @@ void			draw_pixel(t_wolf *data, int surface_index)
 
 static void		draw_ray(t_wolf *data, int x)
 {
-	int	y;
+	int		y;
 
 	data->raydata.ceiling = W_HEIGTH / 2 - W_HEIGTH / data->raydata.dst_towall;
 	data->raydata.floor = W_HEIGTH - data->raydata.ceiling;
-	y = -1;
+	y = data->raydata.ceiling;
 	while (++y < W_HEIGTH)
 	{
-		if (y <= data->raydata.ceiling)
+		if (y <= data->raydata.floor && data->raydata.dst_towall < data->map.depth)
 		{
-			// data->raydata.sampley = ((float)y)  / ((float)data->raydata.ceiling);
-			// draw_pixel(data, 7);
-
-			SDL_SetRenderDrawColor(data->renderer, 0, 0, 0, 100);
+			SDL_SetRenderDrawColor(data->renderer, 0, 0, 100, 100);
+			// data->raydata.sampley = ((float)y - (float)data->raydata.ceiling)
+			// 	/ ((float)data->raydata.floor - (float)data->raydata.ceiling);
+			// draw_pixel(data, data->si);
 		}
-		else if (y > data->raydata.ceiling && y <= data->raydata.floor)
+		else if (y > data->raydata.floor)
 		{
-			if (data->raydata.dst_towall < data->map.depth)
-			{
-				// data->raydata.sampley = ((float)y - (float)data->raydata.ceiling)
-				// 	/ ((float)data->raydata.floor - (float)data->raydata.ceiling);
-				// draw_pixel(data, data->si);
-
-				SDL_SetRenderDrawColor(data->renderer, 0, 0, 100, 100);
-			}
-			else
-				SDL_SetRenderDrawColor(data->renderer, 0, 0, 0, 100);
+			break ;
+			float b = (((float)y - W_HEIGTH / 2) / ((float)W_HEIGTH / 2));
+			SDL_SetRenderDrawColor(data->renderer, 200 * b, 200 * b, 200 * b, 100);
 		}
 		else
-		{
-			// float	b = (((float)y - W_HEIGTH / 2) / ((float)W_HEIGTH / 2));
-			// SDL_SetRenderDrawColor(data->renderer, 200 * b, 200 * b, 200 * b, 100);
-			
-			SDL_SetRenderDrawColor(data->renderer, 100, 0, 0, 100);
-		}
+			continue ;
 		SDL_RenderDrawPoint(data->renderer, x, y);
 	}
 }
@@ -86,7 +74,7 @@ static int		hitwall(t_wolf *data)
 	}
 	else if (data->map.map[testy * data->map.width + testx] == 1)
 	{
-		//get_blockside(data, testx, testy);
+		get_blockside(data, testx, testy);
 		return (1);
 	}
 	else
@@ -115,5 +103,6 @@ void			*raycasting(void *d)
 		draw_ray(data, data->raydata.x);
 		++data->raydata.x;
 	}
+	SDL_SetRenderDrawColor(data->renderer, 100, 0, 0, 100);
 	return (d);
 }

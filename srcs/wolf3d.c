@@ -35,25 +35,40 @@ static void     load_texture(t_wolf *data)
         clean_exit(data, "wolf3d: sdl loadbmp error: wolf3d.c 4", 0);
     if (!(data->surface[4].img = SDL_LoadBMP("img/wood.bmp")))
         clean_exit(data, "wolf3d: sdl loadbmp error: wolf3d.c 5", 0);
-    if (!(data->surface[5].img = SDL_LoadBMP("img/grass.bmp")))
-        clean_exit(data, "wolf3d: sdl loadbmp error: wolf3d.c 6", 0);
-    if (!(data->surface[6].img = SDL_LoadBMP("img/sand.bmp")))
+    if (!(data->surface[5].img = SDL_LoadBMP("img/sand.bmp")))
         clean_exit(data, "wolf3d: sdl loadbmp error: wolf3d.c 7", 0);
-    if (!(data->surface[7].img = SDL_LoadBMP("img/cloud.bmp")))
+    if (!(data->surface[6].img = SDL_LoadBMP("img/grass.bmp")))
+        clean_exit(data, "wolf3d: sdl loadbmp error: wolf3d.c 6", 0);
+    if (!(data->surface[7].img = SDL_LoadBMP("img/night.bmp")))
         clean_exit(data, "wolf3d: sdl loadbmp error: wolf3d.c 8", 0);
+    data->bgf = SDL_CreateTextureFromSurface(data->renderer, data->surface[5].img);
+    data->bgc = SDL_CreateTextureFromSurface(data->renderer, data->surface[7].img);
 }
 
-static void     makeframe(t_wolf *data)
+static void     get_fps(t_wolf *data)
 {
     float       pframe;
     
     pframe = clock();
-    data->etime = pframe - data->frame_start;
-    data->etime = data->etime / CLOCKS_PER_SEC;
+    data->etime = (pframe / CLOCKS_PER_SEC) - (data->frame_start / CLOCKS_PER_SEC);
     data->fps =  (int)(1 / data->etime);
-    if (data->fps > FPS)
-        SDL_Delay(data->fps - FPS);
+    if (data->fps < 10 || data->fps > 240)
+        clean_exit(data,"wolf3d: unexpected frame rate", 0);
     printf("fps: %d\n", data->fps);
+}
+
+static void     draw_background(t_wolf *data)
+{
+    return ;
+    SDL_Rect    rect;
+
+    rect.w = W_WIDTH;
+    rect.h = W_HEIGTH / 2;
+    rect.x = 0;
+    rect.y = 0;
+    SDL_RenderCopy(data->renderer, data->bgc, NULL, &rect);
+    rect.y = W_HEIGTH / 2;
+    SDL_RenderCopy(data->renderer, data->bgf, NULL, &rect);
 }
 
 static void		launch_game(t_wolf *data)
@@ -68,13 +83,13 @@ static void		launch_game(t_wolf *data)
 		{
             data->frame_start = clock();
             SDL_RenderClear(data->renderer);
+            draw_background(data);
 			sdl_event(data);
             //raythread(data);
             raycasting(data);
             //minimap(data);
+            get_fps(data);
             SDL_RenderPresent(data->renderer);
-            SDL_FlushEvent(SDL_KEYUP | SDL_KEYDOWN | SDL_MOUSEMOTION);
-            makeframe(data);
 		}
         SDL_DestroyRenderer(data->renderer);
 		SDL_DestroyWindow(data->pWindow);
@@ -105,7 +120,8 @@ void			wolf3d(t_wolf *data)
 	data->player.x = data->player.pos - (data->player.y * data->map.width) + 1;
 	data->player.angle = 0;
     data->player.fov = 3.14159 / 4;
-	data->player.speed = 3;
+    data->player.ms = 0.6;
+	data->player.speed = 5;
     data->raydata.ray_step = 0.01;
 	launch_game(data);
 }

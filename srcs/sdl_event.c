@@ -25,7 +25,7 @@ static int		is_outrange(t_wolf *data)
 		return (0);
 }
 
-static void		movemaker(t_wolf *data, float sx, float sy)
+static void		move_maker(t_wolf *data, float sx, float sy)
 {
 	data->player.x += sx;
 	data->player.y += sy;
@@ -37,43 +37,45 @@ static void		movemaker(t_wolf *data, float sx, float sy)
 	}
 }
 
-static void		movehandler(t_wolf *data)
+static void		move_handler(t_wolf *data)
 {
     if (data->key[KA])
-		data->player.angle += data->player.speed * data->etime;
+		data->player.angle += data->player.speed
+			* data->etime * data->player.ms;
 	if (data->key[KE])
-		data->player.angle -= data->player.speed * data->etime;
+		data->player.angle -= data->player.speed
+			* data->etime * data->player.ms;
 	if (data->key[KZ])
-		movemaker(data,
+		move_maker(data,
             -(cosf(data->player.angle) * data->player.speed * data->etime),
             -(sinf(data->player.angle) * data->player.speed * data->etime));
 	if (data->key[KQ])
-		movemaker(data,
+		move_maker(data,
             -(sinf(data->player.angle) * data->player.speed * data->etime),
             cosf(data->player.angle) * data->player.speed * data->etime);
 	if (data->key[KS])
-		movemaker(data,
+		move_maker(data,
             cosf(data->player.angle) * data->player.speed * data->etime,
             sinf(data->player.angle) * data->player.speed * data->etime);
 	if (data->key[KD])
-		movemaker(data,
+		move_maker(data,
             sinf(data->player.angle) * data->player.speed * data->etime,
             -(cosf(data->player.angle) * data->player.speed * data->etime));
 }
 
-static void		getevent(t_wolf *data)
+static void		get_event(t_wolf *data)
 {
 	if (data->event.key.keysym.sym == SDLK_a)
 		data->key[KA] = data->event.type == SDL_KEYUP ? 1 : 0;
-	if (data->event.key.keysym.sym == SDLK_e)
+	else if (data->event.key.keysym.sym == SDLK_e)
 		data->key[KE] = data->event.type == SDL_KEYUP ? 1 : 0;
-	if (data->event.key.keysym.sym == SDLK_z)
+	else if (data->event.key.keysym.sym == SDLK_z)
 		data->key[KZ] = data->event.type == SDL_KEYUP ? 1 : 0;
-	if (data->event.key.keysym.sym == SDLK_q)
+	else if (data->event.key.keysym.sym == SDLK_q)
 		data->key[KQ] = data->event.type == SDL_KEYUP ? 1 : 0;
-	if (data->event.key.keysym.sym == SDLK_s)
+	else if (data->event.key.keysym.sym == SDLK_s)
 		data->key[KS] = data->event.type == SDL_KEYUP ? 1 : 0;
-	if (data->event.key.keysym.sym == SDLK_d)
+	else if (data->event.key.keysym.sym == SDLK_d)
 		data->key[KD] = data->event.type == SDL_KEYUP ? 1 : 0;
 }
 
@@ -84,6 +86,7 @@ void            sdl_event(t_wolf *data)
         clean_exit(data, NULL, 1);
     if (data->event.key.keysym.sym == SDLK_ESCAPE)
         clean_exit(data, NULL, 1);
-    getevent(data);
-	movehandler(data);
+    get_event(data);
+	move_handler(data);
+	SDL_FlushEvent(SDL_KEYUP | SDL_KEYDOWN | SDL_MOUSEMOTION);
 }
