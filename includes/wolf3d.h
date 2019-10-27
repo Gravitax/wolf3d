@@ -27,7 +27,7 @@
 
 # define    W_WIDTH     800
 # define    W_HEIGHT    600
-# define    SNB         8
+# define    SNB         9
 
 # define    NBTHREAD    6
 # define    WTHREAD     W_WIDTH / NBTHREAD
@@ -41,10 +41,10 @@
 # define    KD          5
 # define    KNB         6
 
-typedef struct  s_surface
+typedef struct  s_sprite
 {
     SDL_Surface *img;
-}               t_surface;
+}               t_sprite;
 
 typedef struct  s_player
 {
@@ -84,26 +84,13 @@ typedef struct  s_map
     float       depth;
 }               t_map;
 
-typedef struct	s_thread
-{
-    int             x;
-	int			    y;
-    int             y_max;
-    float           ceiling;
-    float           dst_towall;
-    float           floor;
-    float           mdepth;
-    float           samplex;
-    float           sampley;
-	SDL_Surface     *img;
-    SDL_Renderer    *renderer;
-}               t_thread;
-
 typedef struct  s_wolf
 {
     int             fps;
     int             sdl_on;
     int             si;
+    int             x;
+    int             x_max;
     int             key[KNB];
     char            *str;
     float           etime;
@@ -111,19 +98,22 @@ typedef struct  s_wolf
     t_map           map;
     t_player        player;
     t_raydata       raydata;
-	t_thread        *tdata;
-    t_surface       surface[SNB];
+    t_sprite        sprite[SNB];
     SDL_Event       event;
+    SDL_Renderer    *renderer;
+    SDL_Surface     *screen;
     SDL_Texture     *bgc;
     SDL_Texture     *bgf;
-    SDL_Renderer    *renderer;
+    SDL_Texture     *window;
     SDL_Window	    *pWindow;
 }               t_wolf;
 
+void            display(t_wolf *data);
 void			get_blockside(t_wolf *data, int testx, int testy);
+void            load_surface_andtexture(t_wolf *data);
 void            minimap(t_wolf *data);
-void            raycasting(t_wolf *data);
-void            raythread(t_wolf *data, int x);
+void            *raycasting(void *d);
+void            raythread(t_wolf *data);
 void            wolf3d(t_wolf *data);
 
 void            clean_exit(t_wolf *data, char *str, int token);

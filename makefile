@@ -31,12 +31,14 @@ OBJDIR	=	./obj
 
 # src / obj files
 SRC		=	blockside.c \
+			display.c \
 			main.c \
 			minimap.c \
 			mouse_event.c \
 			raycasting.c \
 			raythread.c \
 			sdl_event.c \
+			texture.c \
 			tools.c \
 			wolf3d.c
 INC		=	wolf3d.h

@@ -12,14 +12,15 @@
 
 #include "../includes/wolf3d.h"
 
-static void     free_surface(t_wolf *data)
+static void     free_surfaces(t_wolf *data)
 {
     int i;
 
     i = SNB;
     while (i--)
-        if (data->surface[i].img)
-            SDL_FreeSurface(data->surface[i].img);
+        if (data->sprite[i].img)
+            SDL_FreeSurface(data->sprite[i].img);
+    SDL_FreeSurface(data->screen);
 }
 
 void            clean_exit(t_wolf *data, char *str, int token)
@@ -36,7 +37,7 @@ void            clean_exit(t_wolf *data, char *str, int token)
                 SDL_DestroyWindow(data->pWindow);
             if (data->renderer)
                 SDL_DestroyRenderer(data->renderer);
-            free_surface(data);
+            free_surfaces(data);
             SDL_Quit();
         }
     }

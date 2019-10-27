@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   raythread.c                                        :+:      :+:    :+:   */
+/*   display.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,20 +12,28 @@
 
 #include "../includes/wolf3d.h"
 
-void            raythread(t_wolf *data)
+void            display(t_wolf *data)
 {
-    t_wolf      tab[NBTHREAD];
-    pthread_t   t[NBTHREAD];  
-    int         i;
+    unsigned int    *pixels;
+    SDL_Rect        rect;
+    int             i;
 
+    raythread(data);
+    rect.w = W_WIDTH;
+    rect.h = W_HEIGHT / 2;
+    rect.x = 0;
+    rect.y = W_HEIGHT / 2;
+    SDL_RenderCopy(data->renderer, data->bgf, NULL, &rect);
+    rect.y = 0;
+    SDL_RenderCopy(data->renderer, data->bgc, NULL, &rect);
+    rect.h = W_HEIGHT;
+    SDL_LockSurface(data->screen);
+    data->window = SDL_CreateTextureFromSurface(data->renderer, data->screen);
+    SDL_RenderCopy(data->renderer, data->window, NULL, &rect);
+    pixels = (unsigned int *)data->screen->pixels;
     i = -1;
-    while (++i < NBTHREAD)
-    {
-        ft_memcpy((void *)&tab[i], (void *)data, sizeof(t_wolf));
-        tab[i].x = WTHREAD * i;
-        tab[i].x_max = WTHREAD * (i + 1);
-        pthread_create(&t[i], NULL, raycasting, &tab[i]);
-    }
-    while (i--)
-        pthread_join(t[i], NULL);
+    while (++i < W_WIDTH * W_HEIGHT)
+        pixels[i] = 0x000000;
+    SDL_UnlockSurface(data->screen);
+    //minimap(data);
 }
