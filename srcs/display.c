@@ -36,11 +36,10 @@ static void     draw_minimap(t_wolf *data, SDL_Rect rect, int nx, int px)
     }
 }
 
-static void     minimap(t_wolf *data)
+static void     minimap(t_wolf *data, SDL_Rect rect)
 {
     int nx;
     int px;
-	SDL_Rect rect;
 
     return ;
     nx = -1;
@@ -77,5 +76,5 @@ void            display(t_wolf *data)
     while (++i < W_WIDTH * W_HEIGHT)
         pixels[i] = 0x000000;
     SDL_UnlockSurface(data->screen);
-    minimap(data);
+    minimap(data, rect);
 }
