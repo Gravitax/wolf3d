@@ -33,10 +33,10 @@ static void		draw_ray(t_wolf *data, int x)
 {
 	int		y;
 
-	data->raydata.ceiling = W_HEIGTH / 2 - W_HEIGTH / data->raydata.dst_towall;
-	data->raydata.floor = W_HEIGTH - data->raydata.ceiling;
+	data->raydata.ceiling = W_HEIGHT / 2 - W_HEIGHT / data->raydata.dst_towall;
+	data->raydata.floor = W_HEIGHT - data->raydata.ceiling;
 	y = data->raydata.ceiling;
-	while (++y < W_HEIGTH)
+	while (++y < W_HEIGHT)
 	{
 		if (y <= data->raydata.floor && data->raydata.dst_towall < data->map.depth)
 		{
@@ -48,7 +48,7 @@ static void		draw_ray(t_wolf *data, int x)
 		else if (y > data->raydata.floor)
 		{
 			break ;
-			float b = (((float)y - W_HEIGTH / 2) / ((float)W_HEIGTH / 2));
+			float b = (((float)y - W_HEIGHT / 2) / ((float)W_HEIGHT / 2));
 			SDL_SetRenderDrawColor(data->renderer, 200 * b, 200 * b, 200 * b, 100);
 		}
 		else

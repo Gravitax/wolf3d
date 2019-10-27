@@ -20,7 +20,7 @@ static void     init_sdl(t_wolf *data)
     data->pWindow = SDL_CreateWindow("maboye wolf3d",
 		SDL_WINDOWPOS_UNDEFINED,
         SDL_WINDOWPOS_UNDEFINED,
-		W_WIDTH, W_HEIGTH, 0);
+		W_WIDTH, W_HEIGHT, 0);
 }
 
 static void     load_texture(t_wolf *data)
@@ -35,13 +35,13 @@ static void     load_texture(t_wolf *data)
         clean_exit(data, "wolf3d: sdl loadbmp error: wolf3d.c 4", 0);
     if (!(data->surface[4].img = SDL_LoadBMP("img/wood.bmp")))
         clean_exit(data, "wolf3d: sdl loadbmp error: wolf3d.c 5", 0);
-    if (!(data->surface[5].img = SDL_LoadBMP("img/sand.bmp")))
-        clean_exit(data, "wolf3d: sdl loadbmp error: wolf3d.c 7", 0);
-    if (!(data->surface[6].img = SDL_LoadBMP("img/grass.bmp")))
+    if (!(data->surface[5].img = SDL_LoadBMP("img/grass.bmp")))
         clean_exit(data, "wolf3d: sdl loadbmp error: wolf3d.c 6", 0);
+    if (!(data->surface[6].img = SDL_LoadBMP("img/sand.bmp")))
+        clean_exit(data, "wolf3d: sdl loadbmp error: wolf3d.c 7", 0);
     if (!(data->surface[7].img = SDL_LoadBMP("img/night.bmp")))
         clean_exit(data, "wolf3d: sdl loadbmp error: wolf3d.c 8", 0);
-    data->bgf = SDL_CreateTextureFromSurface(data->renderer, data->surface[5].img);
+    data->bgf = SDL_CreateTextureFromSurface(data->renderer, data->surface[6].img);
     data->bgc = SDL_CreateTextureFromSurface(data->renderer, data->surface[7].img);
 }
 
@@ -59,15 +59,14 @@ static void     get_fps(t_wolf *data)
 
 static void     draw_background(t_wolf *data)
 {
-    return ;
     SDL_Rect    rect;
 
     rect.w = W_WIDTH;
-    rect.h = W_HEIGTH / 2;
+    rect.h = W_HEIGHT / 2;
     rect.x = 0;
     rect.y = 0;
     SDL_RenderCopy(data->renderer, data->bgc, NULL, &rect);
-    rect.y = W_HEIGTH / 2;
+    rect.y = W_HEIGHT / 2;
     SDL_RenderCopy(data->renderer, data->bgf, NULL, &rect);
 }
 

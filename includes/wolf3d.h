@@ -26,13 +26,12 @@
 # include "../libft/libft.h"
 
 # define    W_WIDTH     800
-# define    W_HEIGTH    600
+# define    W_HEIGHT    600
 # define    SNB         8
-
-# define    FPS         60
 
 # define    NBTHREAD    8
 # define    WTHREAD     W_WIDTH / NBTHREAD
+# define    HTHREAD     W_HEIGHT / NBTHREAD
 
 # define    KA          0
 # define    KE          1
@@ -87,14 +86,6 @@ typedef struct  s_map
     float       depth;
 }               t_map;
 
-// struct						s_thread
-// {
-// 	pthread_t			th;
-// 	t_data				*data;
-// 	int					x_start;
-// 	t_ray				ray[WIN_W / 8];
-// };
-
 typedef struct  s_wolf
 {
     int             fps;
@@ -114,6 +105,15 @@ typedef struct  s_wolf
     SDL_Renderer    *renderer;
     SDL_Window	    *pWindow;
 }               t_wolf;
+
+typedef struct	s_thread
+{
+	int			x;
+    int         x_max;
+	pthread_t	t;
+	t_wolf		*data;
+	t_raydata   d[W_HEIGHT / 8];
+}               t_thread;
 
 void			get_blockside(t_wolf *data, int testx, int testy);
 void            minimap(t_wolf *data);
