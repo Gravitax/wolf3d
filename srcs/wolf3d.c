@@ -37,12 +37,12 @@ static void     load_texture(t_wolf *data)
         clean_exit(data, "wolf3d: sdl loadbmp error: wolf3d.c 5", 0);
     if (!(data->surface[5].img = SDL_LoadBMP("img/grass.bmp")))
         clean_exit(data, "wolf3d: sdl loadbmp error: wolf3d.c 6", 0);
-    if (!(data->surface[6].img = SDL_LoadBMP("img/sand.bmp")))
+    if (!(data->surface[6].img = SDL_LoadBMP("img/night.bmp")))
         clean_exit(data, "wolf3d: sdl loadbmp error: wolf3d.c 7", 0);
-    if (!(data->surface[7].img = SDL_LoadBMP("img/night.bmp")))
+    if (!(data->surface[7].img = SDL_LoadBMP("img/sand.bmp")))
         clean_exit(data, "wolf3d: sdl loadbmp error: wolf3d.c 8", 0);
-    data->bgf = SDL_CreateTextureFromSurface(data->renderer, data->surface[6].img);
-    data->bgc = SDL_CreateTextureFromSurface(data->renderer, data->surface[7].img);
+    data->bgc = SDL_CreateTextureFromSurface(data->renderer, data->surface[6].img);
+    data->bgf = SDL_CreateTextureFromSurface(data->renderer, data->surface[7].img);
 }
 
 static void     get_fps(t_wolf *data)
@@ -52,7 +52,7 @@ static void     get_fps(t_wolf *data)
     pframe = clock();
     data->etime = (pframe / CLOCKS_PER_SEC) - (data->frame_start / CLOCKS_PER_SEC);
     data->fps =  (int)(1 / data->etime);
-    if (data->fps < 10 || data->fps > 240)
+    if (data->fps < 10 || data->fps > 420)
         clean_exit(data,"wolf3d: unexpected frame rate", 0);
     printf("fps: %d\n", data->fps);
 }
@@ -84,7 +84,6 @@ static void		launch_game(t_wolf *data)
             SDL_RenderClear(data->renderer);
             draw_background(data);
 			sdl_event(data);
-            //raythread(data);
             raycasting(data);
             //minimap(data);
             get_fps(data);
@@ -93,7 +92,7 @@ static void		launch_game(t_wolf *data)
         SDL_DestroyRenderer(data->renderer);
 		SDL_DestroyWindow(data->pWindow);
         SDL_Quit();
-    } 
+    }
     else
         clean_exit(data, "wolf3d: sdl window error: wolf3d.c", 0);
 }

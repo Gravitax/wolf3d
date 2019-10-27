@@ -31,12 +31,12 @@ void			draw_pixel(t_wolf *data, int surface_index)
 
 static void		draw_ray(t_wolf *data, int x)
 {
-	int		y;
+	int	y;
 
 	data->raydata.ceiling = W_HEIGHT / 2 - W_HEIGHT / data->raydata.dst_towall;
 	data->raydata.floor = W_HEIGHT - data->raydata.ceiling;
 	y = data->raydata.ceiling;
-	while (++y < W_HEIGHT)
+    while (++y < W_HEIGHT)
 	{
 		if (y <= data->raydata.floor && data->raydata.dst_towall < data->map.depth)
 		{
@@ -74,23 +74,22 @@ static int		hitwall(t_wolf *data)
 	}
 	else if (data->map.map[testy * data->map.width + testx] == 1)
 	{
-		get_blockside(data, testx, testy);
+		//get_blockside(data, testx, testy);
 		return (1);
 	}
 	else
 		return (0);
 }
 
-void			*raycasting(void *d)
+void			raycasting(t_wolf *data)
 {
-	t_wolf	*data = (t_wolf *)d;
+	int	x;
 
-	data->raydata.x = 0;
-	data->raydata.x_max = W_WIDTH;
-	while (data->raydata.x < data->raydata.x_max)
+	x = -1;
+	while (++x < W_WIDTH)
 	{
 		data->raydata.angle = (data->player.angle - data->player.fov / 2)
-			+ ((float)data->raydata.x / (float)W_WIDTH) * data->player.fov;
+			+ ((float)x / (float)W_WIDTH) * data->player.fov;
 		data->raydata.dst_towall = 0;
 		data->raydata.eyex = cosf(data->raydata.angle);
 		data->raydata.eyey = sinf(data->raydata.angle);
@@ -100,9 +99,7 @@ void			*raycasting(void *d)
 				break ;
 			data->raydata.dst_towall += data->raydata.ray_step;
 		}
-		draw_ray(data, data->raydata.x);
-		++data->raydata.x;
+		draw_ray(data, x);
 	}
 	SDL_SetRenderDrawColor(data->renderer, 100, 0, 0, 100);
-	return (d);
 }

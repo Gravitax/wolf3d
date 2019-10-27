@@ -29,7 +29,7 @@
 # define    W_HEIGHT    600
 # define    SNB         8
 
-# define    NBTHREAD    8
+# define    NBTHREAD    6
 # define    WTHREAD     W_WIDTH / NBTHREAD
 # define    HTHREAD     W_HEIGHT / NBTHREAD
 
@@ -61,8 +61,6 @@ typedef struct  s_raydata
 {
     int         ceiling;
     int         floor;
-    int         x;
-    int         x_max;
     float       angle;
     float       bmx;
     float       bmy;
@@ -86,6 +84,21 @@ typedef struct  s_map
     float       depth;
 }               t_map;
 
+typedef struct	s_thread
+{
+    int             x;
+	int			    y;
+    int             y_max;
+    float           ceiling;
+    float           dst_towall;
+    float           floor;
+    float           mdepth;
+    float           samplex;
+    float           sampley;
+	SDL_Surface     *img;
+    SDL_Renderer    *renderer;
+}               t_thread;
+
 typedef struct  s_wolf
 {
     int             fps;
@@ -98,27 +111,19 @@ typedef struct  s_wolf
     t_map           map;
     t_player        player;
     t_raydata       raydata;
+	t_thread        *tdata;
     t_surface       surface[SNB];
+    SDL_Event       event;
     SDL_Texture     *bgc;
     SDL_Texture     *bgf;
-    SDL_Event       event;
     SDL_Renderer    *renderer;
     SDL_Window	    *pWindow;
 }               t_wolf;
 
-typedef struct	s_thread
-{
-	int			x;
-    int         x_max;
-	pthread_t	t;
-	t_wolf		*data;
-	t_raydata   d[W_HEIGHT / 8];
-}               t_thread;
-
 void			get_blockside(t_wolf *data, int testx, int testy);
 void            minimap(t_wolf *data);
-void    		*raycasting(void *d);
-void            raythread(t_wolf *data);
+void            raycasting(t_wolf *data);
+void            raythread(t_wolf *data, int x);
 void            wolf3d(t_wolf *data);
 
 void            clean_exit(t_wolf *data, char *str, int token);
