@@ -6,7 +6,7 @@
 #    By: maboye <maboye@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/31 12:01:33 by maboye            #+#    #+#              #
-#    Updated: 2019/08/29 15:19:31 by maboye           ###   ########.fr        #
+#    Updated: 2019/10/28 12:42:46 by bebosson         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,10 +27,11 @@ OS		=	$(shell uname)
 # directories
 SRCDIR	=	./srcs
 INCDIR	=	./includes
+DIRSDL2 = 	./SDL2.framework/Headers
 OBJDIR	=	./obj
 
 # src / obj files
-SRC		=	blockside.c \
+SRC		=  	blockside.c \
 			display.c \
 			main.c \
 			mouse_event.c \
@@ -40,7 +41,7 @@ SRC		=	blockside.c \
 			texture.c \
 			tools.c \
 			wolf3d.c
-INC		=	wolf3d.h
+INC		=	wolf3d.h	
 
 OBJ		=	$(addprefix $(OBJDIR)/,$(SRC:.c=.o))
 HEADER	=	$(addprefix $(INCDIR)/,$(INC))
@@ -48,7 +49,7 @@ HEADER	=	$(addprefix $(INCDIR)/,$(INC))
 # compiler
 CC		=	gcc
 CFLAGS	=	-Wall -Wextra -Werror -g
-SDL		=	-lSDL2-2.0
+SDL		=	-F ~/Library/Frameworks -framework SDL2
 
 # ft library
 FT		=	./libft/
@@ -60,14 +61,14 @@ obj:
 			mkdir -p $(OBJDIR)
 
 $(OBJDIR)/%.o:$(SRCDIR)/%.c $(HEADER)
-			@$(CC) $(CFLAGS) $(FT_LIB) -I $(INCDIR) $(SDL) -c -o $@ $<
+			@$(CC) -I $(INCDIR) -I $(DIRSDL2)  -c -o $@ $<
 
 $(FT_LIB):
 			@$(MAKE) -C $(FT)
 			@echo "${GREEN}[LIBRARY COMPILED]${END}"
 
 $(NAME):	$(OBJ) $(FT_LIB)
-			@$(CC) $(CFLAGS) $(OBJ) $(FT_LIB) $(SDL) -lm -lpthread -o $@
+			@$(CC) $(CFLAGS) $(OBJ) $(FT_LIB) $(SDL) -lm -o $@
 			@echo "${GREEN}[$@ COMPILED]${END}"
 
 clean:
