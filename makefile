@@ -51,8 +51,10 @@ CFLAGS	=	-Wall -Wextra -Werror -g
 
 ifeq ($(OS), Linux)
 	SDL		=	-lSDL2-2.0
+	DIRSDL	=	
 else
 	SDL		=	-F ~/Library/Frameworks -framework SDL2
+	DIRSDL	=	./SDL2.framework/Headers
 endif 
 
 # ft library
@@ -65,7 +67,7 @@ obj:
 			mkdir -p $(OBJDIR)
 
 $(OBJDIR)/%.o:$(SRCDIR)/%.c $(HEADER)
-			@$(CC) $(CFLAGS) $(FT_LIB) -I $(INCDIR) $(SDL) -c -o $@ $<
+			@$(CC) $(CFLAGS) $(FT_LIB) -I $(INCDIR) -I $(DIRSDL) $(SDL) -c -o $@ $<
 
 $(FT_LIB):
 			@$(MAKE) -C $(FT)
