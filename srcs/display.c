@@ -17,8 +17,8 @@ static void     draw_minimap(t_wolf *data, SDL_Rect rect, int nx, int px)
     int ny;
     int py;
 
-    ny = -1;
     py = 0;
+    ny = -1;
     while (++ny < data->map.height)
 	{
 		if (data->map.map[ny * data->map.width + nx] == 1)
@@ -38,14 +38,14 @@ static void     draw_minimap(t_wolf *data, SDL_Rect rect, int nx, int px)
 
 static void     minimap(t_wolf *data, SDL_Rect rect)
 {
+    return ;
     int nx;
     int px;
 
-    return ;
-    nx = -1;
     px = 0;
     data->player.pos = (int)data->player.x
 		+ ((int)data->player.y + 1) * data->map.width;
+    nx = -1;
 	while (++nx < data->map.width)
 	{
 		draw_minimap(data, rect, nx, px);

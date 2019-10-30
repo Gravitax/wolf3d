@@ -50,9 +50,6 @@ static void		launch_game(t_wolf *data)
             SDL_RenderPresent(data->renderer);
             SDL_DestroyTexture(data->window);
 		}
-        SDL_DestroyRenderer(data->renderer);
-		SDL_DestroyWindow(data->pWindow);
-        SDL_Quit();
     }
     else
         clean_exit(data, "wolf3d: sdl window error: wolf3d.c", 0);
