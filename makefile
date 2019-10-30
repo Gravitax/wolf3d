@@ -6,7 +6,7 @@
 #    By: maboye <maboye@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/31 12:01:33 by maboye            #+#    #+#              #
-#    Updated: 2019/08/29 15:19:31 by maboye           ###   ########.fr        #
+#    Updated: 2019/10/30 21:29:26 by maboye           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,7 +67,7 @@ obj:
 			mkdir -p $(OBJDIR)
 
 $(OBJDIR)/%.o:$(SRCDIR)/%.c $(HEADER)
-			@$(CC) $(CFLAGS) $(FT_LIB) -I $(INCDIR) -I $(DIRSDL) $(SDL) -c -o $@ $<
+			@$(CC) $(CFLAGS) -I $(INCDIR) -I $(DIRSDL) -c -o $@ $<
 
 $(FT_LIB):
 			@$(MAKE) -C $(FT)
