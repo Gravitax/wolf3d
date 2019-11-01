@@ -43,11 +43,33 @@ static void     get_objangle(t_wolf *data)
         data->objdata.angle -= 2 * 3.14159;
 }
 
+static void     put_objpixel(t_wolf *data, float sy)
+{
+    uint32_t    pixel;
+
+    if (data->objdata.column < 0 || data->objdata.column > W_WIDTH)
+        return ;
+    if (data->map.depth_buffer[data->objdata.column]
+    < data->objdata.dst_fromplayer)
+        return ;
+    pixel = get_pixel(data, data->object->si,
+        data->objdata.samplex, data->objdata.sampley);
+    if (pixel == data->objdata.zpixel)
+         return ;
+    put_pixel(data->screen,
+        data->objdata.column,
+        data->objdata.ceiling + sy,
+        pixel);
+    data->map.depth_buffer[data->objdata.column]
+        = data->objdata.dst_fromplayer;
+}
+
 static void     display_object(t_wolf *data)
 {
     float   sx;
     float   sy;
 
+    data->objdata.zpixel = get_pixel(data, data->object->si, 0, 0);
     sx = -1;
     while (++sx < data->objdata.width)
     {
@@ -58,37 +80,7 @@ static void     display_object(t_wolf *data)
             data->objdata.sampley = sy / data->objdata.height;
             data->objdata.column = (int)(data->objdata.mid + sx
                 - (data->objdata.width / 2));
-            if (data->objdata.column >= 0
-            && data->objdata.column < W_WIDTH)
-            {
-                put_pixel(data->screen,
-                    data->objdata.column,
-                    data->objdata.ceiling + sy,
-                    get_pixel(data, data->object->si,
-                        data->objdata.samplex,
-                        data->objdata.sampley));
-            }
-        }
-    }
-}
-
-static void     taskmaster(t_wolf *data)
-{
-    get_objangle(data);
-
-    if (fabs(data->objdata.angle) < data->player.fov / 2)
-    {
-        if (data->objdata.dst_fromplayer >= 1)
-        {
-            if (data->objdata.dst_fromplayer < data->map.depth)
-            {
-                get_objdata(data);
-                display_object(data);
-            }
-        }
-        else
-        {
-            return ;
+            put_objpixel(data, sy);
         }
     }
 }
@@ -102,7 +94,13 @@ void            objects(t_wolf *data)
     {
         if (data->object->type == 0)
             break ;
-        taskmaster(data);
+        get_objangle(data);
+        if (fabs(data->objdata.angle) < data->player.fov / 2
+        && data->objdata.dst_fromplayer >= 1)
+        {
+            get_objdata(data);
+            display_object(data);
+        }
         data->object = data->object->next;
     }
     data->object = head;

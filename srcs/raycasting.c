@@ -77,6 +77,7 @@ void			*raycasting(void *d)
 			data->raydata.dst_towall += data->raydata.ray_step;
 		}
 		draw_ray(data, data->i);
+		data->map.depth_buffer[data->i] = data->raydata.dst_towall;
 		++data->i;
 	}
 	return (d);

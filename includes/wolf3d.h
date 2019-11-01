@@ -59,8 +59,8 @@ typedef struct  s_object
 
 typedef struct  s_objdata
 {
-    int         infov;
     int         column;
+    uint32_t    zpixel;
     float       angle;
     float       ceiling;
     float       dst_fromplayer;
@@ -114,6 +114,7 @@ typedef struct  s_map
     int         width;
     int         *map;
     float       depth;
+    float       depth_buffer[W_WIDTH];
 }               t_map;
 
 typedef struct  s_wolf
