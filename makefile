@@ -70,7 +70,7 @@ obj:
 			mkdir -p $(OBJDIR)
 
 $(OBJDIR)/%.o:$(SRCDIR)/%.c $(HEADER)
-			@$(CC) $(CFLAGS) $(FT_LIB) -I $(INCDIR) -I $(DIRSDL) $(SDL) -c -o $@ $<
+			@$(CC) $(CFLAGS) -I $(INCDIR) -I $(DIRSDL) $(SDL) -c -o $@ $<
 
 $(FT_LIB):
 			@$(MAKE) -C $(FT)
