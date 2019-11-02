@@ -33,7 +33,7 @@ static void     get_fps(t_wolf *data)
     data->fps =  (int)(1 / data->etime);
     if (data->etime > 0.016)
         SDL_Delay(data->etime * 1000 - 16);
-    //printf("fps: %d\n", data->fps);
+    printf("fps: %d\n", data->fps);
 }
 
 static void		launch_game(t_wolf *data)

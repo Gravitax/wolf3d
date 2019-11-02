@@ -50,9 +50,10 @@ typedef struct  s_sprite
 
 typedef struct  s_object
 {
+    int             dead;
+    int             ms;
     int             si;
     int             type;
-    int             dead;
     float           x;
     float           y;
     float           vx;

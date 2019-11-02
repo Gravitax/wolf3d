@@ -44,15 +44,23 @@ static void     remove_deadmobs(t_object *list)
 
 static void     monster_moves(t_wolf *data)
 {
-    (void)data;
-    return ;
+    t_node  *current;
+
+    current = data->pfdata.end;
+    while (current->parent)
+    {
+        if (current->parent == data->pfdata.start)
+            break ;
+        current = current->parent;
+    }
+    data->monster->x = current->x;
+    data->monster->y = current->y;
 }
 
 void            monsters(t_wolf *data)
 {
     t_object    *head;
 
-    objects(data, data->monster);
     remove_deadmobs(data->monster);
     head = data->monster;
     while (data->monster)
@@ -63,10 +71,15 @@ void            monsters(t_wolf *data)
                 + data->map.width * (int)data->monster->y];
             data->pfdata.end = &data->pfdata.list[(int)data->player.x
                 + data->map.width * (int)data->player.y];
-            astar(data);
-            monster_moves(data);
+            if (data->monster->ms-- <= 0)
+            {
+                astar(data);
+                monster_moves(data);
+                data->monster->ms = data->monster->si * 10;
+            }
         }
         data->monster = data->monster->next;
     }
     data->monster = head;
+    objects(data, data->monster);
 }

@@ -33,7 +33,10 @@ INCDIR	=	./includes
 OBJDIR	=	./obj
 
 # src / obj files
-SRC		=	blockside.c \
+SRC		=	astar_exit.c \
+			astar_list.c \
+			astar.c \
+			blockside.c \
 			datagame.c \
 			display.c \
 			events.c \
@@ -41,17 +44,14 @@ SRC		=	blockside.c \
 			minimap.c \
 			monsters.c \
 			mouse_events.c \
+			nodes.c \
 			objects.c \
 			raycasting.c \
 			raythread.c \
 			sprites.c \
 			tools_lst.c \
 			tools.c \
-			wolf3d.c \
-			astar_exit.c \
-			astar.c \
-			list.c \
-			nodes.c
+			wolf3d.c
 INC		=	wolf3d.h
 
 OBJ		=	$(addprefix $(OBJDIR)/,$(SRC:.c=.o))

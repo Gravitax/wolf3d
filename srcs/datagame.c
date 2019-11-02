@@ -29,6 +29,7 @@ static void     get_list(t_wolf *data, t_object *list, int min, int max)
             list->type = data->map.map[i];
             list->si = list->type;
             list->sprite = data->sprite[list->si];
+            list->ms = 100;
             lst_pushback(list, (t_object *)ft_memalloc(sizeof(t_object)));
             if (list == NULL)
                 clean_exit(data, "wolf3d: malloc error", 0);
