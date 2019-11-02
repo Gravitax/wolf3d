@@ -78,9 +78,10 @@ static void		get_events(t_wolf *data)
 	else if (data->event.key.keysym.sym == SDLK_d)
 		data->key[KD] = data->event.type == SDL_KEYUP ? 1 : 0;
 	else if (data->event.key.keysym.sym == SDLK_m)
-		data->key[KM] = 1;
-	else if (data->event.key.keysym.sym == SDLK_n)
-		data->key[KM] = 0;
+	{
+		if (data->event.type == SDL_KEYDOWN)
+			data->key[KM] = data->key[KM] ? 0 : 1;
+	}
 }
 
 void            events(t_wolf *data)

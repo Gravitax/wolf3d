@@ -20,6 +20,9 @@ TUR		=	\033[36m
 WHITE	=	\033[37m
 END		=	\033[0m
 
+UP 		=	\033[A
+CUT 	=	\033[K
+
 # project
 NAME	=	wolf3d
 OS		=	$(shell uname)
@@ -31,18 +34,24 @@ OBJDIR	=	./obj
 
 # src / obj files
 SRC		=	blockside.c \
+			datagame.c \
 			display.c \
 			events.c \
 			main.c \
 			minimap.c \
+			monsters.c \
 			mouse_events.c \
 			objects.c \
 			raycasting.c \
 			raythread.c \
-			textures.c \
+			sprites.c \
 			tools_lst.c \
 			tools.c \
-			wolf3d.c
+			wolf3d.c \
+			astar_exit.c \
+			astar.c \
+			list.c \
+			nodes.c
 INC		=	wolf3d.h
 
 OBJ		=	$(addprefix $(OBJDIR)/,$(SRC:.c=.o))
@@ -70,7 +79,9 @@ obj:
 			mkdir -p $(OBJDIR)
 
 $(OBJDIR)/%.o:$(SRCDIR)/%.c $(HEADER)
+			@echo "${TUR}compiling [$@] ...${END}"
 			@$(CC) $(CFLAGS) -I $(INCDIR) -I $(DIRSDL) $(SDL) -c -o $@ $<
+			@printf "$(UP)$(CUT)"
 
 $(FT_LIB):
 			@$(MAKE) -C $(FT)

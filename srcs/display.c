@@ -40,7 +40,8 @@ void            display(t_wolf *data)
 {
     //raythread(data);
     raycasting(data);
-    objects(data);
+    objects(data, data->object);
+    monsters(data);
     display_textures(data);
     if (data->key[KM])
         minimap(data);

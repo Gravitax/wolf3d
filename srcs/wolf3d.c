@@ -15,7 +15,7 @@
 static void     init_sdl(t_wolf *data)
 {
     if (SDL_Init(SDL_INIT_VIDEO) == -1) 
-        clean_exit(data, "wolf3d: sdl init error: wolf3d.c", 0);
+        clean_exit(data, "wolf3d: SDL_Init fail", 0);
     data->sdl_on = 1;
     data->pWindow = SDL_CreateWindow("maboye wolf3d",
 		SDL_WINDOWPOS_UNDEFINED,
@@ -33,7 +33,7 @@ static void     get_fps(t_wolf *data)
     data->fps =  (int)(1 / data->etime);
     if (data->etime > 0.016)
         SDL_Delay(data->etime * 1000 - 16);
-    printf("fps: %d\n", data->fps);
+    //printf("fps: %d\n", data->fps);
 }
 
 static void		launch_game(t_wolf *data)
@@ -42,8 +42,8 @@ static void		launch_game(t_wolf *data)
     if (data->pWindow) 
     { 
         if (!(data->renderer = SDL_CreateRenderer(data->pWindow, -1, 0)))
-            clean_exit(data, "wolf3d: sdl renderer error: wolf3d.c", 0);
-        load_surfaces_andtextures(data);
+            clean_exit(data, "wolf3d: SDL_CreateRenderer fail", 0);
+        load_datagame(data);
 		while (1)
 		{
             data->frame_start = clock();
@@ -55,7 +55,7 @@ static void		launch_game(t_wolf *data)
 		}
     }
     else
-        clean_exit(data, "wolf3d: sdl window error: wolf3d.c", 0);
+        clean_exit(data, "wolf3d: SDL_CreateWindow fail", 0);
 }
 
 void			wolf3d(t_wolf *data)

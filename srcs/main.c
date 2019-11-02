@@ -31,7 +31,7 @@ static int		parse_map(t_wolf *data)
 	char	*tmp;
 
 	if (data->map.len < 25)
-		clean_exit(data, "wolf3d: map error (too small al: 5*5)", 0);
+		clean_exit(data, "wolf3d: map too small", 0);
     data->player.pos = -1;
 	i = 0;
 	tmp = data->str;
@@ -60,19 +60,19 @@ static int		get_map(t_wolf *data, int file)
 	char	buff[BUFF_SIZE];
 
 	if (file == -1)
-		clean_exit(data, "wolf3d: open error: main.c", 0);
+		clean_exit(data, "wolf3d: open error", 0);
 	if (!(data->str = (char *)ft_memalloc(1)))
-		clean_exit(data, "wolf3d: malloc error: main.c 1", 0);
+		clean_exit(data, "wolf3d: malloc error", 0);
 	while (data->str && (r = read(file, buff, BUFF_SIZE)))
 	{
 		if (r == -1)
-			clean_exit(data, "wolf3d: read error: main.c", 0);
+			clean_exit(data, "wolf3d: read error", 0);
 		buff[r] = '\0';
 		data->str = ft_strfjoin(data->str, buff, 1);
 	}
 	data->map.len = (int)ft_strlen(data->str) + 1;
 	if (!(data->map.map = (int *)ft_memalloc(sizeof(int) * data->map.len)))
-		clean_exit(data, "wolf3d: malloc error: main.c 2", 0);
+		clean_exit(data, "wolf3d: malloc error", 0);
 	close(file);
 	return (parse_map(data));
 }

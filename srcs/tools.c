@@ -29,6 +29,18 @@ uint32_t		get_pixel(t_wolf *data, int si, float samplex, float sampley)
 	return (p[2] | p[1] << 8 | p[0] << 16 | 255 << 24);
 }
 
+SDL_Surface     *new_surface(int w, int h)
+{
+	Uint32			color[4];
+
+	color[0] = 0x000000ff;
+	color[1] = 0x0000ff00;
+	color[2] = 0x00ff0000;
+	color[3] = 0xff000000;
+	return (SDL_CreateRGBSurface(0, w, h, 32,
+        color[0], color[1], color[2], color[3]));
+}
+
 void		    put_pixel(SDL_Surface *surface, int x, int y, uint32_t color)
 {
 	unsigned int	*pixels;
@@ -46,17 +58,11 @@ static void     free_surfaces(t_wolf *data)
     int i;
 
     i = SNB;
-    puts("0");
     while (i--)
         if (data->sprite[i].img)
-        {
             SDL_FreeSurface(data->sprite[i].img);
-            printf("i: %d\n", i);
-        }
-    puts("1");
-    if (data->screen)
-        SDL_FreeSurface(data->screen);
-    puts("2");
+    // if (data->screen)
+    //     SDL_FreeSurface(data->screen);
 }
 
 void            clean_exit(t_wolf *data, char *str, int token)
@@ -72,12 +78,10 @@ void            clean_exit(t_wolf *data, char *str, int token)
             free_surfaces(data);
             SDL_Quit();
         }
-        if (data->str)
-            ft_strdel(&data->str);
-        if (data->map.map)
-            ft_memdel((void **)&data->map.map);
-        if (data->object)
-            lst_free(data->object);
+        ft_strdel(&data->str);
+        ft_memdel((void **)&data->map.map);
+        lst_free(data->object);
+        lst_free(data->monster);
         data = NULL;
     }
     if (str)

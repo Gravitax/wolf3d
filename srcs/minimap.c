@@ -24,7 +24,10 @@ static void     draw_minimap(t_wolf *data, SDL_Rect rect, int nx, int px)
 		if (data->map.map[ny * data->map.width + nx] == 1)
 			SDL_SetRenderDrawColor(data->renderer, 0, 0, 255, 100);
 		else if ((ny + 1) * data->map.width + nx == data->player.pos)
-			SDL_SetRenderDrawColor(data->renderer, 255, 0, 100, 100);
+			SDL_SetRenderDrawColor(data->renderer, 255, 0, 255, 100);
+		else if (data->map.map[ny * data->map.width + nx] >= 7
+		&& data->map.map[ny * data->map.width + nx] <= 9)
+			SDL_SetRenderDrawColor(data->renderer, 255, 0 , 100, 100);
 		else
 			SDL_SetRenderDrawColor(data->renderer, 255, 255, 255, 100);
 		rect.x = nx + px;
