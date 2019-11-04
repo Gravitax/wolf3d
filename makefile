@@ -33,8 +33,7 @@ INCDIR	=	./includes
 OBJDIR	=	./obj
 
 # src / obj files
-SRC		=	astar_exit.c \
-			astar_list.c \
+SRC		=	astar_list.c \
 			astar.c \
 			blockside.c \
 			datagame.c \
@@ -48,9 +47,11 @@ SRC		=	astar_exit.c \
 			objects.c \
 			raycasting.c \
 			raythread.c \
+			shoot.c \
 			sprites.c \
-			tools_lst.c \
 			tools.c \
+			tools2.c\
+			weapons.c \
 			wolf3d.c
 INC		=	wolf3d.h
 
@@ -59,7 +60,7 @@ HEADER	=	$(addprefix $(INCDIR)/,$(INC))
 
 # compiler
 CC		=	gcc
-CFLAGS	=	-Wall -Wextra -Werror -g
+CFLAGS	=	-Wall -Wextra -Werror #-g3 -fsanitize=address
 
 ifeq ($(OS), Linux)
 	SDL		=	-lSDL2-2.0

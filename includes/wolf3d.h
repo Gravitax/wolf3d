@@ -27,7 +27,7 @@
 
 # define    W_WIDTH     800
 # define    W_HEIGHT    600
-# define    SNB         18
+# define    SNB         23
 
 # define    NBTHREAD    8
 # define    WTHREAD     W_WIDTH / NBTHREAD
@@ -43,15 +43,40 @@
 # define    KSPC        7
 # define    KNB         8
 
+# define    GUN         17
+# define    SHOTGUN     19
+# define    AUTOGUN     21
+
+# define    WNB         3
+
 typedef struct  s_sprite
 {
     SDL_Surface *img;
 }               t_sprite;
 
+typedef struct  s_objdata
+{
+    int         column;
+    uint32_t    zpixel;
+    float       angle;
+    float       mid;
+    float       ratio;
+    float       dst_fromplayer;
+    float       ceiling;
+    float       floor;
+    float       eyex;
+    float       eyey;
+    float       height;
+    float       width;
+    float       samplex;
+    float       sampley;
+}               t_objdata;
+
 typedef struct  s_object
 {
     int             dead;
-    int             ms;
+    int             hp;
+    int             delay;
     int             si;
     int             type;
     float           x;
@@ -59,39 +84,36 @@ typedef struct  s_object
     float           vx;
     float           vy;
     t_sprite        sprite;
+    t_objdata       data;
     struct s_object *next;
 }               t_object;
 
-typedef struct  s_objdata
+typedef struct  s_wdata
 {
-    int         column;
     int         si;
+    int         column;
+    int         damage;
+    int         hitbox;
+    int         sfire;
     uint32_t    zpixel;
-    float       angle;
-    float       ceiling;
-    float       dst_fromplayer;
-    float       eyex;
-    float       eyey;
-    float       floor;
     float       height;
-    float       mid;
-    float       ratio;
-    float       vecx;
-    float       vecy;
-    float       samplex;
-    float       sampley;
     float       width;
-}               t_objdata;
+    float       ratio;
+
+}               t_wdata;
 
 typedef struct  s_player
 {
+    int         health;
     int         pos;
+    int         weapon;
     float       angle;
     float       fov;
     float       ms;
     float       speed;
     float       x;
     float       y;
+    t_wdata     wdata[WNB];
 }               t_player;
 
 typedef struct  s_raydata
@@ -102,6 +124,7 @@ typedef struct  s_raydata
     float       angle;
     float       bmx;
     float       bmy;
+    float       cdst;
     float       dst_towall;
     float       eyex;
     float       eyey;
@@ -137,28 +160,30 @@ typedef struct  s_node
     int             i;
     int             x;
     int             y;
+    int             wall;
     float           globalgoal;
     float           localgoal;
     struct s_node   *ngbhr[4];
     struct s_node   *parent;
 }               t_node;
 
-typedef struct  s_lst
+typedef struct  s_alst
 {
     t_node          *node;
-    struct s_lst    *next;
-}               t_lst;
+    struct s_alst   *next;
+}               t_alst;
 
 typedef struct  s_pf
 {
     t_node      *start;
     t_node      *end;
     t_node      *list;
-    t_lst       *alst;
+    t_alst      *alst;
 }               t_pf;
 
 typedef struct  s_wolf
 {
+    int             fire;
     int             fps;
     int             sdl_on;
     int             i;
@@ -171,7 +196,6 @@ typedef struct  s_wolf
     t_pf            pfdata;
     t_player        player;
     t_raydata       raydata;
-    t_objdata       objdata;
     t_object        *monster;
     t_object        *object;
     t_sprite        sprite[SNB];
@@ -190,7 +214,9 @@ void            load_datagame(t_wolf *data);
 void            monsters(t_wolf *data);
 void            mouse_events(t_wolf *data);
 void            objects(t_wolf *data, t_object *list);
+void            shoot(t_wolf *data);
 void            sprites(t_wolf *data);
+void            weapons(t_wolf *data);
 void            wolf3d(t_wolf *data);
 
 void			get_blockside(t_wolf *data, int testx, int testy);
@@ -201,9 +227,11 @@ void            minimap(t_wolf *data);
 
 void            clean_exit(t_wolf *data, char *str, int token);
 uint32_t        get_pixel(t_wolf *data, int si, float samplex, float sampley);
-void		    put_pixel(SDL_Surface *surface, int x, int y, uint32_t color);
 SDL_Surface     *new_surface(int w, int h);
+void		    put_pixel(SDL_Surface *surface, int x, int y, uint32_t color);
 
+float           distance(float x1, float y1, float x2, float y2);
+float			Q_sqrt(float number);
 void            lst_free(t_object *list);
 int             lst_len(t_object *list);
 void            lst_pushback(t_object *list, t_object *node);
@@ -211,11 +239,9 @@ void            lst_pushback(t_object *list, t_object *node);
 void            astar(t_wolf *data);
 void            get_nodes(t_wolf *data);
 
-void            astar_exit(t_wolf *data, char *str, int token);
-
-void            alst_free(t_lst *list);
-int             alst_len(t_lst *list);
-void            alst_pushback(t_lst *list, t_node *node);
-void            alst_sort(t_lst *list);
+void            alst_free(t_alst *list);
+int             alst_len(t_alst *list);
+void            alst_pushback(t_alst *list, t_node *node);
+void            alst_sort(t_alst *list);
 
 #endif

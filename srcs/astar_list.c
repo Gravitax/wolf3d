@@ -12,9 +12,9 @@
 
 #include "../includes/wolf3d.h"
 
-void            alst_free(t_lst *list)
+void            alst_free(t_alst *list)
 {
-    t_lst   *tmp;
+    t_alst   *tmp;
 
     while (list)
     {
@@ -25,10 +25,10 @@ void            alst_free(t_lst *list)
     }
 }
 
-int             alst_len(t_lst *list)
+int             alst_len(t_alst *list)
 {
     int     i;
-    t_lst   *tmp;
+    t_alst   *tmp;
 
     if (list == NULL)
         return (0);
@@ -42,26 +42,26 @@ int             alst_len(t_lst *list)
     return (i);
 }
 
-void            alst_pushback(t_lst *list, t_node *node)
+void            alst_pushback(t_alst *list, t_node *node)
 {
-    t_lst   *head;
+    t_alst   *head;
 
-    head = list;
     if (list)
     {
+        head = list;
         while (list->next)
             list = list->next;
-        if (!(list->next = (t_lst *)ft_memalloc(sizeof(t_lst))))
+        if (!(list->next = (t_alst *)ft_memalloc(sizeof(t_alst))))
         {
             alst_free(head);
             return ;
         }
         list->next->node = node;
+        list = head;
     }
-    list = head;
 }
 
-static void     alst_swap(t_lst *a, t_lst *b)
+static void     alst_swap(t_alst *a, t_alst *b)
 {
     t_node  *tmp;
 
@@ -70,9 +70,9 @@ static void     alst_swap(t_lst *a, t_lst *b)
     a->node = tmp;
 }
 
-void			alst_sort(t_lst *list)
+void			alst_sort(t_alst *list)
 {
-	t_lst		*tmp;
+	t_alst		*tmp;
 	int			sorted;
 
 	if (list == NULL)

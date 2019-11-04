@@ -29,7 +29,8 @@ static void     get_list(t_wolf *data, t_object *list, int min, int max)
             list->type = data->map.map[i];
             list->si = list->type;
             list->sprite = data->sprite[list->si];
-            list->ms = 100;
+            list->delay = list->si * 10;
+            list->hp = list->si * 20;
             lst_pushback(list, (t_object *)ft_memalloc(sizeof(t_object)));
             if (list == NULL)
                 clean_exit(data, "wolf3d: malloc error", 0);
@@ -52,6 +53,24 @@ static void     background(t_wolf *data)
     SDL_UnlockSurface(data->sprite[1].img);
 }
 
+static void     weapons_data(t_wolf *data)
+{
+    data->player.wdata[0].damage = 20;
+    data->player.wdata[0].hitbox = 2;
+    data->player.wdata[0].sfire = 5;
+    data->player.wdata[0].si = GUN;
+
+    data->player.wdata[1].damage = 80;
+    data->player.wdata[1].hitbox = 10;
+    data->player.wdata[1].sfire = 1;
+    data->player.wdata[1].si = SHOTGUN;
+
+    data->player.wdata[2].damage = 40;
+    data->player.wdata[2].hitbox = 1;
+    data->player.wdata[2].sfire = 20;
+    data->player.wdata[2].si = AUTOGUN;
+}
+
 void            load_datagame(t_wolf *data)
 {
     sprites(data);
@@ -59,10 +78,11 @@ void            load_datagame(t_wolf *data)
         clean_exit(data, "wolf3d: malloc error", 0);
     if (!(data->monster = (t_object *)ft_memalloc(sizeof(t_object))))
         clean_exit(data, "wolf3d: malloc error", 0);
-    get_list(data, data->object, 3, 6);
-    get_list(data, data->monster, 7, 9);
+    get_list(data, data->object, 3, 5);
+    get_list(data, data->monster, 6, 9);
     background(data);
     if (!(data->screen = new_surface(W_WIDTH, W_HEIGHT)))
         clean_exit(data, "wolf3d: error creating RGB surface", 0);
     get_nodes(data);
+    weapons_data(data);
 }

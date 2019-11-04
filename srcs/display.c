@@ -12,7 +12,7 @@
 
 #include "../includes/wolf3d.h"
 
-static void     display_textures(t_wolf *data)
+static void     textures(t_wolf *data)
 {
     unsigned int    *pixels;
     SDL_Rect        rect;
@@ -36,13 +36,75 @@ static void     display_textures(t_wolf *data)
     SDL_UnlockSurface(data->screen);
 }
 
+static void     cursor(t_wolf *data)
+{
+    SDL_SetRenderDrawColor(data->renderer, 255, 0, 0, 100);
+    SDL_RenderDrawLine(data->renderer,
+        W_WIDTH / 2 - 15, W_HEIGHT / 2,
+        W_WIDTH / 2 + 15, W_HEIGHT / 2);
+    SDL_RenderDrawLine(data->renderer,
+        W_WIDTH / 2, W_HEIGHT / 2 - 15,
+        W_WIDTH / 2, W_HEIGHT / 2 + 15);
+    SDL_RenderDrawLine(data->renderer,
+        W_WIDTH / 2 - 15, W_HEIGHT / 2 - 1,
+        W_WIDTH / 2 + 15, W_HEIGHT / 2 - 1);
+    SDL_RenderDrawLine(data->renderer,
+        W_WIDTH / 2 - 1, W_HEIGHT / 2 - 15,
+        W_WIDTH / 2 - 1, W_HEIGHT / 2 + 15);
+    SDL_RenderDrawLine(data->renderer,
+        W_WIDTH / 2 - 15, W_HEIGHT / 2 + 1,
+        W_WIDTH / 2 + 15, W_HEIGHT / 2 + 1);
+    SDL_RenderDrawLine(data->renderer,
+        W_WIDTH / 2 + 1, W_HEIGHT / 2 - 15,
+        W_WIDTH / 2 + 1, W_HEIGHT / 2 + 15);
+}
+
+static void     health_color(t_wolf *data)
+{
+    if (data->player.health)
+        SDL_SetRenderDrawColor(data->renderer, 255, 0, 0, 100);
+    if (data->player.health > 20)
+        SDL_SetRenderDrawColor(data->renderer, 255, 165, 0, 100);
+    if (data->player.health > 40)
+        SDL_SetRenderDrawColor(data->renderer, 255, 255, 0, 100);
+    if (data->player.health > 60)
+        SDL_SetRenderDrawColor(data->renderer, 50, 200, 35, 0);
+    if (data->player.health > 80)
+        SDL_SetRenderDrawColor(data->renderer, 30, 150, 0, 100);
+
+}
+
+static void     health(t_wolf *data)
+{
+    int         p;
+    SDL_Rect    rect;
+
+    SDL_SetRenderDrawColor(data->renderer, 0, 0, 0, 100);
+    rect.x = 10;
+    rect.y = W_HEIGHT / 8 * 7;
+    rect.h = W_HEIGHT / 10;
+    rect.w = W_WIDTH / 4;
+    SDL_RenderFillRect(data->renderer, &rect);
+    p = 2;
+    rect.x = 10 + p;
+    rect.y = W_HEIGHT / 8 * 7 + p;
+    rect.h = W_HEIGHT / 10 - p * 2;
+    rect.w = ((W_WIDTH / 4) / 100)  * data->player.health - p * 2;
+    health_color(data);
+    SDL_RenderFillRect(data->renderer, &rect);
+}
+
 void            display(t_wolf *data)
 {
     //raythread(data);
     raycasting(data);
     objects(data, data->object);
     monsters(data);
-    display_textures(data);
+    weapons(data);
+    textures(data);
+    cursor(data);
+    health(data);
     if (data->key[KM])
         minimap(data);
+    //printf("monsters: %d\n", lst_len(data->monster) - 1);
 }

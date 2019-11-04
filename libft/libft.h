@@ -67,7 +67,7 @@ char			*ft_readfile(char *file);
 void			*ft_realloc(void *ptr, size_t new_size);
 char			**ft_splitwspc(const char *str);
 
-float			ft_sqrt(int n);
+float			ft_sqrt(float nb);
 
 char			*ft_strcat(char *dest, const char *src);
 char			*ft_strchr(const char *str, int c);

@@ -12,45 +12,54 @@
 
 #include "../includes/wolf3d.h"
 
-uint32_t		get_pixel(t_wolf *data, int si, float samplex, float sampley)
+void            lst_free(t_object *list)
 {
-	int			sx;
-	int			sy;
-	uint8_t		*p;
-	t_sprite	surface;
+    t_object   *tmp;
 
-	surface = data->sprite[si];
-	SDL_LockSurface(surface.img);
-	sx = samplex * surface.img->w;
-	sy = sampley * surface.img->h;
-	p = (uint8_t *)surface.img->pixels + sy * surface.img->pitch
-		+ sx * surface.img->format->BytesPerPixel;
-	SDL_UnlockSurface(surface.img);
-	return (p[2] | p[1] << 8 | p[0] << 16 | 255 << 24);
+    while (list)
+    {
+        tmp = list->next;
+        ft_memdel((void **)&list);
+        if (tmp)
+            list = tmp;
+    }
 }
 
-SDL_Surface     *new_surface(int w, int h)
+int             lst_len(t_object *list)
 {
-	Uint32			color[4];
+    int         i;
+    t_object    *tmp;
 
-	color[0] = 0x000000ff;
-	color[1] = 0x0000ff00;
-	color[2] = 0x00ff0000;
-	color[3] = 0xff000000;
-	return (SDL_CreateRGBSurface(0, w, h, 32,
-        color[0], color[1], color[2], color[3]));
+    if (list == NULL)
+        return (0);
+    tmp = list;
+    i = 0;
+    while (tmp)
+    {
+        ++i;
+        tmp = tmp->next;
+    }
+    return (i);
 }
 
-void		    put_pixel(SDL_Surface *surface, int x, int y, uint32_t color)
+void            lst_pushback(t_object *list, t_object *node)
 {
-	unsigned int	*pixels;
-	
-	if (x < 0 || x > W_WIDTH || y < 0 || y > W_HEIGHT)
-		return ;
-	SDL_LockSurface(surface);
-	pixels = (unsigned int *)surface->pixels;
-	pixels[x + (y * W_WIDTH)] = color;
-	SDL_UnlockSurface(surface);
+    t_object    *head;
+
+    head = list;
+    if (node == NULL)
+        lst_free(head);
+    if (list)
+    {
+        while (list->next)
+            list = list->next;
+        if (!(list->next = node))
+        {
+            lst_free(head);
+            return ;
+        }
+        list = head;
+    }
 }
 
 static void     free_surfaces(t_wolf *data)
@@ -61,8 +70,8 @@ static void     free_surfaces(t_wolf *data)
     while (i--)
         if (data->sprite[i].img)
             SDL_FreeSurface(data->sprite[i].img);
-    // if (data->screen)
-    //     SDL_FreeSurface(data->screen);
+    if (data->screen)
+        SDL_FreeSurface(data->screen);
 }
 
 void            clean_exit(t_wolf *data, char *str, int token)
@@ -82,6 +91,7 @@ void            clean_exit(t_wolf *data, char *str, int token)
         ft_memdel((void **)&data->map.map);
         lst_free(data->object);
         lst_free(data->monster);
+        alst_free(data->pfdata.alst);
         data = NULL;
     }
     if (str)

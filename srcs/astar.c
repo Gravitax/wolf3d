@@ -12,12 +12,6 @@
 
 #include "../includes/wolf3d.h"
 
-static float    distance(t_node a, t_node b)
-{
-    return (ft_sqrt((a.x - b.x) * (a.x - b.x)
-        + (a.y - b.y) * (a.y - b.y)));
-}
-
 static void     resetdata(t_wolf *data)
 {
     int i;
@@ -26,8 +20,8 @@ static void     resetdata(t_wolf *data)
     while (++i < data->map.len)
     {
         data->pfdata.list[i].bvisited = 0;
-        data->pfdata.list[i].globalgoal = 2147483647;
-        data->pfdata.list[i].localgoal = 2147483647;
+        data->pfdata.list[i].globalgoal = 1000;
+        data->pfdata.list[i].localgoal = 1000;
         data->pfdata.list[i].parent = NULL;
     }
 }
@@ -41,21 +35,23 @@ static void     neighbour(t_wolf *data, t_node *current, int i)
     if (ngbhr->bvisited == 0 && ngbhr->bobstacle == 0)
         alst_pushback(data->pfdata.alst, ngbhr);
     if (data->pfdata.alst == NULL)
-        astar_exit(data, "wolf3d: malloc error", 0);
-    plowergoal = current->localgoal + distance(*current, *ngbhr);
+        clean_exit(data, "wolf3d: malloc error", 0);
+    plowergoal = current->localgoal
+        + distance(current->x, current->y, ngbhr->x, ngbhr->y);
     if (plowergoal < ngbhr->localgoal)
     {
         ngbhr->parent = current;
         ngbhr->localgoal = plowergoal;
         ngbhr->globalgoal = ngbhr->localgoal
-            + distance(*ngbhr, *data->pfdata.end);
+            + distance(ngbhr->x, ngbhr->y,
+                data->pfdata.end->x, data->pfdata.end->y);
     }
 }
 
 static void     delvisited_nodes(t_wolf *data)
 {    
-    t_lst   *tmp;
-    t_lst   *head;
+    t_alst   *tmp;
+    t_alst   *head;
 
     if (data->pfdata.alst == NULL)
         return ;
@@ -88,9 +84,10 @@ void            astar(t_wolf *data)
     resetdata(data);
     current = data->pfdata.start;
     current->localgoal = 0;
-    current->globalgoal = distance(*data->pfdata.start, *data->pfdata.end);
-    if (!(data->pfdata.alst = (t_lst *)ft_memalloc(sizeof(t_lst))))
-        astar_exit(data, "wolf3d: malloc error", 0);
+    current->globalgoal = distance(data->pfdata.start->x,
+        data->pfdata.start->y, data->pfdata.end->x, data->pfdata.end->y);
+    if (!(data->pfdata.alst = (t_alst *)ft_memalloc(sizeof(t_alst))))
+        clean_exit(data, "wolf3d: malloc error", 0);
     data->pfdata.alst->node = data->pfdata.start;
     while (current != data->pfdata.end)
     {

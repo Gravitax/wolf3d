@@ -14,12 +14,12 @@
 
 static int		is_outrange(t_wolf *data)
 {
-	if (data->map.map[(int)data->player.y * data->map.width
-	+ (int)data->player.x] == 1)
-		return (1);
-	else if (data->player.y < 0 || data->player.y > data->map.height)
+	if (data->player.y < 0 || data->player.y > data->map.height)
 		return (1);
 	else if (data->player.x < 0 || data->player.x > data->map.width)
+		return (1);
+	else if (data->map.map[(int)data->player.y * data->map.width
+	+ (int)data->player.x] == 1)
 		return (1);
 	else
 		return (0);
@@ -89,9 +89,12 @@ void            events(t_wolf *data)
     SDL_PollEvent(&data->event);
     if (data->event.type == SDL_QUIT)
         clean_exit(data, NULL, 1);
-    if (data->event.key.keysym.sym == SDLK_ESCAPE)
+    else if (data->event.key.keysym.sym == SDLK_ESCAPE)
         clean_exit(data, NULL, 1);
-    get_events(data);
+	else if (data->event.key.keysym.sym == SDLK_SPACE)
+		shoot(data);
+	else
+    	get_events(data);
 	moves(data);
 	SDL_FlushEvent(SDL_KEYUP | SDL_KEYDOWN | SDL_MOUSEMOTION);
 }

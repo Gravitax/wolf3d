@@ -22,7 +22,7 @@ static void		draw_ray(t_wolf *data, int x)
 	y = data->raydata.ceiling;
     while (++y < W_HEIGHT)
 	{
-		if (y <= data->raydata.floor && data->raydata.dst_towall < data->map.depth)
+		if (y <= data->raydata.floor)
 		{
 			data->raydata.sampley = ((float)y - (float)data->raydata.ceiling)
 				/ ((float)data->raydata.floor - (float)data->raydata.ceiling);
@@ -44,7 +44,6 @@ static int		hitwall(t_wolf *data)
 	if (testx < 0 || testx >= data->map.width
 	|| testy < 0 || testy >= data->map.height)
 	{
-		data->raydata.dst_towall = data->map.depth;
 		return (1);
 	}
 	else if (data->map.map[testy * data->map.width + testx] == 1)
@@ -56,29 +55,57 @@ static int		hitwall(t_wolf *data)
 		return (0);
 }
 
+static void     get_closerwall(t_wolf *data)
+{
+    float   vecx;
+    float   vecy;
+	float	dst;
+
+    data->raydata.cdst = data->map.depth;
+    data->raydata.eyex = cosf(data->player.angle);
+    data->raydata.eyey = sinf(data->player.angle);
+    for (int i = 0; i < data->map.len; i++)
+    {
+        if (data->pfdata.list[i].wall == 1)
+        {
+            vecx = data->pfdata.list[i].x - data->player.x;
+            vecy = data->pfdata.list[i].y - data->player.y;
+            data->raydata.angle = atan2f(data->raydata.eyex,
+				data->raydata.eyey) - atan2f(vecx, vecy);
+            if (fabs(data->raydata.angle) < data->player.fov / 2)
+            {
+                dst = Q_sqrt(vecx * vecx + vecy * vecy);
+                if (dst < data->raydata.cdst)
+                    data->raydata.cdst = dst;
+            }
+        }
+    }
+    data->raydata.cdst -= 2;
+    if (data->raydata.cdst < 0)
+        data->raydata.cdst = 0;
+}
+
 void			*raycasting(void *d)
 {
 	t_wolf	*data;
 
 	data = (t_wolf *)d;
-	data->i = 0;
+	get_closerwall(data);
+	data->i = -1;
 	data->i_max = W_WIDTH;
-	while (data->i < data->i_max)
+	while (++data->i < data->i_max)
 	{
 		data->raydata.angle = (data->player.angle - data->player.fov / 2)
 			+ ((float)data->i / (float)W_WIDTH) * data->player.fov;
-		data->raydata.dst_towall = 0;
 		data->raydata.eyex = cosf(data->raydata.angle);
 		data->raydata.eyey = sinf(data->raydata.angle);
-		while (data->raydata.dst_towall < data->map.depth)
-		{
-			if (hitwall(data) == 1)
-				break ;
+		data->raydata.dst_towall = data->raydata.cdst;
+		while (hitwall(data) == 0)
 			data->raydata.dst_towall += data->raydata.ray_step;
-		}
+		if (data->raydata.dst_towall < 0.1f)
+			continue ;
 		draw_ray(data, data->i);
 		data->map.depth_buffer[data->i] = data->raydata.dst_towall;
-		++data->i;
 	}
 	return (d);
 }
