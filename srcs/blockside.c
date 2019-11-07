@@ -18,25 +18,25 @@ static void		getside(t_wolf *data, int testx, int testy)
     && data->raydata.testangle < 3.14159 * 0.25)
 	{
 		data->raydata.samplex = (float)testy - data->raydata.testy;
-		data->raydata.si = 10;
+		data->raydata.si = 16;
 	}
 	else if (data->raydata.testangle >= 3.14159 * 0.25
     && data->raydata.testangle < 3.14159 * 0.75)
 	{
 		data->raydata.samplex = data->raydata.testx - (float)testx;
-		data->raydata.si = 11;
+		data->raydata.si = 17;
 	}
 	else if (data->raydata.testangle < -3.14159 * 0.25
     && data->raydata.testangle >= -3.14159 * 0.75)
 	{
 		data->raydata.samplex = (float)testx - data->raydata.testx;
-		data->raydata.si = 12;
+		data->raydata.si = 18;
 	}
 	else if (data->raydata.testangle >= -3.14159 * 0.75
     || data->raydata.testangle < -3.14159 * 0.75)
 	{
 		data->raydata.samplex = data->raydata.testy - (float)testy;
-		data->raydata.si = 13;
+		data->raydata.si = 19;
 	}
 }
 

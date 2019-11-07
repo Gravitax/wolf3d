@@ -93,22 +93,22 @@ static void     monster_actions(t_wolf *data)
         + data->map.width * (int)data->player.y];
      dst = distance(data->monster->x, data->monster->y,
         data->pfdata.end->x, data->pfdata.end->y);
-    if (dst > 2)
+    if (dst > 3)
     {
         data->monster->si = data->monster->type;
-        if ((dst < 15 || data->monster->hp < data->monster->si * 20)
+        if ((dst < 15 || data->monster->hp < data->monster->type * 20)
         && (data->monster->delay-- < 1))
         {
             astar(data);
             monster_moves(data);
-            data->monster->delay = data->monster->si + 10;
+            data->monster->delay = data->monster->type + 10;
         }
     }
     else
     {
-        data->monster->si = data->monster->type + 7;
+        data->monster->si = data->monster->type + 3;
         data->player.health -= data->monster->type * 2;
-        data->monster->delay = data->monster->si * 10;
+        data->monster->delay = data->monster->type * 10;
         if (data->player.health < 1)
         {
             printf("score: %d\n", data->kill_score);
@@ -124,12 +124,12 @@ static void     spawner(t_wolf *data)
 
     monsters = lst_len(data->monster) - 1;
     if (monsters < 10)
-        data->monster->delay = data->monster->si * 20;
+        data->monster->delay = data->monster->type * 20;
     else if (monsters < 20)
-        data->monster->delay = data->monster->si * 40;
+        data->monster->delay = data->monster->type * 40;
     else
     {
-        data->monster->delay = data->monster->si * 100;
+        data->monster->delay = data->monster->type * 100;
         return ;
     }
     newmonster = (t_object *)ft_memalloc(sizeof(t_object));
@@ -144,10 +144,10 @@ static void     spawner(t_wolf *data)
         skin = 9;
     newmonster->type = skin;
     newmonster->si = skin;
-    newmonster->delay = newmonster->si * 10;
-    newmonster->hp = newmonster->si * 20;
-    newmonster->sprite = data->sprite[7];
-    newmonster->speed = newmonster->si + data->kill_score;
+    newmonster->delay = newmonster->type * 10;
+    newmonster->hp = newmonster->type * 20;
+    newmonster->sprite = data->sprite[newmonster->type];
+    newmonster->speed = newmonster->type + data->kill_score / 2;
     if (newmonster->speed > 30)
         newmonster->speed = 30;
     lst_pushback(data->monster, newmonster);

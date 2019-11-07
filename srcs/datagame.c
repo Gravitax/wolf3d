@@ -29,9 +29,9 @@ static void     get_list(t_wolf *data, t_object *list, int min, int max)
             list->type = data->map.map[i];
             list->si = list->type;
             list->sprite = data->sprite[list->si];
-            list->delay = list->si * 10;
-            list->hp = list->si * 20;
-            list->speed = list->si;
+            list->delay = list->type * 10;
+            list->hp = list->type * 20;
+            list->speed = list->type;
             lst_pushback(list, (t_object *)ft_memalloc(sizeof(t_object)));
             if (list == NULL)
                 clean_exit(data, "wolf3d: malloc error", 0);
@@ -56,20 +56,29 @@ static void     background(t_wolf *data)
 
 static void     weapons_data(t_wolf *data)
 {
-    data->player.wdata[0].damage = 20;
-    data->player.wdata[0].hitbox = 2;
-    data->player.wdata[0].sfire = 5;
-    data->player.wdata[0].si = GUN;
+    data->player.wdata[0].damage = 40;
+    data->player.wdata[0].hitbox = 1;
+    data->player.wdata[0].range = 4;
+    data->player.wdata[0].sfire = 1;
+    data->player.wdata[0].si = 20;
 
-    data->player.wdata[1].damage = 100;
-    data->player.wdata[1].hitbox = 10;
-    data->player.wdata[1].sfire = 1;
-    data->player.wdata[1].si = SHOTGUN;
+    data->player.wdata[1].damage = 20;
+    data->player.wdata[1].hitbox = 2;
+    data->player.wdata[1].range = data->map.depth;
+    data->player.wdata[1].sfire = 5;
+    data->player.wdata[1].si = 22;
 
-    data->player.wdata[2].damage = 20;
-    data->player.wdata[2].hitbox = 1;
-    data->player.wdata[2].sfire = 10;
-    data->player.wdata[2].si = AUTOGUN;
+    data->player.wdata[2].damage = 100;
+    data->player.wdata[2].hitbox = 10;
+    data->player.wdata[2].range = data->map.depth;
+    data->player.wdata[2].sfire = 1;
+    data->player.wdata[2].si = 24;
+
+    data->player.wdata[3].damage = 20;
+    data->player.wdata[3].hitbox = 1;
+    data->player.wdata[3].range = data->map.depth;
+    data->player.wdata[3].sfire = 10;
+    data->player.wdata[3].si = 26;
 }
 
 void            load_datagame(t_wolf *data)

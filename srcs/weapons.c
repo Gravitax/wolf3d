@@ -20,8 +20,10 @@ static void     get_weapondata(t_wolf *data)
 
     if (data->kill_score > 10)
         data->player.weapon = 1;
-    if (data->kill_score > 30)
+    if (data->kill_score > 20)
         data->player.weapon = 2;
+    if (data->kill_score > 30)
+        data->player.weapon = 3;
     i = data->player.weapon;
     si = data->player.wdata[i].si;
     weapon = data->sprite[si].img;

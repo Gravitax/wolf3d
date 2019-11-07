@@ -39,13 +39,15 @@ static void     shoot_impact(t_wolf *data)
     head = data->monster;
     while (data->monster)
     {
-        if (fabs(data->monster->data.angle) < data->player.fov / 2
+        if (data->monster->type > 6
+        && fabs(data->monster->data.angle) < data->player.fov / 2
         && data->monster->data.dst_fromplayer < data->map.depth)
         {
             if (hitbox(data) == 1)
             {
                 data->monster->hp = data->monster->hp
                     - data->player.wdata[data->player.weapon].damage;
+                data->monster->si = data->monster->type + 6;
                 if (data->monster->hp < 1)
                 {
                     ++data->kill_score;
@@ -65,21 +67,25 @@ void            shoot(t_wolf *data)
     if (data->fire < 10 && data->event.type == SDL_KEYDOWN)
     {
         if (data->player.weapon == 0)
-            data->player.wdata[data->player.weapon].si = GUN + 1;
+            data->player.wdata[data->player.weapon].si = 21;
         else if (data->player.weapon == 1)
-            data->player.wdata[data->player.weapon].si = SHOTGUN + 1;
+            data->player.wdata[data->player.weapon].si = 23;
         else if (data->player.weapon == 2)
-            data->player.wdata[data->player.weapon].si = AUTOGUN + 1;
+            data->player.wdata[data->player.weapon].si = 25;
+        else if (data->player.weapon == 3)
+            data->player.wdata[data->player.weapon].si = 27;
         shoot_impact(data);
     }
 	else
     {
-		if (data->player.weapon == 0)
-            data->player.wdata[data->player.weapon].si = GUN;
+        if (data->player.weapon == 0)
+            data->player.wdata[data->player.weapon].si = 20;
         else if (data->player.weapon == 1)
-            data->player.wdata[data->player.weapon].si = SHOTGUN;
+            data->player.wdata[data->player.weapon].si = 22;
         else if (data->player.weapon == 2)
-            data->player.wdata[data->player.weapon].si = AUTOGUN;
+            data->player.wdata[data->player.weapon].si = 24;
+        else if (data->player.weapon == 3)
+            data->player.wdata[data->player.weapon].si = 26;
         if (data->fire > 20 || data->event.type == SDL_KEYUP)
             data->fire = 0;
     }
