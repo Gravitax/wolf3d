@@ -115,44 +115,6 @@ static void     monster_actions(t_wolf *data)
     }
 }
 
-static void     spawner(t_wolf *data)
-{
-    int         monsters;
-    t_object    *newmonster;
-
-    monsters = lst_len(data->monster) - 1;
-    if (monsters < 10)
-        data->monster->delay = data->monster->type * 20;
-    else if (monsters < 20)
-        data->monster->delay = data->monster->type * 40;
-    else
-    {
-        data->monster->delay = data->monster->type * 100;
-        return ;
-    }
-    newmonster = (t_object *)ft_memalloc(sizeof(t_object));
-    newmonster->x = data->monster->x;
-    newmonster->y = data->monster->y;
-    int     skin;
-
-    skin = 7;
-    if (data->kill_score > 10)
-        skin = 8;
-    if (data->kill_score > 20)
-        skin = 9;
-    newmonster->type = skin;
-    newmonster->si = skin;
-    newmonster->delay = newmonster->type * 10;
-    newmonster->hp = newmonster->type * 20;
-    newmonster->sprite = data->sprite[newmonster->type];
-    newmonster->speed = newmonster->type + data->kill_score / 10;
-    if (newmonster->speed > 15)
-        newmonster->speed = 15;
-    lst_pushback(data->monster, newmonster);
-    if (data->monster == NULL)
-        clean_exit(data, "wolf3d: malloc error", 0);
-}
-
 void            monsters(t_wolf *data)
 {
     t_object    *head;

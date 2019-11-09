@@ -216,6 +216,7 @@ void            monsters(t_wolf *data);
 void            mouse_events(t_wolf *data);
 void            objects(t_wolf *data, t_object *list);
 void            shoot(t_wolf *data);
+void            spawner(t_wolf *data);
 void            sprites(t_wolf *data);
 void            weapons(t_wolf *data);
 void            wolf3d(t_wolf *data);

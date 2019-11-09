@@ -48,6 +48,7 @@ SRC		=	astar_list.c \
 			raycasting.c \
 			raythread.c \
 			shoot.c \
+			spawner.c \
 			sprites.c \
 			tools.c \
 			tools2.c\
