@@ -12,13 +12,29 @@
 
 #include "../includes/wolf3d.h"
 
+static void     deal_damage_tomonster(t_wolf *data)
+{
+    data->monster->hp = data->monster->hp
+        - data->player.wdata[data->player.weapon].damage;
+    if (data->monster->hp < 1)
+    {
+        ++data->kill_score;
+        data->monster->dead = 1;
+        data->monster->si = 28;
+    }
+    else
+        data->monster->si = data->monster->type + 6;
+}
+
 static int      hitbox(t_wolf *data)
 {
     int     i;
     int     range;
 
-    range = W_WIDTH / 4 / data->monster->data.dst_fromplayer
-        + data->player.wdata[data->player.weapon].hitbox;
+    if (data->monster->data.dst_fromplayer
+    > data->player.wdata[data->player.weapon].range)
+        return (0);
+    range = W_WIDTH / data->monster->data.dst_fromplayer / 2;
     i = W_WIDTH / 2 - range - 1;
     if (data->monster->data.mid < W_WIDTH / 2 + range
     && data->monster->data.mid > W_WIDTH / 2 - range)
@@ -45,14 +61,7 @@ static void     shoot_impact(t_wolf *data)
         {
             if (hitbox(data) == 1)
             {
-                data->monster->hp = data->monster->hp
-                    - data->player.wdata[data->player.weapon].damage;
-                data->monster->si = data->monster->type + 6;
-                if (data->monster->hp < 1)
-                {
-                    ++data->kill_score;
-                    data->monster->dead = 1;
-                }
+                deal_damage_tomonster(data);
                 break ;
             }
         }
@@ -63,8 +72,8 @@ static void     shoot_impact(t_wolf *data)
 
 void            shoot(t_wolf *data)
 {
-    ++data->fire;
-    if (data->fire < 10 && data->event.type == SDL_KEYDOWN)
+    if (data->event.type == SDL_KEYDOWN
+    && --data->shoot < 1 && data->fire_delay < 1)
     {
         if (data->player.weapon == 0)
             data->player.wdata[data->player.weapon].si = 21;
@@ -75,19 +84,9 @@ void            shoot(t_wolf *data)
         else if (data->player.weapon == 3)
             data->player.wdata[data->player.weapon].si = 27;
         shoot_impact(data);
+        data->fire_delay = data->player.wdata[data->player.weapon].delay;
+        data->shoot = data->fire_delay;
     }
-	else
-    {
-        if (data->player.weapon == 0)
-            data->player.wdata[data->player.weapon].si = 20;
-        else if (data->player.weapon == 1)
-            data->player.wdata[data->player.weapon].si = 22;
-        else if (data->player.weapon == 2)
-            data->player.wdata[data->player.weapon].si = 24;
-        else if (data->player.weapon == 3)
-            data->player.wdata[data->player.weapon].si = 26;
-        if (data->fire > 20 || data->event.type == SDL_KEYUP)
-            data->fire = 0;
-    }
-    data->key[KSPC] = 0;
+    else if (data->event.type == SDL_KEYUP)
+        data->shoot = 0;
 }

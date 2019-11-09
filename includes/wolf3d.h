@@ -21,13 +21,13 @@
 # include <time.h>
 # include <unistd.h>
 
-# include <SDL.h>
+# include <SDL2/SDL.h>
 
 # include "../libft/libft.h"
 
 # define    W_WIDTH     800
 # define    W_HEIGHT    600
-# define    SNB         23
+# define    SNB         29
 
 # define    NBTHREAD    8
 # define    WTHREAD     W_WIDTH / NBTHREAD
@@ -43,11 +43,7 @@
 # define    KSPC        7
 # define    KNB         8
 
-# define    GUN         17
-# define    SHOTGUN     19
-# define    AUTOGUN     21
-
-# define    WNB         3
+# define    WNB         4
 
 typedef struct  s_sprite
 {
@@ -94,8 +90,8 @@ typedef struct  s_wdata
     int         si;
     int         column;
     int         damage;
-    int         hitbox;
-    int         sfire;
+    int         delay;
+    int         range;
     uint32_t    zpixel;
     float       height;
     float       width;
@@ -185,7 +181,8 @@ typedef struct  s_pf
 typedef struct  s_wolf
 {
     int             kill_score;
-    int             fire;
+    int             fire_delay;
+    int             shoot;
     int             fps;
     int             sdl_on;
     int             i;

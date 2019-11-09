@@ -46,8 +46,7 @@ static void     smoothness(t_wolf *data, t_node *current)
     float   tmpx;
     float   tmpy;
 
-    if (distance(data->monster->x, data->monster->y,
-    current->x, current->y) > data->map.depth)
+    if (data->monster->data.dst_fromplayer > data->map.depth)
         return ;
     tmpx = (current->x + 0.5f - data->monster->x)
         * data->etime * data->monster->speed;
@@ -147,9 +146,9 @@ static void     spawner(t_wolf *data)
     newmonster->delay = newmonster->type * 10;
     newmonster->hp = newmonster->type * 20;
     newmonster->sprite = data->sprite[newmonster->type];
-    newmonster->speed = newmonster->type + data->kill_score / 2;
-    if (newmonster->speed > 30)
-        newmonster->speed = 30;
+    newmonster->speed = newmonster->type + data->kill_score / 10;
+    if (newmonster->speed > 15)
+        newmonster->speed = 15;
     lst_pushback(data->monster, newmonster);
     if (data->monster == NULL)
         clean_exit(data, "wolf3d: malloc error", 0);
@@ -159,7 +158,6 @@ void            monsters(t_wolf *data)
 {
     t_object    *head;
 
-    remove_deadmobs(data);
     head = data->monster;
     while (data->monster)
     {
@@ -177,4 +175,5 @@ void            monsters(t_wolf *data)
     }
     data->monster = head;
     objects(data, data->monster);
+    remove_deadmobs(data);
 }

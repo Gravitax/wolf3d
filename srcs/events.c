@@ -39,44 +39,44 @@ static void		move_maker(t_wolf *data, float sx, float sy)
 
 static void		moves(t_wolf *data)
 {
-    if (data->key[KA])
-		data->player.angle += data->player.speed
-			* data->etime * data->player.ms;
-	if (data->key[KE])
+	if (data->key[KA])
 		data->player.angle -= data->player.speed
 			* data->etime * data->player.ms;
+    if (data->key[KE])
+		data->player.angle += data->player.speed
+			* data->etime * data->player.ms;
 	if (data->key[KZ])
+		move_maker(data,
+            cosf(data->player.angle) * data->player.speed * data->etime,
+            sinf(data->player.angle) * data->player.speed * data->etime);
+	if (data->key[KS])
 		move_maker(data,
             -(cosf(data->player.angle) * data->player.speed * data->etime),
             -(sinf(data->player.angle) * data->player.speed * data->etime));
 	if (data->key[KQ])
 		move_maker(data,
-            -(sinf(data->player.angle) * data->player.speed * data->etime),
-            cosf(data->player.angle) * data->player.speed * data->etime);
-	if (data->key[KS])
-		move_maker(data,
-            cosf(data->player.angle) * data->player.speed * data->etime,
-            sinf(data->player.angle) * data->player.speed * data->etime);
-	if (data->key[KD])
-		move_maker(data,
             sinf(data->player.angle) * data->player.speed * data->etime,
             -(cosf(data->player.angle) * data->player.speed * data->etime));
+	if (data->key[KD])
+		move_maker(data,
+            -(sinf(data->player.angle) * data->player.speed * data->etime),
+            cosf(data->player.angle) * data->player.speed * data->etime);
 }
 
 static void		get_events(t_wolf *data)
 {
-	if (data->event.key.keysym.sym == SDLK_q)
-		data->key[KA] = data->event.type == SDL_KEYUP ? 1 : 0;
+	if (data->event.key.keysym.sym == SDLK_a)
+		data->key[KA] = data->event.type == SDL_KEYDOWN? 1 : 0;
 	else if (data->event.key.keysym.sym == SDLK_e)
-		data->key[KE] = data->event.type == SDL_KEYUP ? 1 : 0;
-	else if (data->event.key.keysym.sym == SDLK_w)
-		data->key[KZ] = data->event.type == SDL_KEYUP ? 1 : 0;
-	else if (data->event.key.keysym.sym == SDLK_a)
-		data->key[KQ] = data->event.type == SDL_KEYUP ? 1 : 0;
+		data->key[KE] = data->event.type == SDL_KEYDOWN ? 1 : 0;
+	else if (data->event.key.keysym.sym == SDLK_z)
+		data->key[KZ] = data->event.type == SDL_KEYDOWN ? 1 : 0;
+	else if (data->event.key.keysym.sym == SDLK_q)
+		data->key[KQ] = data->event.type == SDL_KEYDOWN ? 1 : 0;
 	else if (data->event.key.keysym.sym == SDLK_s)
-		data->key[KS] = data->event.type == SDL_KEYUP ? 1 : 0;
+		data->key[KS] = data->event.type == SDL_KEYDOWN ? 1 : 0;
 	else if (data->event.key.keysym.sym == SDLK_d)
-		data->key[KD] = data->event.type == SDL_KEYUP ? 1 : 0;
+		data->key[KD] = data->event.type == SDL_KEYDOWN ? 1 : 0;
 	else if (data->event.key.keysym.sym == SDLK_m)
 	{
 		if (data->event.type == SDL_KEYDOWN)

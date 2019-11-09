@@ -89,7 +89,7 @@ static void     health(t_wolf *data)
     rect.x = 10 + p;
     rect.y = W_HEIGHT / 8 * 7 + p;
     rect.h = W_HEIGHT / 10 - p * 2;
-    rect.w = ((W_WIDTH / 4) / 100)  * data->player.health - p * 2;
+    rect.w = ((W_WIDTH / 4) / 100)  * (data->player.health / 2) - p * 2;
     health_color(data);
     SDL_RenderFillRect(data->renderer, &rect);
 }

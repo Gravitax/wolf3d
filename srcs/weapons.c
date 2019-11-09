@@ -12,18 +12,23 @@
 
 #include "../includes/wolf3d.h"
 
+static void     update_playerweapon(t_wolf *data)
+{
+    if (data->kill_score > 4)
+        data->player.weapon = 1;
+    if (data->kill_score > 5)
+        data->player.weapon = 2;
+    if (data->kill_score > 24)
+        data->player.weapon = 3;
+}
+
 static void     get_weapondata(t_wolf *data)
 {
     int             i;
     int             si;
     SDL_Surface     *weapon;
 
-    if (data->kill_score > 10)
-        data->player.weapon = 1;
-    if (data->kill_score > 20)
-        data->player.weapon = 2;
-    if (data->kill_score > 30)
-        data->player.weapon = 3;
+    update_playerweapon(data);
     i = data->player.weapon;
     si = data->player.wdata[i].si;
     weapon = data->sprite[si].img;
@@ -38,6 +43,20 @@ static void     get_weapondata(t_wolf *data)
             = (data->player.wdata[i].height / 2 - 35);
     else
         data->player.wdata[i].column = 0;
+}
+
+static void     update_weaponskin(t_wolf *data)
+{
+    if (--data->fire_delay > 0)
+        return ;
+    if (data->player.weapon == 0)
+        data->player.wdata[data->player.weapon].si = 20;
+    else if (data->player.weapon == 1)
+        data->player.wdata[data->player.weapon].si = 22;
+    else if (data->player.weapon == 2)
+        data->player.wdata[data->player.weapon].si = 24;
+    else if (data->player.weapon == 3)
+        data->player.wdata[data->player.weapon].si = 26;  
 }
 
 void            weapons(t_wolf *data)
@@ -65,4 +84,5 @@ void            weapons(t_wolf *data)
                 (W_HEIGHT - data->player.wdata[i].height) + y, pixel);
         }
     }
+    update_weaponskin(data);
 }

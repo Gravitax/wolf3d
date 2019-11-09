@@ -32,7 +32,7 @@ static void     neighbour(t_wolf *data, t_node *current, int i)
     t_node  *ngbhr;
 
     ngbhr = current->ngbhr[i];
-    if (ngbhr->bvisited == 0 && ngbhr->bobstacle == 0)
+    if (ngbhr->bvisited == 0 && ngbhr->bobstacle == 0 && ngbhr->wall == 0)
         alst_pushback(data->pfdata.alst, ngbhr);
     if (data->pfdata.alst == NULL)
         clean_exit(data, "wolf3d: malloc error", 0);

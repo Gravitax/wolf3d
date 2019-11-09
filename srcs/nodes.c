@@ -59,10 +59,11 @@ void            get_nodes(t_wolf *data)
             ++i;
             data->pfdata.list[y * data->map.width + x].x = x;
             data->pfdata.list[y * data->map.width + x].y = y;
-            data->pfdata.list[y * data->map.width + x].bobstacle
-                = data->map.map[y * data->map.width + x];
             if (data->map.map[y * data->map.width + x] == 1)
+            {
+                data->pfdata.list[y * data->map.width + x].bobstacle = 1;
                 data->pfdata.list[y * data->map.width + x].wall = 1;
+            }
         }
     }
     get_neighbourpos(data);
