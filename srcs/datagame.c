@@ -70,22 +70,22 @@ static void     background(t_wolf *data)
 
 static void     weapons_data(t_wolf *data)
 {
-    data->player.wdata[0].damage = 100;
-    data->player.wdata[0].delay = 50;
+    data->player.wdata[0].damage = 60;
+    data->player.wdata[0].delay = 60;
     data->player.wdata[0].range = 4;
     data->player.wdata[0].si = 20;
 
-    data->player.wdata[1].damage = 20;
-    data->player.wdata[1].delay = 20;
+    data->player.wdata[1].damage = 30;
+    data->player.wdata[1].delay = 15;
     data->player.wdata[1].range = data->map.depth;
     data->player.wdata[1].si = 22;
 
-    data->player.wdata[2].damage = 150;
-    data->player.wdata[2].delay = 80;
+    data->player.wdata[2].damage = 180;
+    data->player.wdata[2].delay = 60;
     data->player.wdata[2].range = data->map.depth;
     data->player.wdata[2].si = 24;
 
-    data->player.wdata[3].damage = 20;
+    data->player.wdata[3].damage = 40;
     data->player.wdata[3].delay = 5;
     data->player.wdata[3].range = data->map.depth;
     data->player.wdata[3].si = 26;
