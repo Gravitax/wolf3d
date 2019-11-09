@@ -70,6 +70,7 @@ void			wolf3d(t_wolf *data)
     data->player.ms = 0.6;
 	data->player.speed = 8;
     data->player.health = 200;
+    data->player.health_max = 200;
     data->player.weapon = 0;
     data->raydata.ray_step = 0.01;
 	launch_game(data);

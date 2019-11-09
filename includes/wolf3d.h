@@ -72,6 +72,7 @@ typedef struct  s_object
 {
     int             dead;
     int             hp;
+    int             hp_max;
     int             delay;
     int             si;
     int             type;
@@ -102,6 +103,7 @@ typedef struct  s_wdata
 typedef struct  s_player
 {
     int         health;
+    int         health_max;
     int         pos;
     int         weapon;
     float       angle;

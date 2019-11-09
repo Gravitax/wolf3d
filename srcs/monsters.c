@@ -95,8 +95,7 @@ static void     monster_actions(t_wolf *data)
     if (dst > 3)
     {
         data->monster->si = data->monster->type;
-        if ((dst < 15 || data->monster->hp < data->monster->type * 20)
-        && (data->monster->delay-- < 1))
+        if (dst < 15 || data->monster->hp < data->monster->hp_max)
         {
             astar(data);
             monster_moves(data);
@@ -163,7 +162,7 @@ void            monsters(t_wolf *data)
     {
         if (data->monster->type > 5 && data->monster->type < 10)
         {
-            if (data->monster->delay-- < 0)
+            if (--data->monster->delay < 1)
             {
                 if (data->monster->type == 6)
                     spawner(data);

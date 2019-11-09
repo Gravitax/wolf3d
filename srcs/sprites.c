@@ -60,9 +60,9 @@ static void     sprites_weapons(t_wolf *data)
         clean_exit(data, "wolf3d: load_sprites error", 0);
     if (!(data->sprite[25].img = SDL_LoadBMP("img/weapons/shotgun2.bmp")))
         clean_exit(data, "wolf3d: load_sprites error", 0);
-    if (!(data->sprite[26].img = SDL_LoadBMP("img/weapons/rocket1.bmp")))
+    if (!(data->sprite[26].img = SDL_LoadBMP("img/weapons/autogun1.bmp")))
         clean_exit(data, "wolf3d: load_sprites error", 0);
-    if (!(data->sprite[27].img = SDL_LoadBMP("img/weapons/rocket2.bmp")))
+    if (!(data->sprite[27].img = SDL_LoadBMP("img/weapons/autogun2.bmp")))
         clean_exit(data, "wolf3d: load_sprites error", 0);
 }
 

@@ -16,7 +16,7 @@ static void     update_playerweapon(t_wolf *data)
 {
     if (data->kill_score > 4)
         data->player.weapon = 1;
-    if (data->kill_score > 5)
+    if (data->kill_score > 12)
         data->player.weapon = 2;
     if (data->kill_score > 24)
         data->player.weapon = 3;

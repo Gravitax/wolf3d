@@ -42,6 +42,7 @@ static void     get_list(t_wolf *data, t_object *list, int min, int max)
             list->x = i - (list->y * data->map.width) + 1;
             list->type = data->map.map[i];
             list->hp = get_objhp(data);
+            list->hp_max = list->hp;
             list->speed = list->type;
             list->si = list->type;
             list->sprite = data->sprite[list->si];
