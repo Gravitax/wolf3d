@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/05 00:52:18 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/12 21:00:34 by bebosson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,39 @@ static void		moves(t_wolf *data)
             cosf(data->player.angle) * data->player.speed * data->etime);
 }
 
+static void		add_sc_x(t_wolf *data)
+{
+	if (data->event.key.keysym.sym == SDLK_b)
+	{
+			data->key[KB] = data->event.type == SDL_KEYDOWN ? 1 : 0;
+			if (data->key[KB] == 1 && data->map.sc_x < 6)
+				data->map.sc_x++;
+	}
+	else if (data->event.key.keysym.sym == SDLK_n)
+	{
+			data->key[KN] = data->event.type == SDL_KEYDOWN ? 1 : 0;
+			if (data->key[KN] == 1 && data->map.sc_x > 1)
+				data->map.sc_x--;
+	}
+}
+
+static void		change_weapon(t_wolf *data)
+{
+		data->key[KZ] = data->event.type == SDL_KEYDOWN ? 1 : 0;
+		if (data->player.weapon < 4 && data->key[KZ] == 1)
+			data->player.weapon++;
+		if (data->player.weapon == 4 && data->key[KZ] == 1)
+			data->player.weapon = 0;
+		data->key[KZ] = 0;
+}
+
 static void		get_events(t_wolf *data)
 {
-	if (data->event.key.keysym.sym == SDLK_a)
+	if (data->event.key.keysym.sym == SDLK_q)
 		data->key[KA] = data->event.type == SDL_KEYDOWN? 1 : 0;
 	else if (data->event.key.keysym.sym == SDLK_e)
 		data->key[KE] = data->event.type == SDL_KEYDOWN ? 1 : 0;
-	else if (data->event.key.keysym.sym == SDLK_z)
+	else if (data->event.key.keysym.sym == SDLK_w)
 		data->key[KZ] = data->event.type == SDL_KEYDOWN ? 1 : 0;
 	else if (data->event.key.keysym.sym == SDLK_q)
 		data->key[KQ] = data->event.type == SDL_KEYDOWN ? 1 : 0;
@@ -82,6 +108,11 @@ static void		get_events(t_wolf *data)
 		if (data->event.type == SDL_KEYDOWN)
 			data->key[KM] = data->key[KM] ? 0 : 1;
 	}
+	else if (data->event.key.keysym.sym == SDLK_b || data->event.key.keysym.sym == SDLK_n)
+		add_sc_x(data); // proportion de la map => b pour diminuer n pour augmenter 
+	else if (data->event.key.keysym.sym == SDLK_z) 
+		change_weapon(data);
+			
 }
 
 void            events(t_wolf *data)
@@ -93,6 +124,8 @@ void            events(t_wolf *data)
         clean_exit(data, NULL, 1);
 	else if (data->event.key.keysym.sym == SDLK_SPACE)
 		shoot(data);
+	else if (data->event.key.keysym.sym == SDLK_p)
+		SDL_Delay(1000);	
 	else
     	get_events(data);
 	moves(data);
