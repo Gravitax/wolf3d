@@ -53,35 +53,39 @@ static void	draw_mouse(t_wolf *data, SDL_Rect rect2, SDL_Rect rect3)
 }
 static void	draw_pause_submenu_exit(t_wolf *data, SDL_Rect rect, SDL_Rect *rect2)
 {
-	int			unit_x;
-	int			unit_y;
-	SDL_Surface *surface = NULL;
+	int			texW;
+	int			texH;
+	SDL_Surface *surface;
+	SDL_Texture * texture;
 	//police 
 
 	//bg
 	rect.x = 0;
 	rect.y = 0;
-	rect.w = W_WIDTH/2;
-	rect.h = W_HEIGHT/2;
-//	SDL_SetRenderDrawColor(data->renderer, 139, 0, 0, 50);
-//	SDL_RenderFillRect(data->renderer, &rect);
-	//fg
-		//chargement de la police
-//	police = 	if (!police) 
-        /* Écriture du texte dans la SDL_Surface texte en mode Blended (optimal) */
-	surface = TTF_RenderText_Blended(data->police, "resume !", ft_hex_to_rgb(0xffffff));
-
-//    SDL_LockSurface(data->screen);
+	rect.w = W_WIDTH;
+	rect.h = W_HEIGHT;
+	SDL_SetRenderDrawColor(data->renderer, 139, 0, 0, 0);
+	SDL_RenderFillRect(data->renderer, &rect);
+	surface = TTF_RenderText_Solid(data->police, "pause !", ft_hex_to_rgb(0x0000ff));
+	texture = SDL_CreateTextureFromSurface(data->renderer, surface);
+//	SDL_RenderCopy(data->renderer, texture, NULL, NULL);
+	texW = 50;
+	texH = 50;
+	SDL_QueryTexture(texture, NULL, NULL, &texW, &texH);
+	SDL_Rect dstrect = { 0, 0, texW, texH };
+	SDL_RenderCopy(data->renderer, texture, NULL, &dstrect);
+	//    SDL_LockSurface(data->screen);
+/*
 	unit_x = W_WIDTH/16;
    	unit_y = W_HEIGHT/10;	
 	(*rect2).x = 2 * unit_x;
 	(*rect2).y = 6 * unit_y;
 	(*rect2).w = 2 * unit_x;
 	(*rect2).h = 0.75 * unit_y;
+*/
 	// recup pour l'action mouse 
 //	SDL_SetRenderDrawColor(data->renderer, 100, 0, 0, 100);
 //	SDL_RenderFillRect(data->renderer, rect2);
-	SDL_BlitScaled(surface, 0, data->screen, &rect);
    
    	//SDL_UnlockSurface(data->screen);
 

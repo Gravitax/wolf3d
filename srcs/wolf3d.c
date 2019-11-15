@@ -79,7 +79,7 @@ void			wolf3d(t_wolf *data)
 	data->player.angle = 0;
     data->player.fov = 3.14159 / 4;
     data->player.ms = 0.6;
-	data->player.speed = 8;
+	data->player.speed = 12;
     data->player.health = 200;
     data->player.health_max = 200;
     data->player.weapon = 0;
