@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/05 13:37:20 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/13 18:11:25 by bebosson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,4 +106,6 @@ void            display(t_wolf *data)
     health(data);
     if (data->key[KM])
         minimap(data);
+	if (data->key[KP])
+		w_pause(data);
 }

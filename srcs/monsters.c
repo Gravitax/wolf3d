@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/08/29 15:30:54 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/12 13:36:08 by bebosson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ static void     monster_actions(t_wolf *data)
         data->monster->delay = data->monster->type * 10;
         if (data->player.health < 1)
         {
-            printf("score: %d\n", data->kill_score);
+       //     printf("score: %d\n", data->kill_score);
             //clean_exit(data, NULL, 1);
         }
     }

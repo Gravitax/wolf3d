@@ -6,7 +6,7 @@
 #    By: maboye <maboye@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/31 12:01:33 by maboye            #+#    #+#              #
-#    Updated: 2019/11/05 00:53:15 by maboye           ###   ########.fr        #
+#    Updated: 2019/11/14 21:32:47 by bebosson         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,7 +53,9 @@ SRC		=	astar_list.c \
 			tools.c \
 			tools2.c\
 			weapons.c \
-			wolf3d.c
+			wolf3d.c  \
+			pause.c   \
+
 INC		=	wolf3d.h
 
 OBJ		=	$(addprefix $(OBJDIR)/,$(SRC:.c=.o))
@@ -67,7 +69,7 @@ ifeq ($(OS), Linux)
 	SDL		=	-lSDL2-2.0
 	DIRSDL	=	
 else
-	SDL		=	-F ~/Library/Frameworks -framework SDL2
+	SDL		=	-F ~/Library/Frameworks -framework SDL2 -framework SDL2_ttf
 	DIRSDL	=	./SDL2.framework/Headers
 endif 
 

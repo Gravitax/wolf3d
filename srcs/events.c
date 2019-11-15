@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/12 21:00:34 by bebosson         ###   ########.fr       */
+/*   Updated: 2019/11/13 18:26:01 by bebosson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ static void		change_weapon(t_wolf *data)
 		data->key[KZ] = 0;
 }
 
-static void		get_events(t_wolf *data)
+void static		get_events(t_wolf *data)
 {
 	if (data->event.key.keysym.sym == SDLK_q)
 		data->key[KA] = data->event.type == SDL_KEYDOWN? 1 : 0;
@@ -108,6 +108,11 @@ static void		get_events(t_wolf *data)
 		if (data->event.type == SDL_KEYDOWN)
 			data->key[KM] = data->key[KM] ? 0 : 1;
 	}
+	else if (data->event.key.keysym.sym == SDLK_p)
+	{
+		if (data->event.type == SDL_KEYDOWN)
+			data->key[KP] = data->key[KP] ? 0 : 1;
+	}
 	else if (data->event.key.keysym.sym == SDLK_b || data->event.key.keysym.sym == SDLK_n)
 		add_sc_x(data); // proportion de la map => b pour diminuer n pour augmenter 
 	else if (data->event.key.keysym.sym == SDLK_z) 
@@ -124,8 +129,6 @@ void            events(t_wolf *data)
         clean_exit(data, NULL, 1);
 	else if (data->event.key.keysym.sym == SDLK_SPACE)
 		shoot(data);
-	else if (data->event.key.keysym.sym == SDLK_p)
-		SDL_Delay(1000);	
 	else
     	get_events(data);
 	moves(data);
