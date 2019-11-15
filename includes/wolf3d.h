@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/27 16:48:08 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/05 17:23:16 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/14 22:21:56 by bebosson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <unistd.h>
 
 # include <SDL2/SDL.h>
+# include <SDL_ttf.h>
 
 # include "../libft/libft.h"
 
@@ -35,15 +36,18 @@
 
 # define    KA          0
 # define    KE          1
-# define    KZ          2
+# define    KW          2
 # define    KQ          3
 # define    KS          4
 # define    KD          5
 # define    KM          6
 # define    KSPC        7
-# define    KNB         8
-
 # define    WNB         4
+# define	KB			8
+# define    KN         	9
+# define    KP         	10
+# define    KZ         	11
+# define    KNB         12
 
 typedef struct  s_sprite
 {
@@ -97,7 +101,6 @@ typedef struct  s_wdata
     float       height;
     float       width;
     float       ratio;
-
 }               t_wdata;
 
 typedef struct  s_player
@@ -143,6 +146,7 @@ typedef struct  s_map
     int         *map;
     float       depth;
     float       depth_buffer[W_WIDTH];
+	int			sc_x;
 }               t_map;
 
 typedef struct  s_point
@@ -193,7 +197,8 @@ typedef struct  s_wolf
     char            *str;
     float           etime;
     float           frame_start;
-    t_map           map;
+	TTF_Font		*police;
+	t_map           map;
     t_pf            pfdata;
     t_player        player;
     t_raydata       raydata;
@@ -245,5 +250,5 @@ void            alst_free(t_alst *list);
 int             alst_len(t_alst *list);
 void            alst_pushback(t_alst *list, t_node *node);
 void            alst_sort(t_alst *list);
-
+void			w_pause(t_wolf *data);
 #endif
