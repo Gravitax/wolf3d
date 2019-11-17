@@ -6,11 +6,12 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/27 16:47:19 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/12 16:41:07 by bebosson         ###   ########.fr       */
+/*   Updated: 2019/11/17 20:59:35 by bebosson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/wolf3d.h"
+
 static void			draw_player_minimap(t_wolf *data, int x, int y)
 {
 	t_point		point[3];
@@ -100,6 +101,8 @@ void            minimap(t_wolf *data)
 {
 	int         nx;
 	int			sc_x;
+ 	SDL_Rect 	rect;
+	char		*fps;
 
 	data->player.pos = (int)data->player.x
 		+ ((int)data->player.y + 1) * data->map.width;
@@ -108,8 +111,13 @@ void            minimap(t_wolf *data)
 	//pouvoir le manipuler 
 	sc_x = 3;
 	while (++nx < data->map.width)
-		draw_minimap(data, nx, sc_x) ;
+		draw_minimap(data, nx, sc_x);
+	fps = ft_strdup("fps ");
+	fps = ft_strjoin(fps, ft_itoa(data->fps));
+	rect = (SDL_Rect){ data->map.sc_x , W_HEIGHT / data->map.sc_x - (2 * data->map.sc_x), 500 ,500};
+	set_write_to_screen(data, rect, 0, fps, data->police3);	
 	nx = -1;
 	while (++nx < data->map.width)
 		draw_ray_minimap(data, nx, sc_x);
+	free(fps);
 }

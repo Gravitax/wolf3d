@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/27 16:48:08 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/14 22:21:56 by bebosson         ###   ########.fr       */
+/*   Updated: 2019/11/17 20:55:04 by bebosson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,6 +198,8 @@ typedef struct  s_wolf
     float           etime;
     float           frame_start;
 	TTF_Font		*police;
+	TTF_Font		*police2;
+	TTF_Font		*police3;
 	t_map           map;
     t_pf            pfdata;
     t_player        player;
@@ -251,4 +253,6 @@ int             alst_len(t_alst *list);
 void            alst_pushback(t_alst *list, t_node *node);
 void            alst_sort(t_alst *list);
 void			w_pause(t_wolf *data);
+void			set_write_to_screen(t_wolf *data, SDL_Rect rect, int color, char *str, TTF_Font *pl);
+
 #endif

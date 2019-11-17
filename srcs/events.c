@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/13 18:26:01 by bebosson         ###   ########.fr       */
+/*   Updated: 2019/11/17 20:38:36 by bebosson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,13 @@ static void		add_sc_x(t_wolf *data)
 	if (data->event.key.keysym.sym == SDLK_b)
 	{
 			data->key[KB] = data->event.type == SDL_KEYDOWN ? 1 : 0;
-			if (data->key[KB] == 1 && data->map.sc_x < 6)
+			if (data->key[KB] == 1 && data->map.sc_x < 5)
 				data->map.sc_x++;
 	}
 	else if (data->event.key.keysym.sym == SDLK_n)
 	{
 			data->key[KN] = data->event.type == SDL_KEYDOWN ? 1 : 0;
-			if (data->key[KN] == 1 && data->map.sc_x > 1)
+			if (data->key[KN] == 1 && data->map.sc_x > 2)
 				data->map.sc_x--;
 	}
 }

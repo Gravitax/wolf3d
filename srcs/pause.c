@@ -6,7 +6,7 @@
 /*   By: bebosson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 16:33:16 by bebosson          #+#    #+#             */
-/*   Updated: 2019/11/14 22:41:15 by bebosson         ###   ########.fr       */
+/*   Updated: 2019/11/17 20:51:39 by bebosson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,6 @@ static void	draw_mouse(t_wolf *data, SDL_Rect rect2, SDL_Rect rect3)
 {
 	SDL_Point		mouse;
 
-//	SDL_RenderDrawLine(data->renderer, data->event.motion.x - 15, data->event.motion.y, data->event.motion.x + 15, data->event.motion.y);
-//	SDL_RenderDrawLine(data->renderer, data->event.motion.x, data->event.motion.y - 15, data->event.motion.x, data->event.motion.y + 15);
 	if (data->event.button.clicks == 1)
 	{
 		if (mouse_rect(data, rect2, rect3) == 1)
@@ -51,71 +49,50 @@ static void	draw_mouse(t_wolf *data, SDL_Rect rect2, SDL_Rect rect3)
 			data->key[KP] = 0;	
 	}
 }
-static void	draw_pause_submenu_exit(t_wolf *data, SDL_Rect rect, SDL_Rect *rect2)
+
+void	set_write_to_screen(t_wolf *data, SDL_Rect rect, int color, char *str, TTF_Font *pl)
 {
-	int			texW;
-	int			texH;
 	SDL_Surface *surface;
 	SDL_Texture * texture;
 	//police 
 
 	//bg
-	rect.x = 0;
-	rect.y = 0;
-	rect.w = W_WIDTH;
-	rect.h = W_HEIGHT;
-	SDL_SetRenderDrawColor(data->renderer, 139, 0, 0, 0);
-	SDL_RenderFillRect(data->renderer, &rect);
-	surface = TTF_RenderText_Solid(data->police, "pause !", ft_hex_to_rgb(0x0000ff));
+	SDL_SetRenderDrawColor(data->renderer, (color >> 16) & 0xff, (color >> 8) & 0xff, color & 0xff, 0);
+	surface = TTF_RenderText_Solid(pl, str, ft_hex_to_rgb(color));
 	texture = SDL_CreateTextureFromSurface(data->renderer, surface);
-//	SDL_RenderCopy(data->renderer, texture, NULL, NULL);
-	texW = 50;
-	texH = 50;
-	SDL_QueryTexture(texture, NULL, NULL, &texW, &texH);
-	SDL_Rect dstrect = { 0, 0, texW, texH };
-	SDL_RenderCopy(data->renderer, texture, NULL, &dstrect);
-	//    SDL_LockSurface(data->screen);
+	SDL_QueryTexture(texture, 0, 0, &(rect.w), &(rect.h));
+	SDL_RenderCopy(data->renderer, texture, NULL, &rect);
+}
+
+static void	set_rect_to_screen(t_wolf *data, SDL_Rect *rect, int color)
+{
+	SDL_SetRenderDrawColor(data->renderer, (color >> 16) & 0xff, (color >> 8) & 0xff, color & 0xff, 100);
+	SDL_RenderFillRect(data->renderer, rect);
+}
 /*
-	unit_x = W_WIDTH/16;
+		unit_x = W_WIDTH/16;
+   	unit_y = W_HEIGHT/10;	
+	(*rect3).x = 2 * unit_x;
+	(*rect3).y = 7.5 * unit_y;
+	(*rect3).w = 12 * unit_x;
+	(*rect3).h = 0.75 * unit_y;
+
+    unit_x = W_WIDTH/16;
    	unit_y = W_HEIGHT/10;	
 	(*rect2).x = 2 * unit_x;
 	(*rect2).y = 6 * unit_y;
 	(*rect2).w = 2 * unit_x;
 	(*rect2).h = 0.75 * unit_y;
 */
-	// recup pour l'action mouse 
-//	SDL_SetRenderDrawColor(data->renderer, 100, 0, 0, 100);
-//	SDL_RenderFillRect(data->renderer, rect2);
-   
-   	//SDL_UnlockSurface(data->screen);
-
-//	SDL_RenderPresent(data->renderer);
-//	SDL_RenderFillRect(data->renderer, &rect);
-}
-
-static void	draw_pause_submenu_resume(t_wolf *data, SDL_Rect *rect3)
-{
-	int			unit_x;
-	int			unit_y;
-	
-	//fg
-	unit_x = W_WIDTH/16;
-   	unit_y = W_HEIGHT/10;	
-	(*rect3).x = 2 * unit_x;
-	(*rect3).y = 7.5 * unit_y;
-	(*rect3).w = 12 * unit_x;
-	(*rect3).h = 0.75 * unit_y;
-	// recup pour l'action mouse 
-	SDL_SetRenderDrawColor(data->renderer, 192, 192, 192, 100);
-	SDL_RenderFillRect(data->renderer, rect3);
-}
-
 void	w_pause(t_wolf *data)
 {
-	SDL_Rect	rect; //bg
-	SDL_Rect	rect2; //quit programme (fg)
-	SDL_Rect	rect3; // resume game
+	SDL_Rect	rect;
+	int			unit_x;
+	int			unit_y;
 
+	unit_x = W_WIDTH/16;
+   	unit_y = W_HEIGHT/10;	
+	
 	while (data->key[KP])
 	{
 		SDL_PollEvent(&data->event);
@@ -124,9 +101,14 @@ void	w_pause(t_wolf *data)
 			if (data->event.type == SDL_KEYDOWN)
 				data->key[KP] = 0;
 		}
-		draw_pause_submenu_exit(data, rect, &rect2);
-		draw_pause_submenu_resume(data, &rect3);
-		draw_mouse(data, rect2, rect3);
+		rect = (SDL_Rect){0, 0, W_WIDTH, W_HEIGHT};
+		set_rect_to_screen(data, &rect, 0xff0000);
+		rect = (SDL_Rect){2 * unit_x, 8 * unit_y, 2 * unit_x, 0.75 * unit_y};
+//		set_rect_to_screen(data, &rect, 0xffffff);
+		set_write_to_screen(data, rect, 0x000000, "START", data->police2);
+		rect = (SDL_Rect){0, 0, 0, 0};
+		set_write_to_screen(data, rect, 0x000000, "DOOM", data->police);
+//		draw_mouse(data, rect2, rect3);
     	SDL_RenderPresent(data->renderer);
 	}
 }
