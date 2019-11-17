@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/17 20:59:17 by bebosson         ###   ########.fr       */
+/*   Updated: 2019/11/17 21:16:55 by bebosson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void     init_sdl(t_wolf *data)
 		SDL_WINDOWPOS_UNDEFINED,
         SDL_WINDOWPOS_UNDEFINED,
 		W_WIDTH, W_HEIGHT, 0);
-	if (!(data->police = TTF_OpenFont("img/police/AmazDooMLeft.ttf", 200)) || !(data->police2 = TTF_OpenFont("img/police/8-BIT\ WONDER.ttf", 20) ) || !(data->police3 = TTF_OpenFont("img/police/8-BIT\ WONDER.ttf", 10)))
+	if (!(data->police = TTF_OpenFont("img/police/AmazDooMLeft.ttf", 200)) || !(data->police2 = TTF_OpenFont("img/police/8-BIT\ WONDER.ttf", 30)) || !(data->police3 = TTF_OpenFont("img/police/8-BIT\ WONDER.ttf", 10)))
 	{
 		printf("TTF_OpenFont: %s\n", TTF_GetError());
 	    exit(EXIT_FAILURE);

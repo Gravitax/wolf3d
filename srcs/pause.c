@@ -6,7 +6,7 @@
 /*   By: bebosson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 16:33:16 by bebosson          #+#    #+#             */
-/*   Updated: 2019/11/17 20:51:39 by bebosson         ###   ########.fr       */
+/*   Updated: 2019/11/17 21:20:49 by bebosson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,16 +96,20 @@ void	w_pause(t_wolf *data)
 	while (data->key[KP])
 	{
 		SDL_PollEvent(&data->event);
-		if (data->event.key.keysym.sym == SDLK_p)
+		if (data->event.key.keysym.sym == SDLK_p || data->event.key.keysym.sym == SDLK_ESCAPE)
 		{
 			if (data->event.type == SDL_KEYDOWN)
 				data->key[KP] = 0;
+			if (data->event.type == SDL_QUIT)
+        		clean_exit(data, NULL, 1);
+
 		}
 		rect = (SDL_Rect){0, 0, W_WIDTH, W_HEIGHT};
 		set_rect_to_screen(data, &rect, 0xff0000);
-		rect = (SDL_Rect){2 * unit_x, 8 * unit_y, 2 * unit_x, 0.75 * unit_y};
-//		set_rect_to_screen(data, &rect, 0xffffff);
+		rect = (SDL_Rect){2 * unit_x, 7 * unit_y, 2 * unit_x, 0.75 * unit_y};
 		set_write_to_screen(data, rect, 0x000000, "START", data->police2);
+		rect = (SDL_Rect){2 * unit_x, 8 * unit_y, 2 * unit_x, 0.75 * unit_y};
+		set_write_to_screen(data, rect, 0x000000, "QUIT", data->police2);
 		rect = (SDL_Rect){0, 0, 0, 0};
 		set_write_to_screen(data, rect, 0x000000, "DOOM", data->police);
 //		draw_mouse(data, rect2, rect3);
