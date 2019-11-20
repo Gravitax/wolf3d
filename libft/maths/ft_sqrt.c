@@ -10,15 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-float		ft_sqrt(int n)
+float		ft_sqrt(float	nb)
 {
-	float	nb;
 	float	x;
 	int		i;
 
-	if (n <= 1)
-		return (n == 1 ? 1 : 0);
-	nb = (float)n;
+	if (nb <= 1)
+		return (nb == 1 ? 1 : 0);
+	nb = (float)nb;
 	x = 1;
 	i = 23;
 	while (--i)

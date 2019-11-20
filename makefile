@@ -6,7 +6,7 @@
 #    By: maboye <maboye@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/31 12:01:33 by maboye            #+#    #+#              #
-#    Updated: 2019/10/28 16:00:51 by saneveu          ###   ########.fr        #
+#    Updated: 2019/11/14 21:32:47 by bebosson         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,9 @@ TUR		=	\033[36m
 WHITE	=	\033[37m
 END		=	\033[0m
 
+UP 		=	\033[A
+CUT 	=	\033[K
+
 # project
 NAME	=	wolf3d
 OS		=	$(shell uname)
@@ -27,29 +30,48 @@ OS		=	$(shell uname)
 # directories
 SRCDIR	=	./srcs
 INCDIR	=	./includes
-DIRSDL2 = 	./SDL2.framework/Headers
 OBJDIR	=	./obj
 
 # src / obj files
-SRC		=  	blockside.c \
+SRC		=	astar_list.c \
+			astar.c \
+			blockside.c \
+			datagame.c \
 			display.c \
+			events.c \
 			main.c \
-			mouse_event.c \
+			minimap.c \
+			monsters.c \
+			mouse_events.c \
+			nodes.c \
+			objects.c \
 			raycasting.c \
 			raythread.c \
-			sdl_event.c \
-			texture.c \
+			shoot.c \
+			spawner.c \
+			sprites.c \
 			tools.c \
-			wolf3d.c
-INC		=	wolf3d.h	
+			tools2.c\
+			weapons.c \
+			wolf3d.c  \
+			pause.c   \
+
+INC		=	wolf3d.h
 
 OBJ		=	$(addprefix $(OBJDIR)/,$(SRC:.c=.o))
 HEADER	=	$(addprefix $(INCDIR)/,$(INC))
 
 # compiler
 CC		=	gcc
-CFLAGS	=	-Wall -Wextra -Werror -g
-SDL		=	-F ~/Library/Frameworks -framework SDL2
+CFLAGS	=	#-Wall -Wextra -Werror #-g3 -fsanitize=address
+
+ifeq ($(OS), Linux)
+	SDL		=	-lSDL2-2.0
+	DIRSDL	=	
+else
+	SDL		=	-F ~/Library/Frameworks -framework SDL2 -framework SDL2_ttf
+	DIRSDL	=	./SDL2.framework/Headers
+endif 
 
 # ft library
 FT		=	./libft/
@@ -61,14 +83,16 @@ obj:
 			mkdir -p $(OBJDIR)
 
 $(OBJDIR)/%.o:$(SRCDIR)/%.c $(HEADER)
-			@$(CC) -I $(INCDIR) -I $(DIRSDL2)  -c -o $@ $<
+			@echo "${TUR}compiling [$@] ...${END}"
+			@$(CC) $(CFLAGS) -I $(INCDIR) -I $(DIRSDL) $(SDL) -c -o $@ $<
+			@printf "$(UP)$(CUT)"
 
 $(FT_LIB):
 			@$(MAKE) -C $(FT)
 			@echo "${GREEN}[LIBRARY COMPILED]${END}"
 
 $(NAME):	$(OBJ) $(FT_LIB)
-			@$(CC) $(CFLAGS) $(OBJ) $(FT_LIB) $(SDL) -lm -o $@
+			@$(CC) $(CFLAGS) $(OBJ) $(FT_LIB) $(SDL) -lm -lpthread -o $@
 			@echo "${GREEN}[$@ COMPILED]${END}"
 
 clean:

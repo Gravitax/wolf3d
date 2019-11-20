@@ -6,59 +6,18 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/10/28 16:35:15 by saneveu          ###   ########.fr       */
+/*   Updated: 2019/11/13 18:11:25 by bebosson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/wolf3d.h"
 
-static void     draw_minimap(t_wolf *data, SDL_Rect rect, int nx, int px)
-{
-    int ny;
-    int py;
-
-    ny = -1;
-    py = 0;
-    while (++ny < data->map.height)
-	{
-		if (data->map.map[ny * data->map.width + nx] == 1)
-			SDL_SetRenderDrawColor(data->renderer, 0, 0, 255, 100);
-		else if ((ny + 1) * data->map.width + nx == data->player.pos)
-			SDL_SetRenderDrawColor(data->renderer, 255, 0, 100, 100);
-		else
-			SDL_SetRenderDrawColor(data->renderer, 255, 255, 255, 100);
-		rect.x = nx + px;
-		rect.y = ny + py;
-		rect.h = 10;
-		rect.w = 10;
-		SDL_RenderFillRect(data->renderer, &rect);
-		py += 10;
-    }
-}
-
-static void     minimap(t_wolf *data, SDL_Rect rect)
-{
-    int nx;
-    int px;
-
-    nx = -1;
-    px = 0;
-    data->player.pos = (int)data->player.x
-		+ ((int)data->player.y + 1) * data->map.width;
-	while (++nx < data->map.width)
-	{
-		draw_minimap(data, rect, nx, px);
-		px += 10;
-	}
-}
-
-void            display(t_wolf *data)
+static void     textures(t_wolf *data)
 {
     unsigned int    *pixels;
     SDL_Rect        rect;
     int             i;
 
-    raythread(data);
     rect.w = W_WIDTH;
     rect.h = W_HEIGHT / 2;
     rect.x = 0;
@@ -75,5 +34,78 @@ void            display(t_wolf *data)
     while (++i < W_WIDTH * W_HEIGHT)
         pixels[i] = 0x000000;
     SDL_UnlockSurface(data->screen);
-    minimap(data, rect);
+}
+
+static void     cursor(t_wolf *data)
+{
+    SDL_SetRenderDrawColor(data->renderer, 255, 0, 0, 100);
+    SDL_RenderDrawLine(data->renderer,
+        W_WIDTH / 2 - 15, W_HEIGHT / 2,
+        W_WIDTH / 2 + 15, W_HEIGHT / 2);
+    SDL_RenderDrawLine(data->renderer,
+        W_WIDTH / 2, W_HEIGHT / 2 - 15,
+        W_WIDTH / 2, W_HEIGHT / 2 + 15);
+    SDL_RenderDrawLine(data->renderer,
+        W_WIDTH / 2 - 15, W_HEIGHT / 2 - 1,
+        W_WIDTH / 2 + 15, W_HEIGHT / 2 - 1);
+    SDL_RenderDrawLine(data->renderer,
+        W_WIDTH / 2 - 1, W_HEIGHT / 2 - 15,
+        W_WIDTH / 2 - 1, W_HEIGHT / 2 + 15);
+    SDL_RenderDrawLine(data->renderer,
+        W_WIDTH / 2 - 15, W_HEIGHT / 2 + 1,
+        W_WIDTH / 2 + 15, W_HEIGHT / 2 + 1);
+    SDL_RenderDrawLine(data->renderer,
+        W_WIDTH / 2 + 1, W_HEIGHT / 2 - 15,
+        W_WIDTH / 2 + 1, W_HEIGHT / 2 + 15);
+}
+
+static void     health_color(t_wolf *data)
+{
+    if (data->player.health)
+        SDL_SetRenderDrawColor(data->renderer, 255, 0, 0, 100);
+    if (data->player.health > 20)
+        SDL_SetRenderDrawColor(data->renderer, 255, 165, 0, 100);
+    if (data->player.health > 40)
+        SDL_SetRenderDrawColor(data->renderer, 255, 255, 0, 100);
+    if (data->player.health > 60)
+        SDL_SetRenderDrawColor(data->renderer, 50, 200, 35, 0);
+    if (data->player.health > 80)
+        SDL_SetRenderDrawColor(data->renderer, 30, 150, 0, 100);
+
+}
+
+static void     health(t_wolf *data)
+{
+    int         p;
+    SDL_Rect    rect;
+
+    SDL_SetRenderDrawColor(data->renderer, 0, 0, 0, 100);
+    rect.x = 10;
+    rect.y = W_HEIGHT / 8 * 7;
+    rect.h = W_HEIGHT / 10;
+    rect.w = W_WIDTH / 4;
+    SDL_RenderFillRect(data->renderer, &rect);
+    p = 2;
+    rect.x = 10 + p;
+    rect.y = W_HEIGHT / 8 * 7 + p;
+    rect.h = W_HEIGHT / 10 - p * 2;
+    rect.w = ((W_WIDTH / 4) / 100)  * (data->player.health / 2) - p * 2;
+    health_color(data);
+    SDL_RenderFillRect(data->renderer, &rect);
+}
+
+void            display(t_wolf *data)
+{
+    //raythread(data);
+    raycasting(data);
+    monsters(data);
+    objects(data, data->object);
+    weapons(data);
+    textures(data);
+    cursor(data);
+    health(data);
+    if (data->key[KM])
+        minimap(data);
+	if (data->key[KP])
+		w_pause(data);
 }

@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/08/29 15:30:54 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/05 01:05:01 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,25 +18,25 @@ static void		getside(t_wolf *data, int testx, int testy)
     && data->raydata.testangle < 3.14159 * 0.25)
 	{
 		data->raydata.samplex = (float)testy - data->raydata.testy;
-		data->si = 1;
+		data->raydata.si = 16;
 	}
 	else if (data->raydata.testangle >= 3.14159 * 0.25
     && data->raydata.testangle < 3.14159 * 0.75)
 	{
 		data->raydata.samplex = data->raydata.testx - (float)testx;
-		data->si = 2;
+		data->raydata.si = 17;
 	}
 	else if (data->raydata.testangle < -3.14159 * 0.25
     && data->raydata.testangle >= -3.14159 * 0.75)
 	{
 		data->raydata.samplex = (float)testx - data->raydata.testx;
-		data->si = 3;
+		data->raydata.si = 18;
 	}
 	else if (data->raydata.testangle >= -3.14159 * 0.75
     || data->raydata.testangle < -3.14159 * 0.75)
 	{
 		data->raydata.samplex = data->raydata.testy - (float)testy;
-		data->si = 4;
+		data->raydata.si = 19;
 	}
 }
 
