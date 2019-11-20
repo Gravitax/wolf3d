@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/08/29 15:30:54 by maboye           ###   ########.fr       */
+/*   Updated: 2019/10/28 16:35:15 by saneveu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ static void     minimap(t_wolf *data, SDL_Rect rect)
     int nx;
     int px;
 
-    return ;
     nx = -1;
     px = 0;
     data->player.pos = (int)data->player.x

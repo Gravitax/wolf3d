@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/27 16:48:08 by maboye            #+#    #+#             */
-/*   Updated: 2019/08/29 15:10:56 by maboye           ###   ########.fr       */
+/*   Updated: 2019/10/28 15:45:49 by saneveu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <time.h>
 # include <unistd.h>
 
-# include <SDL2/SDL.h>
+# include <SDL.h>
 
 # include "../libft/libft.h"
 
