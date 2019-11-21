@@ -6,18 +6,24 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/27 16:48:08 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/21 14:41:46 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/21 17:40:56 by bebosson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#ifndef WOLF3D_H
 
+# include <time.h>
+# include <fcntl.h>
+# include <unistd.h>
 # include <SDL.h>
-
+# include <SDL_ttf.h>
 # include "../libft/libft.h"
 
 # define W_WIDTH	800
 # define W_HEIGHT	600
 # define SNB		29
 # define WNB		4
+# define UNITX		W_WIDTH/16
+# define UNITY		W_HEIGHT/10
 
 # define KQ			0
 # define KE			1
@@ -169,50 +175,6 @@ typedef struct	s_pf
 
 typedef struct	s_wolf
 {
-<<<<<<< HEAD
-    int             kill_score;
-    int             fire_delay;
-    int             shoot;
-    int             fps;
-    int             sdl_on;
-    int             i;
-    int             i_max;
-    int             key[KNB];
-    char            *str;
-    float           etime;
-    float           frame_start;
-	int				test;
-	TTF_Font		*police;
-	TTF_Font		*police2;
-	TTF_Font		*police3;
-	t_map           map;
-    t_pf            pfdata;
-    t_player        player;
-    t_raydata       raydata;
-    t_object        *monster;
-    t_object        *object;
-    t_sprite        sprite[SNB];
-    SDL_Event       event;
-    SDL_Renderer    *renderer;
-    SDL_Surface     *screen;
-    SDL_Texture     *bgc;
-    SDL_Texture     *bgf;
-    SDL_Texture     *window;
-    SDL_Window	    *pWindow;
-}               t_wolf;
-
-void            display(t_wolf *data);
-void            events(t_wolf *data);
-void            load_datagame(t_wolf *data);
-void            monsters(t_wolf *data);
-void            mouse_events(t_wolf *data);
-void            objects(t_wolf *data, t_object *list);
-void            shoot(t_wolf *data);
-void            spawner(t_wolf *data);
-void            sprites(t_wolf *data);
-void            weapons(t_wolf *data);
-void            wolf3d(t_wolf *data);
-=======
 	int				kill_score;
 	int				fire_delay;
 	int				shoot;
@@ -224,6 +186,8 @@ void            wolf3d(t_wolf *data);
 	char			*str;
 	float			etime;
 	float			frame_start;
+	TTF_Font		*police;
+	TTF_Font		*police2;
 	t_map			map;
 	t_pf			pfdata;
 	t_player		player;
@@ -251,7 +215,6 @@ void			spawner(t_wolf *data);
 void			sprites(t_wolf *data);
 void			weapons(t_wolf *data);
 void			wolf3d(t_wolf *data);
->>>>>>> f747cee4efad44bba411f9a8a3eec9e8c29491e1
 
 void			get_blockside(t_wolf *data, int testx, int testy);
 void			raycasting(t_wolf *data);
@@ -271,21 +234,13 @@ void			lst_pushback(t_object *list, t_object *node);
 void			astar(t_wolf *data);
 void			get_nodes(t_wolf *data);
 
-<<<<<<< HEAD
-void            alst_free(t_alst *list);
-int             alst_len(t_alst *list);
-void            alst_pushback(t_alst *list, t_node *node);
-void            alst_sort(t_alst *list);
-void			w_pause(t_wolf *data);
-int				mouse_rect(t_wolf *data, SDL_Rect rect);
-void			set_write_to_screen(t_wolf *data, SDL_Rect rect, int color, char *str, TTF_Font *pl);
-void 			set_rect_to_screen(t_wolf *data, SDL_Rect *rect, int color);
-=======
+
 void			alst_free(t_alst *list);
 int				alst_len(t_alst *list);
 void			alst_pushback(t_alst *list, t_node *node);
 void			alst_sort(t_alst *list);
->>>>>>> f747cee4efad44bba411f9a8a3eec9e8c29491e1
-
+void			w_pause(t_wolf *data);
+void 			set_rect_to_screen(t_wolf *data, SDL_Rect *rect, int color);
 SDL_Color		ft_hex_to_rgb(int hexa);
+void	set_write_to_screen(t_wolf *data, SDL_Rect rect, int color, char *str, TTF_Font *pl);
 #endif
