@@ -6,7 +6,7 @@
 #    By: maboye <maboye@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/31 12:01:33 by maboye            #+#    #+#              #
-#    Updated: 2019/11/21 14:46:18 by maboye           ###   ########.fr        #
+#    Updated: 2019/11/21 17:32:06 by bebosson         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,6 +53,8 @@ SRC		=	astar_list.c \
 			tools2.c\
 			weapons.c \
 			wolf3d.c  \
+			pause.c \
+			tool_render.c \
 
 INC		=	wolf3d.h
 
@@ -67,7 +69,7 @@ ifeq ($(OS), Linux)
 	SDL		=	-lSDL2-2.0
 	DIRSDL	=	
 else
-	SDL		=	-F ~/Library/Frameworks -framework SDL2
+	SDL		=	-F ~/Library/Frameworks -framework SDL2 -framework SDL2_ttf
 	DIRSDL	=	./SDL2.framework/Headers
 endif 
 
