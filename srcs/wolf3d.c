@@ -47,10 +47,12 @@ static void		launch_game(t_wolf *data)
 		{
 			data->frame_start = clock();
 			events(data);
+			if (data->key[KP])
+				w_pause(data);
 			display(data);
-			get_fps(data);
-			SDL_RenderPresent(data->renderer);
-			SDL_DestroyTexture(data->window);
+            get_fps(data);
+            SDL_RenderPresent(data->renderer);
+            SDL_DestroyTexture(data->window);
 		}
 	}
 	else
@@ -73,5 +75,6 @@ void			wolf3d(t_wolf *data)
 	data->player.weapon = 0;
 	data->raydata.ray_step = 0.01;
 	data->map.sc_x = 2;
+	data->key[KP] = 1;
 	launch_game(data);
 }

@@ -1,0 +1,97 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pause.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bebosson <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/13 16:33:16 by bebosson          #+#    #+#             */
+/*   Updated: 2019/11/18 19:39:26 by bebosson         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+//square position ;
+#include "../includes/wolf3d.h"
+
+SDL_Color		ft_hex_to_rgb(int hexa)
+{
+	SDL_Color color;
+
+	color.r = hexa >> 24;
+	color.g = hexa >> 16;
+	color.b = hexa >> 8;
+	color.a = hexa;
+	return (color);
+}
+
+static int		move_cursor(t_wolf *data, int *cursor)
+{
+	if (data->event.key.keysym.sym == SDLK_UP && *cursor > 1)	// move rect_cursor depends on value of cursor
+		return (--*cursor);
+	else if (data->event.key.keysym.sym == SDLK_DOWN && *cursor < 2)	// move rect_cursor depends on value of cursor
+		return (++*cursor);
+	else
+		return (*cursor);
+}
+
+void	draw_cursor(t_wolf *data, int cursor, SDL_Rect rect)
+{
+	SDL_Rect	rect_cursor;
+	int			x;
+	
+	x = 7;
+	while (x < 11)
+	{
+		rect_cursor = (SDL_Rect){x * UNITX, (6.5 + cursor) * UNITY, UNITX/6, UNITY/6};
+		set_rect_to_screen(data, &rect_cursor, 0);
+		x++;
+	}
+	rect_cursor = (SDL_Rect){x * UNITX, (6 + cursor) * UNITY, UNITX/2, UNITY/2};
+	set_rect_to_screen(data, &rect_cursor, 0);
+}
+
+void	draw_main_rect(t_wolf *data, int cursor)
+{
+	SDL_Rect	rect;
+	SDL_Rect	rect2;
+	SDL_Rect	rect_cursor;
+	int			unit_x;
+	int			unit_y;
+	
+	rect = (SDL_Rect){0, 0, W_WIDTH, W_HEIGHT};
+	set_rect_to_screen(data, &rect, 0xff0000);
+	rect = (SDL_Rect){0, 0, 0, 0};
+	set_write_to_screen(data, rect, 0, "DOOM", data->police);
+	rect = (SDL_Rect){2 * UNITX, 7 * UNITY, 2 * UNITX, 0.75 * UNITY};
+	set_write_to_screen(data, rect, 0, "START", data->police2);
+	rect2 = (SDL_Rect){2 * UNITX, 8 * UNITY, 2 * UNITX, 0.75 * UNITY};
+	set_write_to_screen(data, rect2, 0, "QUIT", data->police2);
+	draw_cursor(data, cursor, rect);	
+   	SDL_RenderPresent(data->renderer);
+
+}
+
+void	w_pause(t_wolf *data)
+{
+	int			cursor;
+
+	cursor = 1;
+	draw_main_rect(data, cursor);
+	while (data->key[KP])
+	{
+		SDL_PollEvent(&data->event);
+		if (data->event.key.keysym.sym == SDLK_p || data->event.key.keysym.sym == SDLK_ESCAPE || data->event.key.keysym.sym == SDLK_SPACE)
+		{
+			if ((data->event.key.keysym.sym == SDLK_SPACE && cursor == 1))
+				data->key[KP] = 0;
+			if (data->event.key.keysym.sym == SDLK_ESCAPE || ( data->event.key.keysym.sym == SDLK_SPACE && cursor == 2))
+        		clean_exit(data, NULL, 1);
+		}
+		else if (data->event.key.keysym.sym == SDLK_UP || data->event.key.keysym.sym == SDLK_DOWN)
+		{
+				cursor = move_cursor(data, &cursor);
+				draw_main_rect(data, cursor);
+		}
+	SDL_FlushEvent(SDL_KEYUP | SDL_KEYDOWN | SDL_MOUSEMOTION);
+	}
+}
