@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/21 14:45:24 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/21 17:45:42 by bebosson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,27 @@ static void		init_sdl(t_wolf *data)
 {
 	if (SDL_Init(SDL_INIT_VIDEO) == -1)
 		clean_exit(data, "wolf3d: SDL_Init fail", 0);
+	if (TTF_Init() == -1)
+	{
+    	printf("Erreur d'initialisation de TTF_Init : %s\n", TTF_GetError());
+	    exit(EXIT_FAILURE);
+	}
 	data->sdl_on = 1;
 	data->pwindow = SDL_CreateWindow("maboye wolf3d",
 			SDL_WINDOWPOS_UNDEFINED,
 			SDL_WINDOWPOS_UNDEFINED,
 			W_WIDTH, W_HEIGHT, 0);
+	if (!(data->police = TTF_OpenFont("img/police/AmazDooMLeft.ttf", 200)))
+	{
+		printf("TTF_OpenFont: %s\n", TTF_GetError());
+	    exit(EXIT_FAILURE);
+	}
+	if (!(data->police2 = TTF_OpenFont("img/police/8-BIT\ WONDER.ttf", 20)))
+	{
+		printf("TTF_OpenFont: %s\n", TTF_GetError());
+	    exit(EXIT_FAILURE);
+	}
+
 }
 
 static void		get_fps(t_wolf *data)
