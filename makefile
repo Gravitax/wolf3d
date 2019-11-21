@@ -6,7 +6,7 @@
 #    By: maboye <maboye@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/31 12:01:33 by maboye            #+#    #+#              #
-#    Updated: 2019/11/21 13:45:31 by maboye           ###   ########.fr        #
+#    Updated: 2019/11/21 14:46:18 by maboye           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,8 +82,8 @@ obj:
 
 $(OBJDIR)/%.o:$(SRCDIR)/%.c $(HEADER)
 			@echo "${TUR}compiling [$@] ...${END}"
-			@$(CC) $(CFLAGS) -I $(INCDIR) -I $(DIRSDL) $(SDL) -c -o $@ $<
-			@printf $(UP)$(CUT)
+			@$(CC) $(CFLAGS) -I $(INCDIR) -I $(DIRSDL) -c -o $@ $<
+			@printf "$(UP)$(CUT)"
 
 $(FT_LIB):
 			@$(MAKE) -C $(FT)
