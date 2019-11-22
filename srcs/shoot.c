@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/21 14:21:19 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/22 17:16:54 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 static void		deal_damage_tomonster(t_wolf *data)
 {
-	data->monster->hp = data->monster->hp
-		- data->player.wdata[data->player.weapon].damage;
+	data->monster->hp -= data->player.wdata[data->player.weapon].damage;
 	if (data->monster->hp < 1)
 	{
 		++data->kill_score;
@@ -30,22 +29,22 @@ static int		hitbox(t_wolf *data)
 {
 	int	i;
 	int	range;
+	int	ms;
 
+	ms = W_WIDTH / 2;
 	if (data->monster->data.dst_fromplayer
 			> data->player.wdata[data->player.weapon].range)
 		return (0);
-	range = W_WIDTH / data->monster->data.dst_fromplayer / 2;
-	i = W_WIDTH / 2 - range - 1;
-	if (data->monster->data.mid < W_WIDTH / 2 + range
-			&& data->monster->data.mid > W_WIDTH / 2 - range)
+	range = ms / data->monster->data.dst_fromplayer;
+	i = ms - range - 1;
+	if (data->monster->data.mid < ms + range
+		&& data->monster->data.mid > ms - range)
 	{
-		while (++i < W_WIDTH / 2 + range)
-			if (data->map.depth_buffer[i] < data->monster->data.dst_fromplayer)
-				return (0);
-		return (1);
+		while (++i < ms + range)
+			if (data->map.depth_buffer[i] > data->monster->data.dst_fromplayer)
+				return (1);
 	}
-	else
-		return (0);
+	return (0);
 }
 
 static void		shoot_impact(t_wolf *data)

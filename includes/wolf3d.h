@@ -6,10 +6,12 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/27 16:48:08 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/21 17:40:56 by bebosson         ###   ########.fr       */
+/*   Updated: 2019/11/22 14:36:34 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #ifndef WOLF3D_H
+# define WOLF3D_H
 
 # include <time.h>
 # include <fcntl.h>
@@ -64,9 +66,10 @@ typedef struct	s_objdata
 typedef struct	s_object
 {
 	int				dead;
+	int				delay;
 	int				hp;
 	int				hp_max;
-	int				delay;
+	int				i;
 	int				si;
 	int				type;
 	float			speed;
@@ -152,7 +155,6 @@ typedef struct	s_node
 	int				i;
 	int				x;
 	int				y;
-	int				wall;
 	float			globalgoal;
 	float			localgoal;
 	struct s_node	*ngbhr[4];
@@ -231,16 +233,17 @@ void			lst_free(t_object *list);
 int				lst_len(t_object *list);
 void			lst_pushback(t_object *list, t_object *node);
 
-void			astar(t_wolf *data);
 void			get_nodes(t_wolf *data);
-
-
+void			astar(t_wolf *data);
 void			alst_free(t_alst *list);
 int				alst_len(t_alst *list);
 void			alst_pushback(t_alst *list, t_node *node);
 void			alst_sort(t_alst *list);
+
 void			w_pause(t_wolf *data);
 void 			set_rect_to_screen(t_wolf *data, SDL_Rect *rect, int color);
 SDL_Color		ft_hex_to_rgb(int hexa);
-void	set_write_to_screen(t_wolf *data, SDL_Rect rect, int color, char *str, TTF_Font *pl);
+void
+set_write_to_screen(t_wolf *data, SDL_Rect rect, int color, char *str, TTF_Font *pl);
+
 #endif

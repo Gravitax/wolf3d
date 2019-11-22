@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/21 14:21:57 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/22 16:11:35 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int		get_newmonsterhp(t_wolf *data, t_object *newmonster)
 	if (newmonster->type == 8)
 		hp = 200;
 	if (newmonster->type == 9)
-		hp = 300;
+		hp = 400;
 	return (hp + data->kill_score);
 }
 

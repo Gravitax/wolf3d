@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 15:05:22 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/21 14:20:40 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/22 14:45:10 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static void		get_cdst(t_wolf *data, int i)
 	float	vecx;
 	float	vecy;
 
-	if (data->pfdata.list[i].wall == 1)
+	if (data->map.map[i] == 1)
 	{
 		vecx = data->pfdata.list[i].x - data->player.x;
 		vecy = data->pfdata.list[i].y - data->player.y;
@@ -96,14 +96,14 @@ static void		get_closerwall(t_wolf *data)
 	data->raydata.cdst -= 2;
 	if (data->raydata.cdst < 0)
 		data->raydata.cdst = 0;
-	if (data->pfdata.list[(int)data->player.x + 1
-			+ data->map.width * (int)data->player.y].wall == 1
-			|| data->pfdata.list[(int)data->player.x - 1
-			+ data->map.width * (int)data->player.y].wall == 1
-			|| data->pfdata.list[(int)data->player.x
-			+ data->map.width * (int)data->player.y + 1].wall == 1
-			|| data->pfdata.list[(int)data->player.x
-			+ data->map.width * (int)data->player.y - 1].wall == 1)
+	if (data->map.map[(int)data->player.x + 1
+			+ data->map.width * (int)data->player.y] == 1
+			|| data->map.map[(int)data->player.x - 1
+			+ data->map.width * (int)data->player.y] == 1
+			|| data->map.map[(int)data->player.x
+			+ data->map.width * (int)data->player.y + 1] == 1
+			|| data->map.map[(int)data->player.x
+			+ data->map.width * (int)data->player.y - 1] == 1)
 		data->raydata.cdst = 0;
 }
 

@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/21 14:00:24 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/22 15:31:18 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ static void		neighbour(t_wolf *data, t_node *current, int i)
 	t_node	*ngbhr;
 
 	ngbhr = current->ngbhr[i];
-	if (ngbhr->wall == 1 || ngbhr->bobstacle == 1 || ngbhr->bvisited == 1)
+	if (ngbhr == NULL)
 		return ;
-	if (ngbhr->bvisited == 0 && ngbhr->bobstacle == 0 && ngbhr->wall == 0)
+	if (ngbhr->bvisited == 0 && ngbhr->bobstacle == 0)
 		alst_pushback(data->pfdata.alst, ngbhr);
 	if (data->pfdata.alst == NULL)
 		clean_exit(data, "wolf3d: malloc error", 0);
@@ -95,7 +95,7 @@ void			astar(t_wolf *data)
 	{
 		alst_sort(data->pfdata.alst);
 		delvisited_nodes(data);
-		if (!alst_len(data->pfdata.alst))
+		if (alst_len(data->pfdata.alst) == 0)
 			break ;
 		current = data->pfdata.alst->node;
 		current->bvisited = 1;

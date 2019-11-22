@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/27 16:48:08 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/21 14:19:23 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/22 15:48:56 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void		get_objdata(t_wolf *data, t_object *list)
 		/ (float)list->sprite.img->w;
 	list->data.width = list->data.height / list->data.ratio;
 	list->data.mid = (0.5 * (list->data.angle
-				/ (data->player.fov / 2)) + 0.5) * W_WIDTH;
+		/ (data->player.fov / 2)) + 0.5) * W_WIDTH;
 }
 
 static void		get_objangle(t_wolf *data, t_object *list)

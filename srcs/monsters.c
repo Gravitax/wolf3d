@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/21 14:08:30 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/22 16:23:39 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,10 @@ static void		remove_deadmobs(t_wolf *data)
 	t_object	*tmp;
 	t_object	*head;
 
-	if (data->monster == NULL)
-		return ;
 	head = data->monster;
 	while (data->monster && data->monster->dead == 1)
 	{
+		data->pfdata.list[data->monster->i].bobstacle = 0;
 		tmp = data->monster->next;
 		ft_memdel((void **)&data->monster);
 		data->monster = tmp;
@@ -33,6 +32,7 @@ static void		remove_deadmobs(t_wolf *data)
 		data->monster = data->monster->next;
 		while (data->monster && data->monster->dead == 1)
 		{
+			data->pfdata.list[data->monster->i].bobstacle = 0;
 			tmp->next = data->monster->next;
 			ft_memdel((void **)&data->monster);
 			data->monster = tmp->next;
@@ -72,6 +72,8 @@ static void		monster_moves(t_wolf *data)
 
 	astar(data);
 	current = data->pfdata.end;
+	if (current == NULL)
+		return ;
 	while (current->parent)
 	{
 		if (current->parent == data->pfdata.start)
@@ -90,16 +92,18 @@ static void		monster_actions(t_wolf *data)
 {
 	float	dst;
 
+	if (data->monster->dead == 1)
+		return ;
 	data->pfdata.start = &data->pfdata.list[(int)data->monster->x
 		+ data->map.width * (int)data->monster->y];
 	data->pfdata.end = &data->pfdata.list[(int)data->player.x
 		+ data->map.width * (int)data->player.y];
 	dst = distance(data->monster->x, data->monster->y,
 			data->pfdata.end->x, data->pfdata.end->y);
-	if (dst > 4)
+	if (dst > 2.5f)
 	{
 		data->monster->si = data->monster->type;
-		if (dst < 15 || data->monster->hp < data->monster->hp_max)
+		if (dst < 12.5f || data->monster->hp < data->monster->hp_max)
 			monster_moves(data);
 	}
 	else
@@ -108,9 +112,7 @@ static void		monster_actions(t_wolf *data)
 		data->player.health -= data->monster->type * 2;
 		data->monster->delay = data->monster->type * 10;
 		if (data->player.health < 1)
-		{
 			printf("score: %d\n", data->kill_score);
-		}
 	}
 }
 
@@ -121,8 +123,9 @@ void			monsters(t_wolf *data)
 	head = data->monster;
 	while (data->monster)
 	{
+		data->monster->i = (int)data->monster->x
+			+ data->map.width * (int)data->monster->y;
 		if (data->monster->type > 5 && data->monster->type < 10)
-		{
 			if (--data->monster->delay < 1)
 			{
 				if (data->monster->type == 6)
@@ -130,7 +133,6 @@ void			monsters(t_wolf *data)
 				else
 					monster_actions(data);
 			}
-		}
 		data->monster = data->monster->next;
 	}
 	data->monster = head;
