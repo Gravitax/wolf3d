@@ -6,7 +6,7 @@
 /*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/25 21:07:58 by saneveu          ###   ########.fr       */
+/*   Updated: 2019/11/25 21:21:06 by saneveu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,11 +118,13 @@ void			events(t_wolf *data)
 		clean_exit(data, NULL, 1);
 	else if (data->event.key.keysym.sym == SDLK_ESCAPE)
 		clean_exit(data, NULL, 1);
-	if (data->key[KP])
+	else if (data->key[KP])
 		w_pause(data);
-	if (data->event.type == SDL_MOUSEBUTTONDOWN)
+	else if (data->event.type == SDL_MOUSEBUTTONDOWN)
+	{
 		if (data->bmouse.button == 0)
 			shoot(data);
+	}
 	else if (data->event.key.keysym.sym == SDLK_z)
 		change_weapon(data);
 	else

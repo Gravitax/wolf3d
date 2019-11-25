@@ -6,7 +6,7 @@
 /*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/25 21:04:44 by saneveu          ###   ########.fr       */
+/*   Updated: 2019/11/25 21:19:43 by saneveu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,8 @@ static void		shoot_impact(t_wolf *data)
 		if (data->monster->type > 6
 			&& fabs(data->monster->data.angle) < data->player.fov / 2
 			&& data->monster->data.dst_fromplayer < data->map.depth)
-		{
 			if (hitbox(data) == 1)
-			{
 				deal_damage_tomonster(data);
-			}
-		}
 		data->monster = data->monster->next;
 	}
 	data->monster = head;

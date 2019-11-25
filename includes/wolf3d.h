@@ -6,7 +6,7 @@
 /*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/27 16:48:08 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/25 21:01:29 by saneveu          ###   ########.fr       */
+/*   Updated: 2019/11/25 21:37:15 by saneveu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,4 +251,7 @@ SDL_Color		ft_hex_to_rgb(int hexa);
 void			set_write_to_screen(t_wolf *data, SDL_Rect rect, int color,
 	char *str, TTF_Font *pl);
 void			ft_mouse_motion_x(t_wolf *data);
+void			game_over(t_wolf *data);
+void		free_surfaces(t_wolf *data);
+
 #endif
