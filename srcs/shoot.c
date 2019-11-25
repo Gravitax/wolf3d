@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/22 17:16:54 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/22 19:07:15 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int		hitbox(t_wolf *data)
 		&& data->monster->data.mid > ms - range)
 	{
 		while (++i < ms + range)
-			if (data->map.depth_buffer[i] > data->monster->data.dst_fromplayer)
+			if (data->map.depth_buffer[i] >= data->monster->data.dst_fromplayer)
 				return (1);
 	}
 	return (0);
@@ -55,13 +55,12 @@ static void		shoot_impact(t_wolf *data)
 	while (data->monster)
 	{
 		if (data->monster->type > 6
-				&& fabs(data->monster->data.angle) < data->player.fov / 2
-				&& data->monster->data.dst_fromplayer < data->map.depth)
+			&& fabs(data->monster->data.angle) < data->player.fov / 2
+			&& data->monster->data.dst_fromplayer < data->map.depth)
 		{
 			if (hitbox(data) == 1)
 			{
 				deal_damage_tomonster(data);
-				break ;
 			}
 		}
 		data->monster = data->monster->next;

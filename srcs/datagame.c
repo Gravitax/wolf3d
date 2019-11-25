@@ -6,25 +6,11 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/22 16:20:25 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/25 14:15:27 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/wolf3d.h"
-
-static int		get_objhp(t_object *list)
-{
-	int	hp;
-
-	hp = 100000;
-	if (list->type == 7)
-		hp = 100;
-	if (list->type == 8)
-		hp = 200;
-	if (list->type == 9)
-		hp = 400;
-	return (hp);
-}
 
 static void		get_list(t_wolf *data, t_object *list, int min, int max)
 {
@@ -41,7 +27,7 @@ static void		get_list(t_wolf *data, t_object *list, int min, int max)
 			list->y = i / data->map.width;
 			list->x = i - (list->y * data->map.width) + 1;
 			list->type = data->map.map[i];
-			list->hp = get_objhp(list);
+			list->hp = get_objhp(data, list);
 			list->hp_max = list->hp;
 			list->speed = list->type;
 			list->si = list->type;

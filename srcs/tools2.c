@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 15:05:22 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/21 14:23:40 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/25 14:16:31 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,20 @@
 float			distance(float x1, float y1, float x2, float y2)
 {
 	return (ft_sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)));
+}
+
+int				get_objhp(t_wolf *data, t_object *list)
+{
+	int	hp;
+
+	hp = 100000;
+	if (list->type == 7)
+		hp = 100;
+	else if (list->type == 8)
+		hp = 200;
+	else if (list->type == 9)
+		hp = 400;
+	return (hp + data->kill_score);
 }
 
 uint32_t		get_pixel(t_wolf *data, int si, float samplex, float sampley)

@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/22 16:26:40 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/25 12:24:19 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,7 @@
 static int		is_outrange(t_wolf *data)
 {
 	t_object	*head;
-	int			ret;
 
-	ret = 0;
 	if (data->player.y < 0 || data->player.y > data->map.height)
 		return (1);
 	else if (data->player.x < 0 || data->player.x > data->map.width)
@@ -29,12 +27,15 @@ static int		is_outrange(t_wolf *data)
 	while (data->monster)
 	{
 		if (distance(data->player.x, data->player.y,
-		data->monster->x, data->monster->y) < 1.0f)
-			ret = 1;
+		data->monster->x, data->monster->y) < 1)
+		{
+			data->monster = head;
+			return (1);
+		}
 		data->monster = data->monster->next;
 	}
 	data->monster = head;
-	return (ret);
+	return (0);
 }
 
 static void		move_maker(t_wolf *data, float sx, float sy)
@@ -105,6 +106,11 @@ static void		get_events(t_wolf *data)
 	{
 		if (data->event.type == SDL_KEYDOWN)
 			data->key[KM] = data->key[KM] ? 0 : 1;
+	}
+	else if (data->event.key.keysym.sym == SDLK_p)
+	{
+		if (data->event.type == SDL_KEYDOWN)
+			data->key[KP] = data->key[KP] ? 0 : 1;
 	}
 }
 

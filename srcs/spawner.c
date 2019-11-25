@@ -6,25 +6,11 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/22 16:11:35 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/25 14:16:01 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/wolf3d.h"
-
-static int		get_newmonsterhp(t_wolf *data, t_object *newmonster)
-{
-	int	hp;
-
-	hp = 100000;
-	if (newmonster->type == 7)
-		hp = 100;
-	if (newmonster->type == 8)
-		hp = 200;
-	if (newmonster->type == 9)
-		hp = 400;
-	return (hp + data->kill_score);
-}
 
 static void		create_newmonster(t_wolf *data)
 {
@@ -42,7 +28,7 @@ static void		create_newmonster(t_wolf *data)
 	newmonster->type = skin;
 	newmonster->si = skin;
 	newmonster->delay = newmonster->type * 10;
-	newmonster->hp = get_newmonsterhp(data, newmonster);
+	newmonster->hp = get_objhp(data, newmonster);
 	newmonster->hp_max = newmonster->hp;
 	newmonster->sprite = data->sprite[newmonster->type];
 	newmonster->speed = newmonster->type + data->kill_score / 10;

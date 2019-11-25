@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/27 16:48:08 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/22 14:36:34 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/25 14:22:16 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,6 @@ typedef struct	s_raydata
 	float		angle;
 	float		bmx;
 	float		bmy;
-	float		cdst;
 	float		dst_towall;
 	float		eyex;
 	float		eyey;
@@ -182,8 +181,6 @@ typedef struct	s_wolf
 	int				shoot;
 	int				fps;
 	int				sdl_on;
-	int				i;
-	int				i_max;
 	int				key[KNB];
 	char			*str;
 	float			etime;
@@ -208,11 +205,13 @@ typedef struct	s_wolf
 
 void			display(t_wolf *data);
 void			events(t_wolf *data);
+void			game_over(t_wolf *data);
 void			load_datagame(t_wolf *data);
 void			monsters(t_wolf *data);
 void			mouse_events(t_wolf *data);
 void			objects(t_wolf *data, t_object *list);
 void			shoot(t_wolf *data);
+void			skybox(t_wolf *data);
 void			spawner(t_wolf *data);
 void			sprites(t_wolf *data);
 void			weapons(t_wolf *data);
@@ -223,27 +222,29 @@ void			raycasting(t_wolf *data);
 
 void			minimap(t_wolf *data);
 
-void			clean_exit(t_wolf *data, char *str, int token);
+float			distance(float x1, float y1, float x2, float y2);
+int				get_objhp(t_wolf *data, t_object *list);
 uint32_t		get_pixel(t_wolf *data, int si, float samplex, float sampley);
 SDL_Surface		*new_surface(int w, int h);
 void			put_pixel(SDL_Surface *surface, int x, int y, uint32_t color);
 
-float			distance(float x1, float y1, float x2, float y2);
+void			clean_exit(t_wolf *data, char *str, int token);
 void			lst_free(t_object *list);
 int				lst_len(t_object *list);
 void			lst_pushback(t_object *list, t_object *node);
 
 void			get_nodes(t_wolf *data);
 void			astar(t_wolf *data);
+
 void			alst_free(t_alst *list);
 int				alst_len(t_alst *list);
 void			alst_pushback(t_alst *list, t_node *node);
 void			alst_sort(t_alst *list);
 
 void			w_pause(t_wolf *data);
-void 			set_rect_to_screen(t_wolf *data, SDL_Rect *rect, int color);
+void			set_rect_to_screen(t_wolf *data, SDL_Rect *rect, int color);
 SDL_Color		ft_hex_to_rgb(int hexa);
-void
-set_write_to_screen(t_wolf *data, SDL_Rect rect, int color, char *str, TTF_Font *pl);
+void			set_write_to_screen(t_wolf *data, SDL_Rect rect, int color,
+	char *str, TTF_Font *pl);
 
 #endif

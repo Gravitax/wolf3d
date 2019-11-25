@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/22 16:23:39 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/25 14:19:55 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,8 @@ static void		monster_actions(t_wolf *data)
 
 	if (data->monster->dead == 1)
 		return ;
-	data->pfdata.start = &data->pfdata.list[(int)data->monster->x
-		+ data->map.width * (int)data->monster->y];
-	data->pfdata.end = &data->pfdata.list[(int)data->player.x
-		+ data->map.width * (int)data->player.y];
+	data->pfdata.start = &data->pfdata.list[data->monster->i];
+	data->pfdata.end = &data->pfdata.list[data->player.pos];
 	dst = distance(data->monster->x, data->monster->y,
 			data->pfdata.end->x, data->pfdata.end->y);
 	if (dst > 2.5f)
@@ -112,7 +110,7 @@ static void		monster_actions(t_wolf *data)
 		data->player.health -= data->monster->type * 2;
 		data->monster->delay = data->monster->type * 10;
 		if (data->player.health < 1)
-			printf("score: %d\n", data->kill_score);
+			game_over(data);
 	}
 }
 

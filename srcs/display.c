@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/22 15:26:21 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/25 12:46:45 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,14 @@ static void		textures(t_wolf *data)
 	unsigned int	*pixels;
 	SDL_Rect		rect;
 
-	rect.w = W_WIDTH;
+	skybox(data);
 	rect.h = W_HEIGHT / 2;
+	rect.w = W_WIDTH;
 	rect.x = 0;
 	rect.y = W_HEIGHT / 2;
 	SDL_RenderCopy(data->renderer, data->bgf, NULL, &rect);
-	rect.y = 0;
-	SDL_RenderCopy(data->renderer, data->bgc, NULL, &rect);
 	rect.h = W_HEIGHT;
+	rect.y = 0;
 	SDL_LockSurface(data->screen);
 	data->window = SDL_CreateTextureFromSurface(data->renderer, data->screen);
 	SDL_RenderCopy(data->renderer, data->window, NULL, &rect);
@@ -97,6 +97,10 @@ static void		health(t_wolf *data)
 
 void			display(t_wolf *data)
 {
+	if (data->player.angle > 6)
+		data->player.angle = 0;
+	else if (data->player.angle < 0)
+		data->player.angle = 6;
 	raycasting(data);
 	monsters(data);
 	objects(data, data->object);
