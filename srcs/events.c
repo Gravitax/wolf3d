@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
+/*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/25 20:20:29 by bebosson         ###   ########.fr       */
+/*   Updated: 2019/11/25 20:46:59 by saneveu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,7 @@ void			events(t_wolf *data)
 	if (data->event.type == SDL_MOUSEMOTION)
 	{
 		SDL_GetRelativeMouseState(&(data->mouse.xrel), &(data->mouse.yrel));
-		if (data->mouse.xrel > 0 || data->mouse.xrel < 0)
-			ft_mouse_motion_x(data);
+		ft_mouse_motion_x(data);
 	}
 	else if (data->event.type == SDL_QUIT)
 		clean_exit(data, NULL, 1);
