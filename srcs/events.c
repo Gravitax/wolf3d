@@ -6,7 +6,7 @@
 /*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/19 18:39:45 by saneveu          ###   ########.fr       */
+/*   Updated: 2019/11/25 19:45:49 by saneveu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,17 +39,6 @@ static void		move_maker(t_wolf *data, float sx, float sy)
 
 static void		moves(t_wolf *data)
 {
-	/*if (data->key[KA])
-		data->player.angle -= data->player.speed
-			* data->etime * data->player.ms;
-    if (data->key[KE])
-		data->player.angle += data->player.speed
-			* data->etime * data->player.ms;
-	
-	if (data->key[KA])
-	{
-		data->player.angle = data->event.motion
-	}*/
 	if (data->key[KZ])
 		move_maker(data,
             cosf(data->player.angle) * data->player.speed * data->etime,
@@ -94,18 +83,6 @@ static void		change_weapon(t_wolf *data)
 		data->key[KZ] = 0;
 }
 
-void static		ft_mouse_motion_x(t_wolf *data)
-{
-	if (data->mouse.x > 0.0)
-		data->player.angle = (int)(data->player.angle + abs(data->mouse.x) / 20) % 360;
-	else if (data->mouse.x < 0.0)
-	{
-		data->player.angle = (int)(data->player.angle - abs(data->mouse.x) / 20) % 360;
-		if (data->player.angle < 0)
-			data->player.angle = 360 + data->player.angle;
-	}
-}
-
 void static		get_events(t_wolf *data)
 {
 	if (data->event.key.keysym.sym == SDLK_q)
@@ -142,8 +119,9 @@ void            events(t_wolf *data)
     SDL_PollEvent(&data->event);
     if (data->event.type == SDL_MOUSEMOTION)
 	{
-		SDL_GetRelativeMouseState(&(data->mouse.x), &(data->mouse.y));	
-		ft_mouse_motion_x(data);
+		SDL_GetRelativeMouseState(&(data->mouse.xrel), &(data->mouse.yrel));
+		if (data->mouse.xrel > 0 || data->mouse.xrel < 0)
+			ft_mouse_motion_x(data);
 	}
 	if (data->event.type == SDL_QUIT)
         clean_exit(data, NULL, 1);

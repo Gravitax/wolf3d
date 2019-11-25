@@ -6,7 +6,7 @@
 /*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/27 16:48:08 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/19 17:42:14 by saneveu          ###   ########.fr       */
+/*   Updated: 2019/11/25 19:46:45 by saneveu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,6 @@ typedef struct  s_sprite
 {
     SDL_Surface *img;
 }               t_sprite;
-
-typedef struct  s_mouse 
-{
-    uint8_t     mouse;
-    int         x;
-    int         y;
-}               t_mouse;
 
 typedef struct  s_objdata
 {
@@ -214,7 +207,7 @@ typedef struct  s_wolf
     t_object        *monster;
     t_object        *object;
     t_sprite        sprite[SNB];
-    t_mouse         mouse;
+    SDL_MouseMotionEvent         mouse;
     SDL_Event       event;
     SDL_Renderer    *renderer;
     SDL_Surface     *screen;
@@ -262,5 +255,6 @@ void            alst_pushback(t_alst *list, t_node *node);
 void            alst_sort(t_alst *list);
 void			w_pause(t_wolf *data);
 void			set_write_to_screen(t_wolf *data, SDL_Rect rect, int color, char *str, TTF_Font *pl);
+void            ft_mouse_motion_x(t_wolf *data);
 
 #endif

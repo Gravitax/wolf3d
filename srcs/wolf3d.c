@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wolf3d.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
+/*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/17 21:16:55 by bebosson         ###   ########.fr       */
+/*   Updated: 2019/11/25 18:03:46 by saneveu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void     get_fps(t_wolf *data)
     data->fps =  (int)(1 / data->etime);
     if (data->etime > 0.016)
         SDL_Delay(data->etime * 1000 - 16);
-    printf("fps: %d\n", data->fps);
+    //printf("fps: %d\n", data->fps);
 }
 
 static void		launch_game(t_wolf *data)
