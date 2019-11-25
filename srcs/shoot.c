@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shoot.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
+/*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/22 19:07:15 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/25 21:04:44 by saneveu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,7 @@ static void		shoot_impact(t_wolf *data)
 
 void			shoot(t_wolf *data)
 {
-	if (data->event.type == SDL_KEYDOWN
-			&& --data->shoot < 1 && data->fire_delay < 1)
+	if (--data->shoot < 1 && data->fire_delay < 1)
 	{
 		if (data->player.weapon == 0)
 			data->player.wdata[data->player.weapon].si = 21;
@@ -85,6 +84,6 @@ void			shoot(t_wolf *data)
 		data->fire_delay = data->player.wdata[data->player.weapon].delay;
 		data->shoot = data->fire_delay;
 	}
-	else if (data->event.type == SDL_KEYUP)
+	else if (data->event.type == SDL_MOUSEBUTTONUP)
 		data->shoot = 0;
 }
