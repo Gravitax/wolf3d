@@ -6,11 +6,10 @@
 /*   By: bebosson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 16:33:16 by bebosson          #+#    #+#             */
-/*   Updated: 2019/11/18 19:39:26 by bebosson         ###   ########.fr       */
+/*   Updated: 2019/11/25 22:55:36 by bebosson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//square position ;
 #include "../includes/wolf3d.h"
 
 SDL_Color		ft_hex_to_rgb(int hexa)
@@ -61,14 +60,15 @@ void	draw_main_rect(t_wolf *data, int cursor)
 	rect = (SDL_Rect){0, 0, W_WIDTH, W_HEIGHT};
 	set_rect_to_screen(data, &rect, 0xff0000);
 	rect = (SDL_Rect){0, 0, 0, 0};
-	set_write_to_screen(data, rect, 0, "DOOM", data->police);
+	data->policep = data->police;
+	set_write_to_screen(data, rect, 0, "DOOM");
 	rect = (SDL_Rect){2 * UNITX, 7 * UNITY, 2 * UNITX, 0.75 * UNITY};
-	set_write_to_screen(data, rect, 0, "START", data->police2);
+	data->policep = data->police2;
+	set_write_to_screen(data, rect, 0, "START");
 	rect2 = (SDL_Rect){2 * UNITX, 8 * UNITY, 2 * UNITX, 0.75 * UNITY};
-	set_write_to_screen(data, rect2, 0, "QUIT", data->police2);
+	set_write_to_screen(data, rect2, 0, "QUIT");
 	draw_cursor(data, cursor, rect);	
    	SDL_RenderPresent(data->renderer);
-
 }
 
 void	w_pause(t_wolf *data)

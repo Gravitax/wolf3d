@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 15:05:22 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/21 14:44:50 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/25 22:22:35 by bebosson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,5 +97,6 @@ void			clean_exit(t_wolf *data, char *str, int token)
 	}
 	if (str)
 		ft_putendl_fd(str, 2);
+	TTF_Quit();
 	exit(token ? EXIT_SUCCESS : EXIT_FAILURE);
 }

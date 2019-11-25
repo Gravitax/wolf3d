@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/25 20:01:12 by bebosson         ###   ########.fr       */
+/*   Updated: 2019/11/25 21:15:31 by bebosson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,9 @@ static void		launch_game(t_wolf *data)
 	{
 		if (!(data->renderer = SDL_CreateRenderer(data->pwindow, -1, 0)))
 			clean_exit(data, "wolf3d: SDL_CreateRenderer fail", 0);
+		// while (1)
 		load_datagame(data);
+		// hp = hp_max 
 		while (1)
 		{
 			data->frame_start = clock();

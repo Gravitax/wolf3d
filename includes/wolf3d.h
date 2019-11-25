@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/27 16:48:08 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/25 20:23:37 by bebosson         ###   ########.fr       */
+/*   Updated: 2019/11/25 22:08:34 by bebosson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,6 +188,7 @@ typedef struct	s_wolf
 	TTF_Font		*police;
 	TTF_Font		*police2;
 	TTF_Font		*police3;
+	TTF_Font		*policep;
 	t_map			map;
 	t_pf			pfdata;
 	t_player		player;
@@ -230,6 +231,7 @@ uint32_t		get_pixel(t_wolf *data, int si, float samplex, float sampley);
 SDL_Surface		*new_surface(int w, int h);
 void			put_pixel(SDL_Surface *surface, int x, int y, uint32_t color);
 
+void			draw_fps(t_wolf *data);
 void			add_sc_x(t_wolf *data);
 void			clean_exit(t_wolf *data, char *str, int token);
 void			lst_free(t_object *list);
@@ -248,6 +250,7 @@ void			w_pause(t_wolf *data);
 void			set_rect_to_screen(t_wolf *data, SDL_Rect *rect, int color);
 SDL_Color		ft_hex_to_rgb(int hexa);
 void			set_write_to_screen(t_wolf *data, SDL_Rect rect, int color,
-	char *str, TTF_Font *pl);
+	char *str);
 void			ft_mouse_motion_x(t_wolf *data);
+void			object_minimap(t_wolf *data, t_object *list);
 #endif
