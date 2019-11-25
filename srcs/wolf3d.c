@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/25 12:46:22 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/25 20:01:12 by bebosson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,11 @@ static void		init_sdl(t_wolf *data)
 			W_WIDTH, W_HEIGHT, 0);
 	if (!(data->police = TTF_OpenFont("img/police/AmazDooMLeft.ttf", 200)))
 		clean_exit(data, "wolf3d: error TTF_OpenFont", 0);
-	if (!(data->police2 = TTF_OpenFont("img/police/8-BIT\ WONDER.ttf", 20)))
+	if (!(data->police2 = TTF_OpenFont("img/police/bit.ttf", 20)))
 		clean_exit(data, "wolf3d: error TTF_OpenFont", 0);
+	if (!(data->police3 = TTF_OpenFont("img/police/bit.ttf", 8)))
+		clean_exit(data, "wolf3d: error TTF_OpenFont", 0);
+
 }
 
 static void		get_fps(t_wolf *data)
@@ -78,7 +81,7 @@ void			wolf3d(t_wolf *data)
 	data->player.health_max = 200;
 	data->player.weapon = 0;
 	data->raydata.ray_step = 0.01;
-	data->map.sc_x = 2;
+	data->map.sc_x = 3;
 	data->key[KP] = 1;
 	launch_game(data);
 }

@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/25 12:24:19 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/25 20:20:29 by bebosson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,6 @@ static void		move_maker(t_wolf *data, float sx, float sy)
 
 static void		moves(t_wolf *data)
 {
-	if (data->key[KA])
-		data->player.angle -= data->player.speed
-			* data->etime * data->player.ms;
-	if (data->key[KE])
-		data->player.angle += data->player.speed
-			* data->etime * data->player.ms;
 	if (data->key[KW])
 		move_maker(data,
 			cosf(data->player.angle) * data->player.speed * data->etime,
@@ -90,10 +84,8 @@ static void		change_weapon(t_wolf *data)
 
 static void		get_events(t_wolf *data)
 {
-	if (data->event.key.keysym.sym == SDLK_q)
-		data->key[KA] = data->event.type == SDL_KEYDOWN ? 1 : 0;
-	else if (data->event.key.keysym.sym == SDLK_e)
-		data->key[KE] = data->event.type == SDL_KEYDOWN ? 1 : 0;
+	if (data->event.key.keysym.sym == SDLK_b || data->event.key.keysym.sym == SDLK_n)
+		add_sc_x(data);
 	else if (data->event.key.keysym.sym == SDLK_w)
 		data->key[KW] = data->event.type == SDL_KEYDOWN ? 1 : 0;
 	else if (data->event.key.keysym.sym == SDLK_a)
@@ -117,7 +109,13 @@ static void		get_events(t_wolf *data)
 void			events(t_wolf *data)
 {
 	SDL_PollEvent(&data->event);
-	if (data->event.type == SDL_QUIT)
+	if (data->event.type == SDL_MOUSEMOTION)
+	{
+		SDL_GetRelativeMouseState(&(data->mouse.xrel), &(data->mouse.yrel));
+		if (data->mouse.xrel > 0 || data->mouse.xrel < 0)
+			ft_mouse_motion_x(data);
+	}
+	else if (data->event.type == SDL_QUIT)
 		clean_exit(data, NULL, 1);
 	else if (data->event.key.keysym.sym == SDLK_ESCAPE)
 		clean_exit(data, NULL, 1);

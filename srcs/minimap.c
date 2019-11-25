@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/27 16:47:19 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/21 14:32:32 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/25 20:10:17 by bebosson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,19 +67,6 @@ static void		calc_player(t_wolf *data, int sc_x)
 		* (sinf(data->raydata.angle)) + pl.y);
 }
 
-static void		draw_ray_minimap(t_wolf *data, int nx, int sc_x)
-{
-	int	ny;
-	int	py;
-
-	ny = -1;
-	while (++ny < data->map.height)
-	{
-		if ((ny + 1) * data->map.width + nx == data->player.pos)
-			calc_player(data, sc_x);
-	}
-}
-
 static void		draw_minimap(t_wolf *data, int nx, int sc_x)
 {
 	int			ny;
@@ -100,11 +87,24 @@ static void		draw_minimap(t_wolf *data, int nx, int sc_x)
 	}
 }
 
+
+static void draw_fps(t_wolf *data)
+{
+	SDL_Rect	rect;
+	char		*fps;
+
+	fps = ft_strdup("fps ");
+	fps = ft_strfjoin(fps, ft_itoa(data->fps), 1);
+	rect = (SDL_Rect){0, W_HEIGHT / data->map.sc_x - 5, 10 * data->map.sc_x, 3 * data->map.sc_x};
+	set_write_to_screen(data, rect, 0, fps, data->police3);
+	ft_strdel(&fps);
+}
+
 void			minimap(t_wolf *data)
 {
-	int		nx;
-	int		sc_x;
-	char	*fps;
+	int			nx;
+	int			sc_x;
+	int			ny;
 
 	data->player.pos = (int)data->player.x
 		+ ((int)data->player.y + 1) * data->map.width;
@@ -112,10 +112,15 @@ void			minimap(t_wolf *data)
 	sc_x = 3;
 	while (++nx < data->map.width)
 		draw_minimap(data, nx, sc_x);
-	fps = ft_strdup("fps: ");
-	fps = ft_strfjoin(fps, ft_itoa(data->fps), 1);
+	draw_fps(data);
 	nx = -1;
 	while (++nx < data->map.width)
-		draw_ray_minimap(data, nx, sc_x);
-	ft_strdel(&fps);
+	{
+		ny = -1;
+		while (++ny < data->map.height)
+		{
+			if ((ny + 1) * data->map.width + nx == data->player.pos)
+				calc_player(data, sc_x);
+		}
+	}
 }

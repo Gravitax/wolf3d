@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/27 16:48:08 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/25 14:22:16 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/25 20:23:37 by bebosson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,6 +187,7 @@ typedef struct	s_wolf
 	float			frame_start;
 	TTF_Font		*police;
 	TTF_Font		*police2;
+	TTF_Font		*police3;
 	t_map			map;
 	t_pf			pfdata;
 	t_player		player;
@@ -194,6 +195,7 @@ typedef struct	s_wolf
 	t_object		*monster;
 	t_object		*object;
 	t_sprite		sprite[SNB];
+	SDL_MouseMotionEvent mouse;
 	SDL_Event		event;
 	SDL_Renderer	*renderer;
 	SDL_Surface		*screen;
@@ -228,6 +230,7 @@ uint32_t		get_pixel(t_wolf *data, int si, float samplex, float sampley);
 SDL_Surface		*new_surface(int w, int h);
 void			put_pixel(SDL_Surface *surface, int x, int y, uint32_t color);
 
+void			add_sc_x(t_wolf *data);
 void			clean_exit(t_wolf *data, char *str, int token);
 void			lst_free(t_object *list);
 int				lst_len(t_object *list);
@@ -246,5 +249,5 @@ void			set_rect_to_screen(t_wolf *data, SDL_Rect *rect, int color);
 SDL_Color		ft_hex_to_rgb(int hexa);
 void			set_write_to_screen(t_wolf *data, SDL_Rect rect, int color,
 	char *str, TTF_Font *pl);
-
+void			ft_mouse_motion_x(t_wolf *data);
 #endif

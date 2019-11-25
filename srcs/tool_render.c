@@ -6,20 +6,11 @@
 /*   By: bebosson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 17:30:19 by bebosson          #+#    #+#             */
-/*   Updated: 2019/11/21 17:30:27 by bebosson         ###   ########.fr       */
+/*   Updated: 2019/11/25 20:10:17 by bebosson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
-
-int mouse_rect(t_wolf *data, SDL_Rect rect)
-{
-	if ((data->event.motion.x >= rect.x && data->event.motion.x <= rect.x + rect.w)
-		   && (data->event.motion.y	>= rect.y && data->event.motion.y <= (rect.y + rect.h)))
-				return (1);
-	else
-		return (0);
-}
 
 void	set_write_to_screen(t_wolf *data, SDL_Rect rect, int color, char *str, TTF_Font *pl)
 {
@@ -37,4 +28,20 @@ void set_rect_to_screen(t_wolf *data, SDL_Rect *rect, int color)
 {
 	SDL_SetRenderDrawColor(data->renderer, (color >> 16) & 0xff, (color >> 8) & 0xff, color & 0xff, 100);
 	SDL_RenderFillRect(data->renderer, rect);
+}
+
+void		add_sc_x(t_wolf *data)
+{
+	if (data->event.key.keysym.sym == SDLK_b)
+	{
+			data->key[KB] = data->event.type == SDL_KEYDOWN ? 1 : 0;
+			if (data->key[KB] == 1 && data->map.sc_x < 5)
+				data->map.sc_x++;
+	}
+	else if (data->event.key.keysym.sym == SDLK_n)
+	{
+			data->key[KN] = data->event.type == SDL_KEYDOWN ? 1 : 0;
+			if (data->key[KN] == 1 && data->map.sc_x > 2)
+				data->map.sc_x--;
+	}
 }
