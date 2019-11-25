@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wolf3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
+/*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/27 16:48:08 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/25 22:08:34 by bebosson         ###   ########.fr       */
+/*   Updated: 2019/11/25 22:59:05 by bebosson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,6 +197,7 @@ typedef struct	s_wolf
 	t_object		*object;
 	t_sprite		sprite[SNB];
 	SDL_MouseMotionEvent mouse;
+	SDL_MouseButtonEvent bmouse;
 	SDL_Event		event;
 	SDL_Renderer	*renderer;
 	SDL_Surface		*screen;
@@ -253,4 +254,5 @@ void			set_write_to_screen(t_wolf *data, SDL_Rect rect, int color,
 	char *str);
 void			ft_mouse_motion_x(t_wolf *data);
 void			object_minimap(t_wolf *data, t_object *list);
+
 #endif

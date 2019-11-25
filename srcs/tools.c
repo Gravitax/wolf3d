@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
+/*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 15:05:22 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/25 22:22:35 by bebosson         ###   ########.fr       */
+/*   Updated: 2019/11/25 22:59:43 by bebosson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void			lst_pushback(t_object *list, t_object *node)
 	}
 }
 
-static void		free_surfaces(t_wolf *data)
+void		free_surfaces(t_wolf *data)
 {
 	int	i;
 

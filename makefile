@@ -6,7 +6,7 @@
 #    By: maboye <maboye@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/31 12:01:33 by maboye            #+#    #+#              #
-#    Updated: 2019/11/25 20:44:58 by bebosson         ###   ########.fr        #
+#    Updated: 2019/11/25 23:00:36 by bebosson         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,6 @@ SRC		=	astar_list.c \
 			datagame.c \
 			display.c \
 			events.c \
-			game_over.c \
 			main.c \
 			minimap.c \
 			monsters.c \
