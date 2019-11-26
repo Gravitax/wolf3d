@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
+/*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 15:05:22 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/25 22:59:43 by bebosson         ###   ########.fr       */
+/*   Updated: 2019/11/26 16:19:55 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,18 +85,17 @@ void			clean_exit(t_wolf *data, char *str, int token)
 			if (data->renderer)
 				SDL_DestroyRenderer(data->renderer);
 			free_surfaces(data);
+			TTF_Quit();
 			SDL_Quit();
 		}
 		ft_strdel(&data->str);
 		ft_memdel((void **)&data->map.map);
 		lst_free(data->object);
 		lst_free(data->monster);
-		alst_free(data->pfdata.alst);
 		ft_memdel((void **)&data->pfdata.list);
 		data = NULL;
 	}
 	if (str)
 		ft_putendl_fd(str, 2);
-	TTF_Quit();
 	exit(token ? EXIT_SUCCESS : EXIT_FAILURE);
 }

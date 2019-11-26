@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pause.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bebosson <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 16:33:16 by bebosson          #+#    #+#             */
-/*   Updated: 2019/11/25 22:55:36 by bebosson         ###   ########.fr       */
+/*   Updated: 2019/11/26 16:48:01 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	draw_main_rect(t_wolf *data, int cursor)
 	set_write_to_screen(data, rect, 0, "DOOM");
 	rect = (SDL_Rect){2 * UNITX, 7 * UNITY, 2 * UNITX, 0.75 * UNITY};
 	data->policep = data->police2;
-	set_write_to_screen(data, rect, 0, "START");
+	set_write_to_screen(data, rect, 0, "CONTINUE");
 	rect2 = (SDL_Rect){2 * UNITX, 8 * UNITY, 2 * UNITX, 0.75 * UNITY};
 	set_write_to_screen(data, rect2, 0, "QUIT");
 	draw_cursor(data, cursor, rect);	
@@ -80,18 +80,17 @@ void	w_pause(t_wolf *data)
 	while (data->key[KP])
 	{
 		SDL_PollEvent(&data->event);
-		if (data->event.key.keysym.sym == SDLK_p || data->event.key.keysym.sym == SDLK_ESCAPE || data->event.key.keysym.sym == SDLK_SPACE)
+		if ((data->event.key.keysym.sym == SDLK_SPACE && cursor == 1)
+		|| (data->event.key.keysym.sym == SDLK_p && data->event.type == SDL_KEYDOWN))
+			data->key[KP] = 0;
+		else if (data->event.key.keysym.sym == SDLK_SPACE && cursor == 2)
+        	clean_exit(data, NULL, 1);
+		else if (data->event.key.keysym.sym == SDLK_UP 
+		|| data->event.key.keysym.sym == SDLK_DOWN)
 		{
-			if ((data->event.key.keysym.sym == SDLK_SPACE && cursor == 1))
-				data->key[KP] = 0;
-			if (data->event.key.keysym.sym == SDLK_ESCAPE || ( data->event.key.keysym.sym == SDLK_SPACE && cursor == 2))
-        		clean_exit(data, NULL, 1);
+			cursor = move_cursor(data, &cursor);
+			draw_main_rect(data, cursor);
 		}
-		else if (data->event.key.keysym.sym == SDLK_UP || data->event.key.keysym.sym == SDLK_DOWN)
-		{
-				cursor = move_cursor(data, &cursor);
-				draw_main_rect(data, cursor);
-		}
-	SDL_FlushEvent(SDL_KEYUP | SDL_KEYDOWN | SDL_MOUSEMOTION);
 	}
+	SDL_FlushEvent(SDL_KEYUP | SDL_KEYDOWN | SDL_MOUSEMOTION);
 }

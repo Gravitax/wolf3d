@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/25 17:33:40 by bebosson         ###   ########.fr       */
+/*   Updated: 2019/11/26 16:19:59 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,6 @@ static void		delvisited_nodes(t_wolf *data)
 	data->pfdata.alst = head;
 }
 
-//
-
 void			astar(t_wolf *data)
 {
 	t_node	*current;
@@ -106,5 +104,5 @@ void			astar(t_wolf *data)
 		neighbour(data, current, 2);
 		neighbour(data, current, 3);
 	}
-	//free(data->pfdata.alst); ****
+	alst_free(data->pfdata.alst);
 }

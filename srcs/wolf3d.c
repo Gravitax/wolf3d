@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wolf3d.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
+/*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/25 23:01:08 by bebosson         ###   ########.fr       */
+/*   Updated: 2019/11/26 17:45:49 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ static void		init_sdl(t_wolf *data)
 {
 	if (SDL_Init(SDL_INIT_VIDEO) == -1)
 		clean_exit(data, "wolf3d: SDL_Init fail", 0);
+	data->sdl_on = 1;
 	if (TTF_Init() == -1)
 		clean_exit(data, "wolf3d: error TTF_init", 0);
-	data->sdl_on = 1;
 	data->pwindow = SDL_CreateWindow("maboye wolf3d",
 			SDL_WINDOWPOS_UNDEFINED,
 			SDL_WINDOWPOS_UNDEFINED,
@@ -51,9 +51,7 @@ static void		launch_game(t_wolf *data)
 	{
 		if (!(data->renderer = SDL_CreateRenderer(data->pwindow, -1, 0)))
 			clean_exit(data, "wolf3d: SDL_CreateRenderer fail", 0);
-		// while (1)
 		load_datagame(data);
-		// hp = hp_max 
 		while (1)
 		{
 			data->frame_start = clock();
@@ -77,7 +75,7 @@ void			wolf3d(t_wolf *data)
 	data->player.x = data->player.pos - (data->player.y * data->map.width) + 1;
 	data->player.angle = 0;
 	data->player.fov = 3.14159 / 4;
-	data->player.ms = 0.5;
+	data->player.ms = 0.2;
 	data->player.speed = 5;
 	data->player.health = 200;
 	data->player.health_max = 200;

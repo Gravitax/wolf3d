@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
+/*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/25 21:21:06 by saneveu          ###   ########.fr       */
+/*   Updated: 2019/11/26 17:05:28 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,12 @@ static void		move_maker(t_wolf *data, float sx, float sy)
 
 static void		moves(t_wolf *data)
 {
+	if (data->key[KQ])
+		data->player.angle -= data->player.speed
+			* data->etime * data->player.ms;
+	if (data->key[KE])
+		data->player.angle += data->player.speed
+			* data->etime * data->player.ms;
 	if (data->key[KW])
 		move_maker(data,
 			cosf(data->player.angle) * data->player.speed * data->etime,
@@ -61,7 +67,7 @@ static void		moves(t_wolf *data)
 		move_maker(data,
 			-(cosf(data->player.angle) * data->player.speed * data->etime),
 			-(sinf(data->player.angle) * data->player.speed * data->etime));
-	if (data->key[KQ])
+	if (data->key[KA])
 		move_maker(data,
 			sinf(data->player.angle) * data->player.speed * data->etime,
 			-(cosf(data->player.angle) * data->player.speed * data->etime));
@@ -71,25 +77,19 @@ static void		moves(t_wolf *data)
 			cosf(data->player.angle) * data->player.speed * data->etime);
 }
 
-static void		change_weapon(t_wolf *data)
-{
-	if (data->event.type == SDL_KEYDOWN)
-	{
-		if (data->player.weapon < 4)
-			++data->player.weapon;
-		if (data->player.weapon > 3)
-			data->player.weapon = 0;
-	}
-}
-
 static void		get_events(t_wolf *data)
 {
-	if (data->event.key.keysym.sym == SDLK_b || data->event.key.keysym.sym == SDLK_n)
+	if (data->event.key.keysym.sym == SDLK_b
+	|| data->event.key.keysym.sym == SDLK_n)
 		add_sc_x(data);
+	else if (data->event.key.keysym.sym == SDLK_q)
+		data->key[KQ] = data->event.type == SDL_KEYDOWN ? 1 : 0;
+	else if (data->event.key.keysym.sym == SDLK_e)
+		data->key[KE] = data->event.type == SDL_KEYDOWN ? 1 : 0;
 	else if (data->event.key.keysym.sym == SDLK_w)
 		data->key[KW] = data->event.type == SDL_KEYDOWN ? 1 : 0;
 	else if (data->event.key.keysym.sym == SDLK_a)
-		data->key[KQ] = data->event.type == SDL_KEYDOWN ? 1 : 0;
+		data->key[KA] = data->event.type == SDL_KEYDOWN ? 1 : 0;
 	else if (data->event.key.keysym.sym == SDLK_s)
 		data->key[KS] = data->event.type == SDL_KEYDOWN ? 1 : 0;
 	else if (data->event.key.keysym.sym == SDLK_d)
@@ -114,19 +114,15 @@ void			events(t_wolf *data)
 		SDL_GetRelativeMouseState(&(data->mouse.xrel), &(data->mouse.yrel));
 		ft_mouse_motion_x(data);
 	}
-	else if (data->event.type == SDL_QUIT)
-		clean_exit(data, NULL, 1);
-	else if (data->event.key.keysym.sym == SDLK_ESCAPE)
+	if (data->event.type == SDL_QUIT
+	|| data->event.key.keysym.sym == SDLK_ESCAPE)
 		clean_exit(data, NULL, 1);
 	else if (data->key[KP])
 		w_pause(data);
-	else if (data->event.type == SDL_MOUSEBUTTONDOWN)
-	{
-		if (data->bmouse.button == 0)
-			shoot(data);
-	}
-	else if (data->event.key.keysym.sym == SDLK_z)
+	else if (data->event.button.button == SDL_BUTTON_RIGHT)
 		change_weapon(data);
+	else if (data->event.button.button == SDL_BUTTON_LEFT)
+		shoot(data);
 	else
 		get_events(data);
 	moves(data);

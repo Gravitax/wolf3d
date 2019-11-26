@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap_monster.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bebosson <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 20:38:46 by bebosson          #+#    #+#             */
-/*   Updated: 2019/11/25 22:06:20 by bebosson         ###   ########.fr       */
+/*   Updated: 2019/11/26 16:15:52 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,7 @@ void draw_fps(t_wolf *data)
 	SDL_Rect	rect;
 	char		*fps;
 
-	fps = ft_strdup("fps ");
-	fps = ft_strfjoin(fps, ft_itoa(data->fps), 1);
+	fps = ft_strfjoin("fps ", ft_itoa(data->fps), 2);
 	rect = (SDL_Rect){0, W_HEIGHT / data->map.sc_x - 5, 10 * data->map.sc_x, 3 * data->map.sc_x};
 	data->policep = data->police3;
 	set_write_to_screen(data, rect, 0, fps);
