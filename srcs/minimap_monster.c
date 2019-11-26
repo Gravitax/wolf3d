@@ -6,16 +6,16 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 20:38:46 by bebosson          #+#    #+#             */
-/*   Updated: 2019/11/26 16:15:52 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/26 17:57:08 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/wolf3d.h"
 
-void	object_minimap(t_wolf *data, t_object *list)
+void			object_minimap(t_wolf *data, t_object *list)
 {
-	int i;
-	SDL_Rect rect;
+	int			i;
+	SDL_Rect	rect;
 
 	i = 0;
 	if (list == NULL)
@@ -35,13 +35,14 @@ void	object_minimap(t_wolf *data, t_object *list)
 	}
 }
 
-void draw_fps(t_wolf *data)
+void			draw_fps(t_wolf *data)
 {
 	SDL_Rect	rect;
 	char		*fps;
 
 	fps = ft_strfjoin("fps ", ft_itoa(data->fps), 2);
-	rect = (SDL_Rect){0, W_HEIGHT / data->map.sc_x - 5, 10 * data->map.sc_x, 3 * data->map.sc_x};
+	rect = (SDL_Rect){0, W_HEIGHT / data->map.sc_x - 5,
+		10 * data->map.sc_x, 3 * data->map.sc_x};
 	data->policep = data->police3;
 	set_write_to_screen(data, rect, 0, fps);
 	ft_strdel(&fps);

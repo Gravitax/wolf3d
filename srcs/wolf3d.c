@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/26 17:45:49 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/26 17:58:03 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ static void		init_sdl(t_wolf *data)
 		clean_exit(data, "wolf3d: error TTF_OpenFont", 0);
 	if (!(data->police3 = TTF_OpenFont("img/police/bit.ttf", 8)))
 		clean_exit(data, "wolf3d: error TTF_OpenFont", 0);
-
 }
 
 static void		get_fps(t_wolf *data)

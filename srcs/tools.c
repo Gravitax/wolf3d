@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 15:05:22 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/26 16:19:55 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/26 17:57:46 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void			lst_pushback(t_object *list, t_object *node)
 	}
 }
 
-void		free_surfaces(t_wolf *data)
+void			free_surfaces(t_wolf *data)
 {
 	int	i;
 

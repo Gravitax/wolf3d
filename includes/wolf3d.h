@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wolf3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
+/*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/27 16:48:08 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/25 22:59:05 by bebosson         ###   ########.fr       */
+/*   Updated: 2019/11/26 18:01:45 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,37 +176,37 @@ typedef struct	s_pf
 
 typedef struct	s_wolf
 {
-	int				kill_score;
-	int				fire_delay;
-	int				shoot;
-	int				fps;
-	int				sdl_on;
-	int				key[KNB];
-	char			*str;
-	float			etime;
-	float			frame_start;
-	TTF_Font		*police;
-	TTF_Font		*police2;
-	TTF_Font		*police3;
-	TTF_Font		*policep;
-	t_map			map;
-	t_pf			pfdata;
-	t_player		player;
-	t_raydata		raydata;
-	t_object		*monster;
-	t_object		*object;
-	t_sprite		sprite[SNB];
-	SDL_MouseMotionEvent mouse;
-	SDL_MouseButtonEvent bmouse;
-	SDL_Event		event;
-	SDL_Renderer	*renderer;
-	SDL_Surface		*screen;
-	SDL_Texture		*bgc;
-	SDL_Texture		*bgf;
-	SDL_Texture		*window;
-	SDL_Window		*pwindow;
+	int						kill_score;
+	int						fire_delay;
+	int						shoot;
+	int						fps;
+	int						sdl_on;
+	int						key[KNB];
+	char					*str;
+	float					etime;
+	float					frame_start;
+	TTF_Font				*police;
+	TTF_Font				*police2;
+	TTF_Font				*police3;
+	TTF_Font				*policep;
+	t_map					map;
+	t_pf					pfdata;
+	t_player				player;
+	t_raydata				raydata;
+	t_object				*monster;
+	t_object				*object;
+	t_sprite				sprite[SNB];
+	SDL_MouseMotionEvent	mouse;
+	SDL_Event				event;
+	SDL_Renderer			*renderer;
+	SDL_Surface				*screen;
+	SDL_Texture				*bgc;
+	SDL_Texture				*bgf;
+	SDL_Texture				*window;
+	SDL_Window				*pwindow;
 }				t_wolf;
 
+void			change_weapon(t_wolf *data);
 void			display(t_wolf *data);
 void			events(t_wolf *data);
 void			game_over(t_wolf *data);

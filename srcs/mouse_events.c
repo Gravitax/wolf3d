@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 15:05:22 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/26 17:45:12 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/26 17:57:24 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ void			change_weapon(t_wolf *data)
 
 void			ft_mouse_motion_x(t_wolf *data)
 {
-	int	x;
-	int	y;
+	int			x;
+	int			y;
 	static int	token = 0;
 
 	if (token == 1)
