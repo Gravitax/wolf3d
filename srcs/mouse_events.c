@@ -6,7 +6,7 @@
 /*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 15:05:22 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/27 19:38:47 by saneveu          ###   ########.fr       */
+/*   Updated: 2019/11/27 20:51:49 by saneveu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void		mouse_motion(t_wolf *data)
 	if (token == 1)
 	{
 		data->player.angle -= data->player.speed
-			* data->etime * data->player.ms * data->mouse.xrel;
+			* data->player.ms * data->mouse.xrel;
 		token = 0;
 	}
 	else if (token == 0)

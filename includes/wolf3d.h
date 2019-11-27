@@ -6,7 +6,7 @@
 /*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/27 16:48:08 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/27 20:10:31 by saneveu          ###   ########.fr       */
+/*   Updated: 2019/11/27 20:51:49 by saneveu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,12 @@
 
 # define W_WIDTH	800
 # define W_HEIGHT	600
+
+# define FPS		60
+
 # define SNB		29
 # define WNB		4
+
 # define UNITX		W_WIDTH / 16
 # define UNITY		W_HEIGHT / 10
 
@@ -42,6 +46,12 @@
 # define ML			11
 # define MR			12
 # define KNB		13
+
+typedef union	u_rsqrt
+{
+	float		f;
+	uint32_t	i;
+}				t_rsqrt;
 
 typedef struct	s_sound
 {
@@ -63,12 +73,6 @@ typedef struct	s_sound
 	Mix_Chunk	*tic;
 	Uint8		token;
 }				t_sound;
-
-typedef union	u_rsqrt
-{
-	float		f;
-	uint32_t	i;
-}				t_rsqrt;
 
 typedef struct	s_sprite
 {

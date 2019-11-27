@@ -6,7 +6,7 @@
 /*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/27 19:21:25 by saneveu          ###   ########.fr       */
+/*   Updated: 2019/11/27 21:02:17 by saneveu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,8 @@ static void		smoothness(t_wolf *data, t_node *current)
 
 	if (data->monster->data.dst_fromplayer > data->map.depth)
 		return ;
-	tmpx = (current->x + 0.5f - data->monster->x)
-		* data->etime * data->monster->speed;
-	tmpy = (current->y + 0.5f - data->monster->y)
-		* data->etime * data->monster->speed;
+	tmpx = (current->x + 0.5f - data->monster->x) * data->monster->speed;
+	tmpy = (current->y + 0.5f - data->monster->y) * data->monster->speed;
 	data->monster->x += tmpx;
 	data->monster->y += tmpy;
 	pos = (int)data->monster->x
@@ -80,11 +78,7 @@ static void		monster_moves(t_wolf *data)
 			break ;
 		current = current->parent;
 	}
-	data->pfdata.list[(int)data->monster->x
-		+ data->map.width * (int)data->monster->y].bobstacle = 0;
 	smoothness(data, current);
-	data->pfdata.list[(int)data->monster->x
-		+ data->map.width * (int)data->monster->y].bobstacle = 1;
 	data->monster->delay = data->monster->type + 10;
 }
 
