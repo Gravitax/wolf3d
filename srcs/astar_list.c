@@ -6,74 +6,74 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/08/29 15:30:54 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/21 14:01:21 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/wolf3d.h"
 
-void            alst_free(t_alst *list)
+void			alst_free(t_alst *list)
 {
-    t_alst   *tmp;
+	t_alst	*tmp;
 
-    while (list)
-    {
-        tmp = list->next;
-        ft_memdel((void **)&list);
-        if (tmp)
-            list = tmp;
-    }
+	while (list)
+	{
+		tmp = list->next;
+		ft_memdel((void **)&list);
+		if (tmp)
+			list = tmp;
+	}
 }
 
-int             alst_len(t_alst *list)
+int				alst_len(t_alst *list)
 {
-    int     i;
-    t_alst   *tmp;
+	int		i;
+	t_alst	*tmp;
 
-    if (list == NULL)
-        return (0);
-    tmp = list;
-    i = 0;
-    while (tmp)
-    {
-        ++i;
-        tmp = tmp->next;
-    }
-    return (i);
+	if (list == NULL)
+		return (0);
+	tmp = list;
+	i = 0;
+	while (tmp)
+	{
+		++i;
+		tmp = tmp->next;
+	}
+	return (i);
 }
 
-void            alst_pushback(t_alst *list, t_node *node)
+void			alst_pushback(t_alst *list, t_node *node)
 {
-    t_alst   *head;
+	t_alst	*head;
 
-    if (list)
-    {
-        head = list;
-        while (list->next)
-            list = list->next;
-        if (!(list->next = (t_alst *)ft_memalloc(sizeof(t_alst))))
-        {
-            alst_free(head);
-            return ;
-        }
-        list->next->node = node;
-        list = head;
-    }
+	if (list)
+	{
+		head = list;
+		while (list->next)
+			list = list->next;
+		if (!(list->next = (t_alst *)ft_memalloc(sizeof(t_alst))))
+		{
+			alst_free(head);
+			return ;
+		}
+		list->next->node = node;
+		list = head;
+	}
 }
 
-static void     alst_swap(t_alst *a, t_alst *b)
+static void		alst_swap(t_alst *a, t_alst *b)
 {
-    t_node  *tmp;
+	t_node	*tmp;
 
-    tmp = b->node;
+	tmp = b->node;
 	b->node = a->node;
-    a->node = tmp;
+	a->node = tmp;
 }
 
 void			alst_sort(t_alst *list)
 {
-	t_alst		*tmp;
-	int			sorted;
+	t_alst	*tmp;
+	int		sorted;
 
 	if (list == NULL)
 		return ;
@@ -89,7 +89,7 @@ void			alst_sort(t_alst *list)
 				alst_swap(tmp, tmp->next);
 				sorted = 0;
 			}
-		    tmp = tmp->next;
+			tmp = tmp->next;
 		}
 	}
 }

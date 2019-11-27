@@ -6,23 +6,23 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/27 16:47:19 by maboye            #+#    #+#             */
-/*   Updated: 2019/08/29 15:37:02 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/21 14:05:17 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/wolf3d.h"
 
-static int      is_goodvalue(t_wolf *data, char c, int i)
+static int		is_goodvalue(t_wolf *data, char c, int i)
 {
-    if (c >= '0' && c <= '9')
+	if (c >= '0' && c <= '9')
 	{
-    	if (data->player.pos == -1 && c == '2')
-        	data->player.pos = i;
-	    data->map.map[i] = c - '0';
+		if (data->player.pos == -1 && c == '2')
+			data->player.pos = i;
+		data->map.map[i] = c - '0';
 		return (1);
 	}
-    else
-        return (0);
+	else
+		return (0);
 }
 
 static int		parse_map(t_wolf *data)
@@ -32,13 +32,13 @@ static int		parse_map(t_wolf *data)
 
 	if (data->map.len < 25)
 		clean_exit(data, "wolf3d: map too small", 0);
-    data->player.pos = -1;
+	data->player.pos = -1;
 	i = 0;
 	tmp = data->str;
 	while (tmp && tmp[i])
 	{
-        while (is_goodvalue(data, tmp[i], i))
-            ++i;
+		while (is_goodvalue(data, tmp[i], i))
+			++i;
 		if (tmp[i] == '\n' && tmp[i + 1] != '\n')
 		{
 			data->map.width = data->map.width < 1 ? i : data->map.width;

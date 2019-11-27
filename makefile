@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: maboye <maboye@student.42.fr>              +#+  +:+       +#+         #
+#    By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/31 12:01:33 by maboye            #+#    #+#              #
-#    Updated: 2019/11/14 21:32:47 by bebosson         ###   ########.fr        #
+#    Updated: 2019/11/27 00:02:19 by saneveu          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,28 +33,32 @@ INCDIR	=	./includes
 OBJDIR	=	./obj
 
 # src / obj files
-SRC		=	astar_list.c \
+SRC		=	main.c \
+			astar_list.c \
 			astar.c \
 			blockside.c \
 			datagame.c \
 			display.c \
 			events.c \
-			main.c \
+			game_over.c \
 			minimap.c \
 			monsters.c \
 			mouse_events.c \
 			nodes.c \
 			objects.c \
 			raycasting.c \
-			raythread.c \
 			shoot.c \
+			skybox.c \
 			spawner.c \
 			sprites.c \
 			tools.c \
 			tools2.c\
 			weapons.c \
 			wolf3d.c  \
-			pause.c   \
+			pause.c \
+			tool_render.c \
+			minimap_monster.c \
+			audio.c
 
 INC		=	wolf3d.h
 
@@ -65,13 +69,13 @@ HEADER	=	$(addprefix $(INCDIR)/,$(INC))
 CC		=	gcc
 CFLAGS	=	#-Wall -Wextra -Werror #-g3 -fsanitize=address
 
-ifeq ($(OS), Linux)
-	SDL		=	-lSDL2-2.0
+#ifeq ($(OS), Linux)
+	SDL		=	-lSDL2-2.0 -lSDL2_ttf -lSDL2_mixer
 	DIRSDL	=	
-else
-	SDL		=	-F ~/Library/Frameworks -framework SDL2 -framework SDL2_ttf
-	DIRSDL	=	./SDL2.framework/Headers
-endif 
+#else
+	##SDL		=	-F ~/Library/Frameworks -framework SDL2 -framework SDL2_ttf
+	##DIRSDL	=	./SDL2.framework/Headers
+#endif 
 
 # ft library
 FT		=	./libft/
@@ -84,7 +88,7 @@ obj:
 
 $(OBJDIR)/%.o:$(SRCDIR)/%.c $(HEADER)
 			@echo "${TUR}compiling [$@] ...${END}"
-			@$(CC) $(CFLAGS) -I $(INCDIR) -I $(DIRSDL) $(SDL) -c -o $@ $<
+			@$(CC) $(CFLAGS) -I $(INCDIR) -c -o $@ $<
 			@printf "$(UP)$(CUT)"
 
 $(FT_LIB):

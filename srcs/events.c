@@ -6,7 +6,7 @@
 /*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/25 19:45:49 by saneveu          ###   ########.fr       */
+/*   Updated: 2019/11/26 23:55:37 by saneveu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,85 +14,83 @@
 
 static int		is_outrange(t_wolf *data)
 {
+	t_object	*head;
+
 	if (data->player.y < 0 || data->player.y > data->map.height)
 		return (1);
 	else if (data->player.x < 0 || data->player.x > data->map.width)
 		return (1);
 	else if (data->map.map[(int)data->player.y * data->map.width
-	+ (int)data->player.x] == 1)
+			+ (int)data->player.x] == 1)
 		return (1);
-	else
-		return (0);
+	head = data->monster;
+	while (data->monster)
+	{
+		if (distance(data->player.x, data->player.y,
+		data->monster->x, data->monster->y) < 1)
+		{
+			data->monster = head;
+			return (1);
+		}
+		data->monster = data->monster->next;
+	}
+	data->monster = head;
+	return (0);
 }
 
 static void		move_maker(t_wolf *data, float sx, float sy)
 {
 	data->player.x += sx;
 	data->player.y += sy;
-
 	if (is_outrange(data))
 	{
 		data->player.x -= sx;
 		data->player.y -= sy;
 	}
+	data->player.pos = (int)data->player.x
+		+ data->map.width * (int)data->player.y;
+	play_sound(data, data->sound.walk);
 }
 
 static void		moves(t_wolf *data)
 {
-	if (data->key[KZ])
+	if (data->key[KQ])
+		data->player.angle -= data->player.speed
+			* data->etime * data->player.ms;
+	if (data->key[KE])
+		data->player.angle += data->player.speed
+			* data->etime * data->player.ms;
+	if (data->key[KW])
 		move_maker(data,
-            cosf(data->player.angle) * data->player.speed * data->etime,
-            sinf(data->player.angle) * data->player.speed * data->etime);
+			cosf(data->player.angle) * data->player.speed * data->etime,
+			sinf(data->player.angle) * data->player.speed * data->etime);
 	if (data->key[KS])
 		move_maker(data,
-            -(cosf(data->player.angle) * data->player.speed * data->etime),
-            -(sinf(data->player.angle) * data->player.speed * data->etime));
-	if (data->key[KQ])
+			-(cosf(data->player.angle) * data->player.speed * data->etime),
+			-(sinf(data->player.angle) * data->player.speed * data->etime));
+	if (data->key[KA])
 		move_maker(data,
-            sinf(data->player.angle) * data->player.speed * data->etime,
-            -(cosf(data->player.angle) * data->player.speed * data->etime));
+			sinf(data->player.angle) * data->player.speed * data->etime,
+			-(cosf(data->player.angle) * data->player.speed * data->etime));
 	if (data->key[KD])
 		move_maker(data,
-            -(sinf(data->player.angle) * data->player.speed * data->etime),
-            cosf(data->player.angle) * data->player.speed * data->etime);
+			-(sinf(data->player.angle) * data->player.speed * data->etime),
+			cosf(data->player.angle) * data->player.speed * data->etime);
 }
 
-static void		add_sc_x(t_wolf *data)
+static void		get_events(t_wolf *data)
 {
-	if (data->event.key.keysym.sym == SDLK_b)
-	{
-			data->key[KB] = data->event.type == SDL_KEYDOWN ? 1 : 0;
-			if (data->key[KB] == 1 && data->map.sc_x < 5)
-				data->map.sc_x++;
-	}
-	else if (data->event.key.keysym.sym == SDLK_n)
-	{
-			data->key[KN] = data->event.type == SDL_KEYDOWN ? 1 : 0;
-			if (data->key[KN] == 1 && data->map.sc_x > 2)
-				data->map.sc_x--;
-	}
-}
-
-static void		change_weapon(t_wolf *data)
-{
-		data->key[KZ] = data->event.type == SDL_KEYDOWN ? 1 : 0;
-		if (data->player.weapon < 4 && data->key[KZ] == 1)
-			data->player.weapon++;
-		if (data->player.weapon == 4 && data->key[KZ] == 1)
-			data->player.weapon = 0;
-		data->key[KZ] = 0;
-}
-
-void static		get_events(t_wolf *data)
-{
-	if (data->event.key.keysym.sym == SDLK_q)
-		data->key[KA] = data->event.type == SDL_KEYDOWN? 1 : 0;
+	if (data->event.key.keysym.sym == SDLK_b
+	|| data->event.key.keysym.sym == SDLK_n)
+		add_sc_x(data);
+	else if (data->event.key.keysym.sym == SDLK_q)
+		data->key[KQ] = data->event.type == SDL_KEYDOWN ? 1 : 0;
 	else if (data->event.key.keysym.sym == SDLK_e)
 		data->key[KE] = data->event.type == SDL_KEYDOWN ? 1 : 0;
 	else if (data->event.key.keysym.sym == SDLK_w)
-		data->key[KZ] = data->event.type == SDL_KEYDOWN ? 1 : 0;
-	else if (data->event.key.keysym.sym == SDLK_q)
-		data->key[KQ] = data->event.type == SDL_KEYDOWN ? 1 : 0;
+		data->key[KW] = data->event.type == SDL_KEYDOWN ? 1 : 0;
+	else if (data->event.key.keysym.sym == SDLK_a)
+		data->key[KA] = data->event.type == SDL_KEYDOWN ? 1 : 0;
 	else if (data->event.key.keysym.sym == SDLK_s)
 		data->key[KS] = data->event.type == SDL_KEYDOWN ? 1 : 0;
 	else if (data->event.key.keysym.sym == SDLK_d)
@@ -107,30 +105,27 @@ void static		get_events(t_wolf *data)
 		if (data->event.type == SDL_KEYDOWN)
 			data->key[KP] = data->key[KP] ? 0 : 1;
 	}
-	else if (data->event.key.keysym.sym == SDLK_b || data->event.key.keysym.sym == SDLK_n)
-		add_sc_x(data); // proportion de la map => b pour diminuer n pour augmenter 
-	else if (data->event.key.keysym.sym == SDLK_z) 
-		change_weapon(data);
-			
 }
 
-void            events(t_wolf *data)
+void			events(t_wolf *data)
 {
-    SDL_PollEvent(&data->event);
-    if (data->event.type == SDL_MOUSEMOTION)
+	SDL_PollEvent(&data->event);
+	if (data->event.type == SDL_MOUSEMOTION)
 	{
 		SDL_GetRelativeMouseState(&(data->mouse.xrel), &(data->mouse.yrel));
-		if (data->mouse.xrel > 0 || data->mouse.xrel < 0)
-			ft_mouse_motion_x(data);
+		ft_mouse_motion_x(data);
 	}
-	if (data->event.type == SDL_QUIT)
-        clean_exit(data, NULL, 1);
-    else if (data->event.key.keysym.sym == SDLK_ESCAPE)
-        clean_exit(data, NULL, 1);
-	else if (data->event.key.keysym.sym == SDLK_SPACE)
+	if (data->event.type == SDL_QUIT
+	|| data->event.key.keysym.sym == SDLK_ESCAPE)
+		clean_exit(data, NULL, 1);
+	else if (data->key[KP])
+		w_pause(data);
+	else if (data->event.button.button == SDL_BUTTON_RIGHT)
+		change_weapon(data);
+	else if (data->event.button.button == SDL_BUTTON_LEFT)
 		shoot(data);
 	else
-    	get_events(data);
+		get_events(data);
 	moves(data);
 	SDL_FlushEvent(SDL_KEYUP | SDL_KEYDOWN | SDL_MOUSEMOTION);
 }

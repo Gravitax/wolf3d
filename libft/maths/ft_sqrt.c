@@ -6,11 +6,11 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/26 22:43:44 by maboye            #+#    #+#             */
-/*   Updated: 2019/05/03 16:58:07 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/21 14:42:47 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-float		ft_sqrt(float	nb)
+float		ft_sqrt(float nb)
 {
 	float	x;
 	int		i;
