@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/27 18:04:37 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/27 18:07:29 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ static int		get_fps(t_wolf *data)
 
 static void		launch_game(t_wolf *data)
 {
-	int		now, prev = 0;
-
 	init_sdl(data);
 	if (data->pwindow)
 	{
