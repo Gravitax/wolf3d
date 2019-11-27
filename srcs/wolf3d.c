@@ -6,12 +6,11 @@
 /*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/27 00:41:29 by saneveu          ###   ########.fr       */
+/*   Updated: 2019/11/27 02:52:07 by saneveu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/wolf3d.h"
-#include <stdio.h>
 
 static void		init_sdl(t_wolf *data)
 {
