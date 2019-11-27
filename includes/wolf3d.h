@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/27 16:48:08 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/26 18:01:45 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/27 16:07:53 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 # define W_HEIGHT	600
 # define SNB		29
 # define WNB		4
-# define UNITX		W_WIDTH/16
-# define UNITY		W_HEIGHT/10
+# define UNITX		W_WIDTH / 16
+# define UNITY		W_HEIGHT / 10
 
 # define KQ			0
 # define KE			1
@@ -38,7 +38,15 @@
 # define KB			8
 # define KN			9
 # define KP			10
-# define KNB		11
+# define ML			11
+# define MR			12
+# define KNB		13
+
+typedef union	u_rsqrt
+{
+	float		f;
+	uint32_t	i;
+}				t_rsqrt;
 
 typedef struct	s_sprite
 {
@@ -178,6 +186,7 @@ typedef struct	s_wolf
 {
 	int						kill_score;
 	int						fire_delay;
+	int						skin_delay;
 	int						shoot;
 	int						fps;
 	int						sdl_on;

@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 15:05:22 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/25 11:30:03 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/27 14:05:47 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,24 @@
 static void		draw_ray(t_wolf *data, int x)
 {
 	int			y;
+	float		size;
 
 	data->raydata.ceiling = (float)(W_HEIGHT / 2)
 		- W_HEIGHT / data->raydata.dst_towall;
 	data->raydata.floor = W_HEIGHT - data->raydata.ceiling;
+	size = ((float)data->raydata.floor - (float)data->raydata.ceiling);
 	y = data->raydata.ceiling;
 	while (++y < W_HEIGHT)
 	{
 		if (y <= data->raydata.floor)
 		{
 			data->raydata.sampley = ((float)y - (float)data->raydata.ceiling)
-				/ ((float)data->raydata.floor - (float)data->raydata.ceiling);
-			put_pixel(data->screen, x, y, get_pixel(data, data->raydata.si,
-				data->raydata.samplex, data->raydata.sampley));
+				/ size;
+			if (data->raydata.dst_towall < 0.2f)
+				put_pixel(data->screen, x, y, 0xffffffff);
+			else
+				put_pixel(data->screen, x, y, get_pixel(data, data->raydata.si,
+					data->raydata.samplex, data->raydata.sampley));
 		}
 	}
 }
@@ -57,18 +62,22 @@ static int		hitwall(t_wolf *data)
 
 void			raycasting(t_wolf *data)
 {
-	int	x;
+	int		x;
+	float	nfisheye;
 
 	x = -1;
 	while (++x < W_WIDTH)
 	{
-		data->raydata.angle = (data->player.angle - data->player.fov / 2)
-			+ ((float)x / (float)W_WIDTH) * data->player.fov;
+		data->raydata.angle = ((float)x / (float)W_WIDTH) * data->player.fov
+			+ (data->player.angle - data->player.fov / 2);
 		data->raydata.eyex = cosf(data->raydata.angle);
 		data->raydata.eyey = sinf(data->raydata.angle);
+		nfisheye = ((float)x / (float)W_WIDTH * data->player.fov)
+			- data->player.fov / 2;
 		data->raydata.dst_towall = 0;
 		while (hitwall(data) == 0)
 			data->raydata.dst_towall += data->raydata.ray_step;
+		data->raydata.dst_towall *= cos(nfisheye);
 		draw_ray(data, x);
 		data->map.depth_buffer[x] = data->raydata.dst_towall;
 	}

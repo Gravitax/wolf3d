@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/26 17:58:03 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/27 14:18:52 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ void			wolf3d(t_wolf *data)
 	data->player.x = data->player.pos - (data->player.y * data->map.width) + 1;
 	data->player.angle = 0;
 	data->player.fov = 3.14159 / 4;
-	data->player.ms = 0.2;
+	data->player.ms = 0.3;
+	data->player.ms /= 10;
 	data->player.speed = 5;
 	data->player.health = 200;
 	data->player.health_max = 200;

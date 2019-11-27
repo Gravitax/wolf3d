@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/26 16:54:47 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/27 16:04:29 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,23 +66,18 @@ static void		shoot_impact(t_wolf *data)
 
 void			shoot(t_wolf *data)
 {
-	if (data->event.type == SDL_MOUSEBUTTONDOWN)
+	if (data->key[ML] && data->fire_delay < 1)
 	{
-		if (--data->shoot < 1 && data->fire_delay < 1)
-		{
-			if (data->player.weapon == 0)
-				data->player.wdata[data->player.weapon].si = 21;
-			else if (data->player.weapon == 1)
-				data->player.wdata[data->player.weapon].si = 23;
-			else if (data->player.weapon == 2)
-				data->player.wdata[data->player.weapon].si = 25;
-			else if (data->player.weapon == 3)
-				data->player.wdata[data->player.weapon].si = 27;
-			shoot_impact(data);
-			data->fire_delay = data->player.wdata[data->player.weapon].delay;
-			data->shoot = data->fire_delay;
-		}
+		if (data->player.weapon == 0)
+			data->player.wdata[data->player.weapon].si = 21;
+		else if (data->player.weapon == 1)
+			data->player.wdata[data->player.weapon].si = 23;
+		else if (data->player.weapon == 2)
+			data->player.wdata[data->player.weapon].si = 25;
+		else if (data->player.weapon == 3)
+			data->player.wdata[data->player.weapon].si = 27;
+		shoot_impact(data);
+		data->fire_delay = data->player.wdata[data->player.weapon].delay;
+		data->skin_delay = 10;
 	}
-	else if (data->event.type == SDL_MOUSEBUTTONUP)
-		data->shoot = 0;
 }

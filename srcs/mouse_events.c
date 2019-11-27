@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 15:05:22 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/26 17:57:24 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/27 16:06:48 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,15 @@ void			change_weapon(t_wolf *data)
 			++data->player.weapon;
 		if (data->player.weapon > 3)
 			data->player.weapon = 0;
-		delay = 20;
+		delay = 10;
 	}
 }
 
-void			ft_mouse_motion_x(t_wolf *data)
+static void		mouse_motion(t_wolf *data)
 {
-	int			x;
-	int			y;
 	static int	token = 0;
 
+	SDL_GetRelativeMouseState(&(data->mouse.xrel), &(data->mouse.yrel));
 	if (token == 1)
 	{
 		data->player.angle -= data->player.speed
@@ -40,12 +39,15 @@ void			ft_mouse_motion_x(t_wolf *data)
 	}
 	else if (token == 0)
 	{
-		SDL_GetWindowPosition(data->pwindow, &x, &y);
 		SDL_WarpMouseInWindow(data->pwindow,
-			x - W_WIDTH / 2,
-			y - W_HEIGHT / 2);
+			W_WIDTH / 2, W_HEIGHT / 2);
 		token = 1;
-		SDL_ShowCursor(SDL_DISABLE);
 	}
-	SDL_FlushEvent(SDL_KEYUP | SDL_KEYDOWN | SDL_MOUSEMOTION);
+	SDL_FlushEvent(SDL_MOUSEMOTION);
+}
+
+void			mouse_events(t_wolf *data)
+{
+	SDL_ShowCursor(SDL_DISABLE);
+	mouse_motion(data);
 }
