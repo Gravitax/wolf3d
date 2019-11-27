@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wolf3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
+/*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/27 16:48:08 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/27 17:49:23 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/27 20:51:49 by saneveu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <unistd.h>
 # include <SDL.h>
 # include <SDL_ttf.h>
+# include <SDL_mixer.h>
 # include "../libft/libft.h"
 
 # define W_WIDTH	800
@@ -51,6 +52,27 @@ typedef union	u_rsqrt
 	float		f;
 	uint32_t	i;
 }				t_rsqrt;
+
+typedef struct	s_sound
+{
+	Mix_Chunk 	*walk;
+	Mix_Music 	*InGmMusic;
+	Mix_Music	*PauseMusic;
+	Mix_Chunk	*gun;
+	Mix_Chunk	*shotgun;
+	Mix_Chunk	*fusil;
+	Mix_Chunk	*hand;
+	Mix_Chunk	*NMIhit;
+	Mix_Chunk	*NMIdeath;
+	Mix_Chunk	*NMIspawn;
+	Mix_Chunk	*NMIatk;
+	Mix_Chunk	*PlayerHit;
+	Mix_Chunk	*PlayerDeath;
+	Mix_Chunk	*PlayerSpawn;
+	Mix_Chunk	*switchgun;
+	Mix_Chunk	*tic;
+	Uint8		token;
+}				t_sound;
 
 typedef struct	s_sprite
 {
@@ -209,6 +231,7 @@ typedef struct	s_wolf
 	t_object				*monster;
 	t_object				*object;
 	t_sprite				sprite[SNB];
+	t_sound					sound;
 	SDL_MouseMotionEvent	mouse;
 	SDL_Event				event;
 	SDL_Renderer			*renderer;
@@ -267,5 +290,10 @@ void			set_write_to_screen(t_wolf *data, SDL_Rect rect, int color,
 	char *str);
 void			ft_mouse_motion_x(t_wolf *data);
 void			object_minimap(t_wolf *data, t_object *list);
+
+void            audio_init(t_wolf *data);
+void            free_sound(t_wolf *data);
+void            play_sound(t_wolf *data, Mix_Chunk *chunk, int channel);
+void            play_music(t_wolf *data, Mix_Music *music);
 
 #endif

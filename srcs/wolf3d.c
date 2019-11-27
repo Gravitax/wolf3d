@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wolf3d.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
+/*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/27 18:07:29 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/27 20:51:49 by saneveu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@ static void		init_sdl(t_wolf *data)
 	data->sdl_on = 1;
 	if (TTF_Init() == -1)
 		clean_exit(data, "wolf3d: error TTF_init", 0);
+	if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 1024) == -1)
+		clean_exit(data, "wolf3d: error Mix_OpenAudio", 0);
+	else
+		audio_init(data);
 	data->pwindow = SDL_CreateWindow("maboye wolf3d",
 			SDL_WINDOWPOS_UNDEFINED,
 			SDL_WINDOWPOS_UNDEFINED,

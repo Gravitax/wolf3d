@@ -6,7 +6,11 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2019/11/27 17:54:53 by maboye           ###   ########.fr       */
+=======
+/*   Updated: 2019/11/25 14:15:27 by maboye           ###   ########.fr       */
+>>>>>>> sam
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +33,11 @@ static void		get_list(t_wolf *data, t_object *list, int min, int max)
 			list->type = data->map.map[i];
 			list->hp = get_objhp(data, list);
 			list->hp_max = list->hp;
+<<<<<<< HEAD
 			list->speed = list->type / 30;
+=======
+			list->speed = list->type;
+>>>>>>> sam
 			list->si = list->type;
 			list->i = list->x + data->map.width * list->y;
 			list->sprite = data->sprite[list->si];

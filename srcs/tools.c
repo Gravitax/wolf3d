@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
+/*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 15:05:22 by maboye            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2019/11/26 17:57:46 by maboye           ###   ########.fr       */
+=======
+/*   Updated: 2019/11/27 18:04:08 by saneveu          ###   ########.fr       */
+>>>>>>> sam
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +89,14 @@ void			clean_exit(t_wolf *data, char *str, int token)
 			if (data->renderer)
 				SDL_DestroyRenderer(data->renderer);
 			free_surfaces(data);
+<<<<<<< HEAD
 			TTF_Quit();
+=======
+			if (data->sound.token == 1)
+				free_sound(data);
+			TTF_Quit();
+			Mix_CloseAudio();
+>>>>>>> sam
 			SDL_Quit();
 		}
 		ft_strdel(&data->str);

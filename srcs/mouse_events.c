@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mouse_events.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
+/*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 15:05:22 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/27 17:51:53 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/27 20:51:49 by saneveu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,15 @@ void			change_weapon(t_wolf *data)
 	if (--delay < 0)
 	{
 		if (data->player.weapon < 4)
+		{
 			++data->player.weapon;
+			play_sound(data, data->sound.switchgun, 7);
+		}
 		if (data->player.weapon > 3)
+		{
 			data->player.weapon = 0;
+			play_sound(data, data->sound.hand, 7);
+		}
 		delay = 10;
 	}
 }
