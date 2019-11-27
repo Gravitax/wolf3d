@@ -6,7 +6,7 @@
 /*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/27 20:51:49 by saneveu          ###   ########.fr       */
+/*   Updated: 2019/11/27 21:13:33 by saneveu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,29 +56,25 @@ static void		move_maker(t_wolf *data, float sx, float sy)
 static void		moves(t_wolf *data)
 {
 	if (data->key[KQ])
-		data->player.angle -= data->player.speed
-			* data->etime * data->player.ms * 10;
+		data->player.angle -= data->player.speed * data->player.ms * 10;
 	if (data->key[KE])
-		data->player.angle += data->player.speed
-			* data->etime * data->player.ms * 10;
+		data->player.angle += data->player.speed * data->player.ms * 10;
 	if (data->key[KW])
 		move_maker(data,
-			cosf(data->player.angle) * data->player.speed * data->etime,
-			sinf(data->player.angle) * data->player.speed * data->etime);
+			cosf(data->player.angle) * data->player.speed,
+			sinf(data->player.angle) * data->player.speed);
 	if (data->key[KS])
 		move_maker(data,
-			-(cosf(data->player.angle) * data->player.speed * data->etime),
-			-(sinf(data->player.angle) * data->player.speed * data->etime));
+			-(cosf(data->player.angle) * data->player.speed),
+			-(sinf(data->player.angle) * data->player.speed));
 	if (data->key[KA])
 		move_maker(data,
-			sinf(data->player.angle) * data->player.speed * data->etime,
-			-(cosf(data->player.angle) * data->player.speed * data->etime));
+			sinf(data->player.angle) * data->player.speed,
+			-(cosf(data->player.angle) * data->player.speed));
 	if (data->key[KD])
 		move_maker(data,
-			-(sinf(data->player.angle) * data->player.speed * data->etime),
-			cosf(data->player.angle) * data->player.speed * data->etime);
-	/*if (data->key[KW] || data->key[KS] || data->key[KA] || data->key[KD])
-		play_sound(data, data->sound.walk, 1);*/
+			-(sinf(data->player.angle) * data->player.speed),
+			cosf(data->player.angle) * data->player.speed);
 }
 
 static void		get_events(t_wolf *data)

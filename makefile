@@ -6,11 +6,7 @@
 #    By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/31 12:01:33 by maboye            #+#    #+#              #
-<<<<<<< HEAD
-#    Updated: 2019/11/26 18:02:29 by maboye           ###   ########.fr        #
-=======
 #    Updated: 2019/11/27 17:20:36 by saneveu          ###   ########.fr        #
->>>>>>> sam
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,10 +58,7 @@ SRC		=	astar_list.c \
 			pause.c \
 			tool_render.c \
 			minimap_monster.c \
-<<<<<<< HEAD
-=======
 			audio.c \
->>>>>>> sam
 
 INC		=	wolf3d.h
 
@@ -80,11 +73,7 @@ ifeq ($(OS), Linux)
 	SDL		=	-lSDL2-2.0
 	DIRSDL	=	
 else
-<<<<<<< HEAD
-	SDL		=	-F ~/Library/Frameworks -framework SDL2 -framework SDL2_ttf
-=======
 	SDL		=	-F ~/Library/Frameworks -framework SDL2 -framework SDL2_ttf -framework SDL2_mixer
->>>>>>> sam
 	DIRSDL	=	./SDL2.framework/Headers
 endif 
 
