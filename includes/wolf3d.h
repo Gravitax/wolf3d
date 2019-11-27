@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/27 16:48:08 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/27 16:07:53 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/27 17:49:23 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,12 @@
 
 # define W_WIDTH	800
 # define W_HEIGHT	600
+
+# define FPS		60
+
 # define SNB		29
 # define WNB		4
+
 # define UNITX		W_WIDTH / 16
 # define UNITY		W_HEIGHT / 10
 

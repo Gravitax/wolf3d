@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/27 14:18:52 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/27 18:04:37 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,20 +31,26 @@ static void		init_sdl(t_wolf *data)
 		clean_exit(data, "wolf3d: error TTF_OpenFont", 0);
 }
 
-static void		get_fps(t_wolf *data)
+static int		get_fps(t_wolf *data)
 {
-	float	pframe;
+	int	pframe;
 
-	pframe = clock();
-	data->etime = (pframe / CLOCKS_PER_SEC)
-		- (data->frame_start / CLOCKS_PER_SEC);
-	data->fps = (int)(1 / data->etime);
-	if (data->etime > 0.016)
-		SDL_Delay(data->etime * 1000 - 16);
+	pframe = 1000 / FPS;
+	data->fps = 1000 / (data->frame_start - data->etime);
+	if (data->frame_start - data->etime > pframe)
+	{
+		data->etime = data->frame_start;
+		return (1);
+	}
+	else
+		SDL_Delay(pframe - (data->frame_start - data->etime));
+	return (0);
 }
 
 static void		launch_game(t_wolf *data)
 {
+	int		now, prev = 0;
+
 	init_sdl(data);
 	if (data->pwindow)
 	{
@@ -53,12 +59,14 @@ static void		launch_game(t_wolf *data)
 		load_datagame(data);
 		while (1)
 		{
-			data->frame_start = clock();
-			events(data);
-			display(data);
-			get_fps(data);
-			SDL_RenderPresent(data->renderer);
-			SDL_DestroyTexture(data->window);
+			data->frame_start = SDL_GetTicks();
+			if (get_fps(data) == 1)
+			{
+				events(data);
+				display(data);
+				SDL_RenderPresent(data->renderer);
+				SDL_DestroyTexture(data->window);
+			}
 		}
 	}
 	else
@@ -73,10 +81,11 @@ void			wolf3d(t_wolf *data)
 	data->player.y = data->player.pos / data->map.width;
 	data->player.x = data->player.pos - (data->player.y * data->map.width) + 1;
 	data->player.angle = 0;
-	data->player.fov = 3.14159 / 4;
-	data->player.ms = 0.3;
-	data->player.ms /= 10;
-	data->player.speed = 5;
+	data->player.fov = 3.14159f / 4;
+	data->player.ms = 2.2f;
+	data->player.ms /= 100;
+	data->player.speed = 6;
+	data->player.speed /= 100;
 	data->player.health = 200;
 	data->player.health_max = 200;
 	data->player.weapon = 0;

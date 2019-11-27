@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/25 14:16:01 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/27 17:54:59 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static void		create_newmonster(t_wolf *data)
 	newmonster->speed = newmonster->type + data->kill_score / 10;
 	if (newmonster->speed > 15)
 		newmonster->speed = 15;
+	newmonster->speed /= 30;
 	lst_pushback(data->monster, newmonster);
 	if (data->monster == NULL)
 		clean_exit(data, "wolf3d: malloc error", 0);
