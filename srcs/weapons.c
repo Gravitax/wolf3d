@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/21 14:25:04 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/27 16:03:27 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ static void		get_weapondata(t_wolf *data)
 
 static void		update_weaponskin(t_wolf *data)
 {
-	if (--data->fire_delay > 0)
+	--data->fire_delay;
+	if (--data->skin_delay > 0)
 		return ;
 	if (data->player.weapon == 0)
 		data->player.wdata[data->player.weapon].si = 20;

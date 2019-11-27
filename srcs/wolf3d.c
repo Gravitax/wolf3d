@@ -6,7 +6,7 @@
 /*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/27 02:52:07 by saneveu          ###   ########.fr       */
+/*   Updated: 2019/11/27 17:18:42 by saneveu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,7 @@ static void		init_sdl(t_wolf *data)
 	if (TTF_Init() == -1)
 		clean_exit(data, "wolf3d: error TTF_init", 0);
 	if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 1024) == -1)
-	{
-		printf("%s", Mix_GetError());
-		clean_exit(data, "wolf3d: Mix_OpenAudio fail", 0);
-	}
+		clean_exit(data, "wolf3d: error Mix_OpenAudio", 0);
 	else
 		audio_init(data);
 	data->pwindow = SDL_CreateWindow("maboye wolf3d",
@@ -81,7 +78,8 @@ void			wolf3d(t_wolf *data)
 	data->player.x = data->player.pos - (data->player.y * data->map.width) + 1;
 	data->player.angle = 0;
 	data->player.fov = 3.14159 / 4;
-	data->player.ms = 0.2;
+	data->player.ms = 0.3;
+	data->player.ms /= 10;
 	data->player.speed = 5;
 	data->player.health = 200;
 	data->player.health_max = 200;

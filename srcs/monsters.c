@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monsters.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
+/*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/25 14:19:55 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/27 19:21:25 by saneveu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,11 +106,15 @@ static void		monster_actions(t_wolf *data)
 	}
 	else
 	{
+		play_sound(data, data->sound.PlayerHit, 5);
 		data->monster->si = data->monster->type + 3;
 		data->player.health -= data->monster->type * 2;
 		data->monster->delay = data->monster->type * 10;
 		if (data->player.health < 1)
+		{			
+			play_sound(data, data->sound.PlayerDeath, 5);
 			game_over(data);
+		}
 	}
 }
 

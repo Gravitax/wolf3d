@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 15:05:22 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/26 16:44:16 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/27 13:01:37 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,18 @@
 
 float			distance(float x1, float y1, float x2, float y2)
 {
-	return (ft_sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)));
+	float	nb;
+	float	i;
+	float	threehalfs;
+	t_rsqrt	conv;
+
+	nb = (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2);
+	i = nb * 0.5f;
+	threehalfs = 1.5f;
+	conv = (t_rsqrt){nb};
+	conv.i = 0x5f3759df - (conv.i >> 1);
+	conv.f *= (threehalfs - (i * conv.f * conv.f));
+	return (1 / conv.f);
 }
 
 int				get_objhp(t_wolf *data, t_object *list)
@@ -40,13 +51,11 @@ uint32_t		get_pixel(t_wolf *data, int si, float samplex, float sampley)
 	t_sprite		surface;
 
 	surface = data->sprite[si];
-	SDL_LockSurface(surface.img);
 	sx = samplex * surface.img->w;
 	sy = sampley * surface.img->h;
 	p = (uint8_t *)surface.img->pixels + sy * surface.img->pitch
 		+ sx * surface.img->format->BytesPerPixel;
 	pixel = (p[2] | p[1] << 8 | p[0] << 16 | 255 << 24);
-	SDL_UnlockSurface(surface.img);
 	return (pixel);
 }
 
@@ -66,10 +75,8 @@ void			put_pixel(SDL_Surface *surface, int x, int y, uint32_t color)
 {
 	unsigned int	*pixels;
 
-	if (x < 0 || x > W_WIDTH || y < 0 || y > W_HEIGHT)
+	if (x < 0 || x >= W_WIDTH || y < 0 || y >= W_HEIGHT)
 		return ;
-	SDL_LockSurface(surface);
 	pixels = (unsigned int *)surface->pixels;
 	pixels[x + (y * W_WIDTH)] = color;
-	SDL_UnlockSurface(surface);
 }

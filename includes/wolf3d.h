@@ -6,7 +6,7 @@
 /*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/27 16:48:08 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/26 23:56:29 by saneveu          ###   ########.fr       */
+/*   Updated: 2019/11/27 20:10:31 by saneveu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,17 @@
 # include <time.h>
 # include <fcntl.h>
 # include <unistd.h>
-# include "/usr/include/SDL2/SDL.h"
-# include "/usr/include/SDL2/SDL_ttf.h"
+# include <SDL.h>
+# include <SDL_ttf.h>
+# include <SDL_mixer.h>
 # include "../libft/libft.h"
-# include "/usr/include/SDL2/SDL_mixer.h"
 
 # define W_WIDTH	800
 # define W_HEIGHT	600
 # define SNB		29
 # define WNB		4
-# define UNITX		W_WIDTH/16
-# define UNITY		W_HEIGHT/10
+# define UNITX		W_WIDTH / 16
+# define UNITY		W_HEIGHT / 10
 
 # define KQ			0
 # define KE			1
@@ -39,7 +39,36 @@
 # define KB			8
 # define KN			9
 # define KP			10
-# define KNB		11
+# define ML			11
+# define MR			12
+# define KNB		13
+
+typedef struct	s_sound
+{
+	Mix_Chunk 	*walk;
+	Mix_Music 	*InGmMusic;
+	Mix_Music	*PauseMusic;
+	Mix_Chunk	*gun;
+	Mix_Chunk	*shotgun;
+	Mix_Chunk	*fusil;
+	Mix_Chunk	*hand;
+	Mix_Chunk	*NMIhit;
+	Mix_Chunk	*NMIdeath;
+	Mix_Chunk	*NMIspawn;
+	Mix_Chunk	*NMIatk;
+	Mix_Chunk	*PlayerHit;
+	Mix_Chunk	*PlayerDeath;
+	Mix_Chunk	*PlayerSpawn;
+	Mix_Chunk	*switchgun;
+	Mix_Chunk	*tic;
+	Uint8		token;
+}				t_sound;
+
+typedef union	u_rsqrt
+{
+	float		f;
+	uint32_t	i;
+}				t_rsqrt;
 
 typedef struct	s_sprite
 {
@@ -175,17 +204,11 @@ typedef struct	s_pf
 	t_alst		*alst;
 }				t_pf;
 
-typedef	struct	s_sound
-{
-	Mix_Chunk	*walk;
-	Mix_Chunk	*fire;
-	Mix_Music	*music;
-}				t_sound;
-
 typedef struct	s_wolf
 {
 	int						kill_score;
 	int						fire_delay;
+	int						skin_delay;
 	int						shoot;
 	int						fps;
 	int						sdl_on;
@@ -266,6 +289,7 @@ void			object_minimap(t_wolf *data, t_object *list);
 
 void            audio_init(t_wolf *data);
 void            free_sound(t_wolf *data);
-void            play_sound(t_wolf *data, Mix_Chunk *chunk);
+void            play_sound(t_wolf *data, Mix_Chunk *chunk, int channel);
+void            play_music(t_wolf *data, Mix_Music *music);
 
 #endif
