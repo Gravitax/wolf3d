@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/28 15:52:06 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/28 16:11:31 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,12 +111,10 @@ static void		get_events(t_wolf *data)
 void			events(t_wolf *data)
 {
 	SDL_PollEvent(&data->event);
-	if (data->event.type == SDL_QUIT
-	|| data->event.key.keysym.sym == SDLK_ESCAPE)
-	{
-		puts("events.c");
+	if ((data->event.key.keysym.sym == SDLK_ESCAPE
+	&& data->event.type == SDL_KEYDOWN)
+	|| data->event.type == SDL_QUIT)
 		clean_exit(data, NULL, 1);
-	}
 	else if (data->event.key.keysym.sym == SDLK_b
 	|| data->event.key.keysym.sym == SDLK_n)
 		add_sc_x(data);
