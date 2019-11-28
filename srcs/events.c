@@ -105,6 +105,12 @@ static void		get_events(t_wolf *data)
 			data->key[KP] = data->key[KP] ? 0 : 1;
 }
 
+static void		get_events2(t_wolf *data)
+{
+	if (data->event.key.keysym.sym == SDLK_g)
+		data->key[KG] = data->event.type == SDL_KEYDOWN ? 1 : 0;
+}	
+
 void			events(t_wolf *data)
 {
 	SDL_PollEvent(&data->event);
@@ -117,7 +123,10 @@ void			events(t_wolf *data)
 	else if (data->key[KP])
 		w_pause(data);
 	else
+	{
 		get_events(data);
+		get_events2(data);
+	}
 	mouse_events(data);
 	moves(data);
 	if (data->key[ML])

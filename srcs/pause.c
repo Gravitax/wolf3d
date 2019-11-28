@@ -23,7 +23,7 @@ SDL_Color			ft_hex_to_rgb(int hexa)
 	return (color);
 }
 
-static int			move_cursor(t_wolf *data, int *cursor)
+int			move_cursor(t_wolf *data, int *cursor)
 {
 	if (data->event.key.keysym.sym == SDLK_UP && *cursor > 1)
 		return (--*cursor);
@@ -33,7 +33,7 @@ static int			move_cursor(t_wolf *data, int *cursor)
 		return (*cursor);
 }
 
-static void			draw_cursor(t_wolf *data, int cursor, SDL_Rect rect)
+void			draw_cursor(t_wolf *data, int cursor, SDL_Rect rect, int c)
 {
 	SDL_Rect	rect_cursor;
 	int			x;
@@ -43,12 +43,12 @@ static void			draw_cursor(t_wolf *data, int cursor, SDL_Rect rect)
 	{
 		rect_cursor = (SDL_Rect){x * UNITX, (6.5 + cursor)
 			* UNITY, UNITX / 6, UNITY / 6};
-		set_rect_to_screen(data, &rect_cursor, 0);
+		set_rect_to_screen(data, &rect_cursor, c);
 		x++;
 	}
 	rect_cursor = (SDL_Rect){x * UNITX, (6 + cursor)
 		* UNITY, UNITX / 2, UNITY / 2};
-	set_rect_to_screen(data, &rect_cursor, 0);
+	set_rect_to_screen(data, &rect_cursor, c);
 }
 
 static void			draw_main_rect(t_wolf *data, int cursor)
@@ -69,7 +69,7 @@ static void			draw_main_rect(t_wolf *data, int cursor)
 	set_write_to_screen(data, rect, 0, "CONTINUE");
 	rect2 = (SDL_Rect){2 * UNITX, 8 * UNITY, 2 * UNITX, 0.75 * UNITY};
 	set_write_to_screen(data, rect2, 0, "QUIT");
-	draw_cursor(data, cursor, rect);
+	draw_cursor(data, cursor, rect, 0);
 	SDL_RenderPresent(data->renderer);
 }
 

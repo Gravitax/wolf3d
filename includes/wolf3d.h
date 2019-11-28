@@ -20,7 +20,7 @@
 # include <SDL2/SDL_ttf.h>
 # include "../libft/libft.h"
 
-# define W_WIDTH	1000
+# define W_WIDTH	800
 # define W_HEIGHT	600
 
 # define FPS		60
@@ -44,7 +44,8 @@
 # define KP			10
 # define ML			11
 # define MR			12
-# define KNB		13
+# define KG			13
+# define KNB		14
 
 typedef union	u_rsqrt
 {
@@ -267,5 +268,7 @@ void			set_write_to_screen(t_wolf *data, SDL_Rect rect, int color,
 	char *str);
 void			ft_mouse_motion_x(t_wolf *data);
 void			object_minimap(t_wolf *data, t_object *list);
+void			draw_cursor(t_wolf *data, int cursor, SDL_Rect rect, int c);
 
+int				move_cursor(t_wolf *data, int *cursor);
 #endif

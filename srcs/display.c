@@ -110,4 +110,7 @@ void			display(t_wolf *data)
 	health(data);
 	if (data->key[KM])
 		minimap(data);
+	if (data->key[KG])
+		game_over(data);
+
 }
