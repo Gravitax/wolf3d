@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/28 15:17:47 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/28 15:52:06 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,6 @@ static void		moves(t_wolf *data)
 		data->player.angle -= data->player.speed * data->player.ms * 10;
 	if (data->key[KE])
 		data->player.angle += data->player.speed * data->player.ms * 10;
-	if (data->player.angle > 6.5f)
-		data->player.angle = 0;
-	else if (data->player.angle < 0)
-		data->player.angle = 6;
 	if (data->key[KW])
 		move_maker(data,
 			cosf(data->player.angle) * data->player.speed * shift,
@@ -86,9 +82,7 @@ static void		moves(t_wolf *data)
 
 static void		get_events(t_wolf *data)
 {
-	if (data->event.key.keysym.sym == SDLK_LSHIFT)
-		data->key[SHIFT] = data->event.type == SDL_KEYDOWN ? 1 : 0;
-	else if (data->event.key.keysym.sym == SDLK_q)
+	if (data->event.key.keysym.sym == SDLK_q)
 		data->key[KQ] = data->event.type == SDL_KEYDOWN ? 1 : 0;
 	else if (data->event.key.keysym.sym == SDLK_e)
 		data->key[KE] = data->event.type == SDL_KEYDOWN ? 1 : 0;
@@ -130,6 +124,8 @@ void			events(t_wolf *data)
 		w_pause(data);
 	else
 		get_events(data);
+	if (data->event.key.keysym.sym == SDLK_LSHIFT)
+		data->key[SHIFT] = data->event.type == SDL_KEYDOWN ? 1 : 0;
 	mouse_events(data);
 	moves(data);
 }

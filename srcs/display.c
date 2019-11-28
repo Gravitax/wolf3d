@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/28 15:14:45 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/28 15:51:50 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,10 @@ static void		health(t_wolf *data)
 
 void			display(t_wolf *data)
 {
+	if (data->player.angle > 6)
+		data->player.angle = 0;
+	else if (data->player.angle < 0)
+		data->player.angle = 6;
 	raycasting(data);
 	monsters(data);
 	objects(data, data->object);
