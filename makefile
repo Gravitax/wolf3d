@@ -69,7 +69,7 @@ CC		=	gcc
 CFLAGS	=	#-Wall -Wextra -Werror #-g3 -fsanitize=address
 
 ifeq ($(OS), Linux)
-	SDL		=	-lSDL2-2.0
+	SDL		=	-lSDL2-2.0 -lSDL2_ttf
 	DIRSDL	=	
 else
 	SDL		=	-F ~/Library/Frameworks -framework SDL2 -framework SDL2_ttf
@@ -87,7 +87,7 @@ obj:
 
 $(OBJDIR)/%.o:$(SRCDIR)/%.c $(HEADER)
 			@echo "${TUR}compiling [$@] ...${END}"
-			@$(CC) $(CFLAGS) -I $(INCDIR) -I $(DIRSDL) -c -o $@ $<
+			@$(CC) $(CFLAGS) -I $(INCDIR) -I $(DIRSDL) $(SDL) -c -o  $@ $<
 			@printf "$(UP)$(CUT)"
 
 $(FT_LIB):
