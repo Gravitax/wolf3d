@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
+/*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/29 12:32:56 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/29 20:03:50 by saneveu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ void			events(t_wolf *data)
 		add_sc_x(data);
 	else if (data->key[KP])
 		w_pause(data);
+	//else if (data->key[KG])
+	//	w_pause(data);
 	else
 		get_events(data);
 	if (data->event.key.keysym.sym == SDLK_LSHIFT)

@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   game_over.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
+/*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/27 16:48:08 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/26 16:12:31 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/29 20:16:28 by saneveu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/wolf3d.h"
 
-void			game_over(t_wolf *data)
+void		game_over(t_wolf *data)
 {
-	(void)data;
-	printf("game over\n");
+	ft_putstr("GAME OVER\n");
 }

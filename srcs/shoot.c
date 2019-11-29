@@ -6,7 +6,7 @@
 /*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/29 19:01:11 by saneveu          ###   ########.fr       */
+/*   Updated: 2019/11/29 20:03:19 by saneveu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,13 @@ static void		deal_damage_tomonster(t_wolf *data)
 		++data->kill_score;
 		data->monster->dead = 1;
 		data->monster->si = 28;
+		play_sound(data, data->sound.NMIdeath, 3);
 	}
 	else
+	{
 		data->monster->si = data->monster->type + 6;
+		play_sound(data, data->sound.NMIhit, 3);
+	}
 }
 
 static int		hitbox(t_wolf *data)
