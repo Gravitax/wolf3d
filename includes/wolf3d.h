@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/27 16:48:08 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/29 16:22:23 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/29 16:41:18 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 # include <SDL_ttf.h>
 # include "../libft/libft.h"
 
-# define W_WIDTH	1080
-# define W_HEIGHT	720
+# define W_WIDTH	1600
+# define W_HEIGHT	900
 
 # define FPS		60
 
