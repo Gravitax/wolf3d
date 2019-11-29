@@ -6,7 +6,7 @@
 #    By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/31 12:01:33 by maboye            #+#    #+#              #
-#    Updated: 2019/11/27 17:20:36 by saneveu          ###   ########.fr        #
+#    Updated: 2019/11/28 17:29:39 by saneveu          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,7 +70,7 @@ CC		=	gcc
 CFLAGS	=	#-Wall -Wextra -Werror #-g3 -fsanitize=address
 
 ifeq ($(OS), Linux)
-	SDL		=	-lSDL2-2.0
+	SDL		=	-lSDL2-2.0 -lSDl2_ttf -lSDL2_mixer
 	DIRSDL	=	
 else
 	SDL		=	-F ~/Library/Frameworks -framework SDL2 -framework SDL2_ttf -framework SDL2_mixer
