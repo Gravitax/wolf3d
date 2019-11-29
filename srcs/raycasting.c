@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 15:05:22 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/28 12:34:37 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/29 12:34:34 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,8 @@ static void		draw_ray(t_wolf *data, int x)
 		{
 			data->raydata.sampley = ((float)y - (float)data->raydata.ceiling)
 				/ size;
-			if (data->raydata.dst_towall < 0.2f)
-				put_pixel(data->screen, x, y, 0xffffffff);
-			else
-				put_pixel(data->screen, x, y, get_pixel(data, data->raydata.si,
-					data->raydata.samplex, data->raydata.sampley));
+			put_pixel(data->screen, x, y, get_pixel(data, data->raydata.si,
+				data->raydata.samplex, data->raydata.sampley));
 		}
 	}
 }
@@ -60,11 +57,32 @@ static int		hitwall(t_wolf *data)
 		return (0);
 }
 
+static void		get_closerwall(t_wolf *data)
+{
+	int		i;
+	float	dst;
+
+	data->cdst = data->map.depth;
+	i = -1;
+	while (++i < data->map.len)
+		if (data->pfdata.list[i].bobstacle == 1)
+		{
+			dst = distance(data->player.x, data->player.y,
+				data->pfdata.list[i].x, data->pfdata.list[i].y);
+			if (dst < data->cdst)
+				data->cdst = dst;
+		}
+	data->cdst -= 1.5f;
+	if (data->cdst < 0)
+		data->cdst = 0;
+}
+
 void			raycasting(t_wolf *data)
 {
 	int		x;
 	float	nfisheye;
 
+	get_closerwall(data);
 	x = -1;
 	while (++x < W_WIDTH)
 	{
@@ -74,7 +92,7 @@ void			raycasting(t_wolf *data)
 		data->raydata.eyey = sinf(data->raydata.angle);
 		nfisheye = ((float)x / (float)W_WIDTH * data->player.fov)
 			- data->player.fov / 2;
-		data->raydata.dst_towall = 0;
+		data->raydata.dst_towall = data->cdst;
 		while (hitwall(data) == 0)
 			data->raydata.dst_towall += data->raydata.ray_step;
 		data->raydata.dst_towall *= cos(nfisheye);

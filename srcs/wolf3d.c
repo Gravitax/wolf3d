@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/28 15:20:01 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/29 14:39:37 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ static void		init_sdl(t_wolf *data)
 	if (TTF_Init() == -1)
 		clean_exit(data, "wolf3d: error TTF_init", 0);
 	data->pwindow = SDL_CreateWindow("maboye wolf3d",
-			600,
-			600,
+			SDL_WINDOWPOS_CENTERED,
+			SDL_WINDOWPOS_CENTERED,
 			W_WIDTH, W_HEIGHT, 0);
 	if (!(data->police = TTF_OpenFont("img/police/AmazDooMLeft.ttf", 200)))
 		clean_exit(data, "wolf3d: error TTF_OpenFont", 0);

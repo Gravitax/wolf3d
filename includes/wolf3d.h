@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/27 16:48:08 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/28 14:40:30 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/29 16:22:23 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 # include <SDL_ttf.h>
 # include "../libft/libft.h"
 
-# define W_WIDTH	800
-# define W_HEIGHT	600
+# define W_WIDTH	1080
+# define W_HEIGHT	720
 
 # define FPS		60
 
@@ -189,14 +189,17 @@ typedef struct	s_pf
 
 typedef struct	s_wolf
 {
-	int						kill_score;
 	int						fire_delay;
-	int						skin_delay;
-	int						shoot;
 	int						fps;
+	int						kill_score;
 	int						sdl_on;
+	int						shoot;
+	int						skin_delay;
+	int						wx;
+	int						wy;
 	int						key[KNB];
 	char					*str;
+	float					cdst;
 	float					etime;
 	float					frame_start;
 	TTF_Font				*police;
@@ -226,6 +229,7 @@ void			game_over(t_wolf *data);
 void			load_datagame(t_wolf *data);
 void			monsters(t_wolf *data);
 void			mouse_events(t_wolf *data);
+void			movements(t_wolf *data);
 void			objects(t_wolf *data, t_object *list);
 void			shoot(t_wolf *data);
 void			skybox(t_wolf *data);

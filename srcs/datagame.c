@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/28 12:33:43 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/29 14:41:10 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ static void		weapons_data(t_wolf *data)
 
 void			load_datagame(t_wolf *data)
 {
+	SDL_GetWindowPosition(data->pwindow, &data->wx, &data->wy);
 	sprites(data);
 	if (!(data->object = (t_object *)ft_memalloc(sizeof(t_object))))
 		clean_exit(data, "wolf3d: malloc error", 0);

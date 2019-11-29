@@ -6,7 +6,7 @@
 #    By: maboye <maboye@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/31 12:01:33 by maboye            #+#    #+#              #
-#    Updated: 2019/11/26 18:02:29 by maboye           ###   ########.fr        #
+#    Updated: 2019/11/29 12:33:09 by maboye           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,7 @@ SRC		=	astar_list.c \
 			minimap.c \
 			monsters.c \
 			mouse_events.c \
+			movements.c \
 			nodes.c \
 			objects.c \
 			raycasting.c \
