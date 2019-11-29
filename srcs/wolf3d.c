@@ -6,7 +6,7 @@
 /*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/27 20:58:55 by saneveu          ###   ########.fr       */
+/*   Updated: 2019/11/29 19:03:31 by saneveu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ static void		init_sdl(t_wolf *data)
 	else
 		audio_init(data);
 	data->pwindow = SDL_CreateWindow("maboye wolf3d",
-			SDL_WINDOWPOS_UNDEFINED,
-			SDL_WINDOWPOS_UNDEFINED,
+			SDL_WINDOWPOS_CENTERED,
+			SDL_WINDOWPOS_CENTERED,
 			W_WIDTH, W_HEIGHT, 0);
 	if (!(data->police = TTF_OpenFont("img/police/AmazDooMLeft.ttf", 200)))
 		clean_exit(data, "wolf3d: error TTF_OpenFont", 0);
@@ -41,13 +41,12 @@ static int		get_fps(t_wolf *data)
 
 	pframe = 1000 / FPS;
 	data->fps = 1000 / (data->frame_start - data->etime);
-	if (data->frame_start - data->etime > pframe)
+	if (data->frame_start - data->etime >= pframe)
 	{
 		data->etime = data->frame_start;
 		return (1);
 	}
-	else
-		SDL_Delay(pframe - (data->frame_start - data->etime));
+	SDL_Delay(pframe - (data->frame_start - data->etime));
 	return (0);
 }
 
@@ -66,8 +65,6 @@ static void		launch_game(t_wolf *data)
 			{
 				events(data);
 				display(data);
-				SDL_RenderPresent(data->renderer);
-				SDL_DestroyTexture(data->window);
 			}
 		}
 	}

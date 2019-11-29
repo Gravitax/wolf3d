@@ -6,7 +6,7 @@
 /*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 15:05:22 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/27 21:03:37 by saneveu          ###   ########.fr       */
+/*   Updated: 2019/11/29 19:02:57 by saneveu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,8 @@ void			clean_exit(t_wolf *data, char *str, int token)
 			free_surfaces(data);
 			if (data->sound.token == 1)
 				free_sound(data);
-			TTF_Quit();
 			Mix_CloseAudio();
+			TTF_Quit();
 			SDL_Quit();
 		}
 		ft_strdel(&data->str);

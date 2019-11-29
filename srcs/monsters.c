@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monsters.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
+/*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/27 21:02:17 by saneveu          ###   ########.fr       */
+/*   Updated: 2019/11/28 12:34:23 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,11 @@ static void		smoothness(t_wolf *data, t_node *current)
 	data->monster->y += tmpy;
 	pos = (int)data->monster->x
 		+ data->map.width * (int)data->monster->y;
-	if (data->monster->x < 0 || data->monster->x > data->map.width
-			|| data->monster->y < 0 || data->monster->y > data->map.height
-			|| data->map.map[pos] == 1)
+	if (data->monster->x < 0
+		|| data->monster->x > data->map.width
+		|| data->monster->y < 0
+		|| data->monster->y > data->map.height
+		|| data->map.map[pos] == 1)
 	{
 		data->monster->x -= tmpx;
 		data->monster->y -= tmpy;
@@ -100,15 +102,11 @@ static void		monster_actions(t_wolf *data)
 	}
 	else
 	{
-		play_sound(data, data->sound.PlayerHit, 5);
 		data->monster->si = data->monster->type + 3;
 		data->player.health -= data->monster->type * 2;
 		data->monster->delay = data->monster->type * 10;
 		if (data->player.health < 1)
-		{			
-			play_sound(data, data->sound.PlayerDeath, 5);
 			game_over(data);
-		}
 	}
 }
 

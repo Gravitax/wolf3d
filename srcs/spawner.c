@@ -6,7 +6,7 @@
 /*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/27 21:03:13 by saneveu          ###   ########.fr       */
+/*   Updated: 2019/11/29 19:01:53 by saneveu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,9 @@ static void		create_newmonster(t_wolf *data)
 	newmonster->hp = get_objhp(data, newmonster);
 	newmonster->hp_max = newmonster->hp;
 	newmonster->sprite = data->sprite[newmonster->type];
-	newmonster->speed = newmonster->type + data->kill_score / 10;
-	if (newmonster->speed > 15)
-		newmonster->speed = 15;
-	newmonster->speed /= 30;
+	newmonster->speed = 0.2f + data->kill_score / 100;
+	if (newmonster->speed > 0.5f)
+		newmonster->speed = 0.5f;
 	lst_pushback(data->monster, newmonster);
 	if (data->monster == NULL)
 		clean_exit(data, "wolf3d: malloc error", 0);

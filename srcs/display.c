@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/27 15:24:12 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/29 14:14:59 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,10 +97,10 @@ static void		health(t_wolf *data)
 
 void			display(t_wolf *data)
 {
-	if (data->player.angle > 6)
+	if (data->player.angle >= 6.3f)
 		data->player.angle = 0;
 	else if (data->player.angle < 0)
-		data->player.angle = 6;
+		data->player.angle = 6.3f;
 	raycasting(data);
 	monsters(data);
 	objects(data, data->object);
@@ -110,4 +110,6 @@ void			display(t_wolf *data)
 	health(data);
 	if (data->key[KM])
 		minimap(data);
+	SDL_RenderPresent(data->renderer);
+	SDL_DestroyTexture(data->window);
 }

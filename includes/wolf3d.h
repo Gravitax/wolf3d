@@ -6,7 +6,7 @@
 /*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/27 16:48:08 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/27 20:51:49 by saneveu          ###   ########.fr       */
+/*   Updated: 2019/11/29 19:05:28 by saneveu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 # include <SDL_mixer.h>
 # include "../libft/libft.h"
 
-# define W_WIDTH	800
-# define W_HEIGHT	600
+# define W_WIDTH	1600
+# define W_HEIGHT	900
 
 # define FPS		60
 
@@ -45,13 +45,19 @@
 # define KP			10
 # define ML			11
 # define MR			12
-# define KNB		13
+# define SHIFT		13
+# define KNB		14
 
 typedef union	u_rsqrt
 {
 	float		f;
 	uint32_t	i;
 }				t_rsqrt;
+
+typedef struct	s_sprite
+{
+	SDL_Surface	*img;
+}				t_sprite;
 
 typedef struct	s_sound
 {
@@ -73,11 +79,6 @@ typedef struct	s_sound
 	Mix_Chunk	*tic;
 	Uint8		token;
 }				t_sound;
-
-typedef struct	s_sprite
-{
-	SDL_Surface	*img;
-}				t_sprite;
 
 typedef struct	s_objdata
 {
@@ -210,14 +211,17 @@ typedef struct	s_pf
 
 typedef struct	s_wolf
 {
-	int						kill_score;
 	int						fire_delay;
-	int						skin_delay;
-	int						shoot;
 	int						fps;
+	int						kill_score;
 	int						sdl_on;
+	int						shoot;
+	int						skin_delay;
+	int						wx;
+	int						wy;
 	int						key[KNB];
 	char					*str;
+	float					cdst;
 	float					etime;
 	float					frame_start;
 	TTF_Font				*police;
@@ -242,13 +246,13 @@ typedef struct	s_wolf
 	SDL_Window				*pwindow;
 }				t_wolf;
 
-void			change_weapon(t_wolf *data);
 void			display(t_wolf *data);
 void			events(t_wolf *data);
 void			game_over(t_wolf *data);
 void			load_datagame(t_wolf *data);
 void			monsters(t_wolf *data);
 void			mouse_events(t_wolf *data);
+void			movements(t_wolf *data);
 void			objects(t_wolf *data, t_object *list);
 void			shoot(t_wolf *data);
 void			skybox(t_wolf *data);
@@ -286,14 +290,14 @@ void			alst_sort(t_alst *list);
 void			w_pause(t_wolf *data);
 void			set_rect_to_screen(t_wolf *data, SDL_Rect *rect, int color);
 SDL_Color		ft_hex_to_rgb(int hexa);
-void			set_write_to_screen(t_wolf *data, SDL_Rect rect, int color,
-	char *str);
+void			set_write_to_screen(t_wolf *data,
+	SDL_Rect rect, int color, char *str);
 void			ft_mouse_motion_x(t_wolf *data);
 void			object_minimap(t_wolf *data, t_object *list);
 
-void            audio_init(t_wolf *data);
-void            free_sound(t_wolf *data);
 void            play_sound(t_wolf *data, Mix_Chunk *chunk, int channel);
 void            play_music(t_wolf *data, Mix_Music *music);
+void            free_sound(t_wolf *data);
+void            audio_init(t_wolf *data);
 
 #endif

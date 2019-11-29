@@ -6,7 +6,7 @@
 /*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 16:33:16 by bebosson          #+#    #+#             */
-/*   Updated: 2019/11/27 20:51:49 by saneveu          ###   ########.fr       */
+/*   Updated: 2019/11/29 18:57:33 by saneveu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ void				w_pause(t_wolf *data)
 {
 	int	cursor;
 
+	if (data->key[KP] == 0)
+		return ;
 	cursor = 1;
 	draw_main_rect(data, cursor);
 	play_music(data, data->sound.PauseMusic);
@@ -106,5 +108,6 @@ void				w_pause(t_wolf *data)
 			draw_main_rect(data, cursor);
 		}
 	}
-	SDL_FlushEvent(SDL_KEYUP | SDL_KEYDOWN | SDL_MOUSEMOTION);
+	SDL_FlushEvent(SDL_KEYDOWN);
+	SDL_FlushEvent(SDL_MOUSEMOTION);
 }

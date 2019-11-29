@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/25 14:13:06 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/29 16:58:48 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,11 @@ void			skybox(t_wolf *data)
 {
 	int			width;
 	float		ratio;
+	float		ratio2;
 	SDL_Rect	rect;
 
 	width = data->sprite[0].img->w;
-	ratio = width / 6;
+	ratio = width / 6.3f;
 	rect.h = W_HEIGHT / 2;
 	rect.w = width;
 	rect.x = -(data->player.angle * ratio);

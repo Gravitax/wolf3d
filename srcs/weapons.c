@@ -6,11 +6,19 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/27 16:03:27 by maboye           ###   ########.fr       */
+/*   Updated: 2019/11/28 12:34:53 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/wolf3d.h"
+
+static void		center_weapon(t_wolf *data, int i)
+{
+	if (data->player.weapon == 0)
+		data->player.wdata[i].column = (data->player.wdata[i].height / 2 - 35);
+	else
+		data->player.wdata[i].column = 0;
+}
 
 static void		get_weapondata(t_wolf *data)
 {
@@ -26,10 +34,7 @@ static void		get_weapondata(t_wolf *data)
 	data->player.wdata[i].ratio = (float)weapon->h / (float)weapon->w;
 	data->player.wdata[i].width = data->player.wdata[i].height
 		/ data->player.wdata[i].ratio;
-	if (data->player.weapon == 0)
-		data->player.wdata[i].column = (data->player.wdata[i].height / 2 - 35);
-	else
-		data->player.wdata[i].column = 0;
+	center_weapon(data, i);
 }
 
 static void		update_weaponskin(t_wolf *data)

@@ -22,8 +22,8 @@
 #ifndef SDL_MIXER_H_
 #define SDL_MIXER_H_
 
-#include <SDL_stdinc.h>
-#include <SDL_rwops.h>
+//#include <SDL2/SDL_stdinc.h>
+//#include <SDL2/SDL_rwops.h>
 #include <SDL_audio.h>
 #include <SDL_endian.h>
 #include <SDL_version.h>
