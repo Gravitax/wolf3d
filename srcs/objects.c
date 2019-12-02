@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/27 16:48:08 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/28 12:34:33 by maboye           ###   ########.fr       */
+/*   Updated: 2019/12/02 15:48:47 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,15 @@ static void		get_objdata(t_wolf *data, t_object *list)
 
 static void		get_objangle(t_wolf *data, t_object *list)
 {
-	float	vecx;
-	float	vecy;
+	float	eyex;
+	float	eyey;
 
-	vecx = list->x - data->player.x;
-	vecy = list->y - data->player.y;
-	list->data.dst_fromplayer = ft_sqrt(vecx
-		* vecx + vecy * vecy);
-	list->data.eyex = cosf(data->player.angle);
-	list->data.eyey = sinf(data->player.angle);
-	list->data.angle = atan2f(list->data.eyex, list->data.eyey)
-		- atan2f(vecx, vecy);
+	list->data.dst_fromplayer = distance(data->player.x, data->player.y,
+		list->x, list->y);
+	eyex = cosf(data->player.angle);
+	eyey = sinf(data->player.angle);
+	list->data.angle = atan2f(eyex, eyey)
+		- atan2f(list->x - data->player.x, list->y - data->player.y);
 	if (list->data.angle < -3.14159)
 		list->data.angle += 2 * 3.14159;
 	else if (list->data.angle > 3.14159)
@@ -76,11 +74,11 @@ static void		display_object(t_wolf *data, t_object *list)
 	ty = 1 / list->data.height;
 	tmp = list->data.width / 2;
 	sx = -1;
-	list->data.samplex = 0.0f;
+	list->data.samplex = 0;
 	while (++sx < list->data.width)
 	{
 		sy = -1;
-		list->data.sampley = 0.0f;
+		list->data.sampley = 0;
 		while (++sy < list->data.height)
 		{
 			list->data.column = (int)(list->data.mid + sx - tmp);
@@ -102,6 +100,8 @@ void			objects(t_wolf *data, t_object *list)
 	{
 		if (list->type > 2 && list->type < 10)
 		{
+			list->i = (int)list->x + data->map.width * (int)list->y;
+			object_actions(data, list);
 			get_objangle(data, list);
 			if (fabs(list->data.angle) < data->player.fov / 2
 					&& list->data.dst_fromplayer > 1

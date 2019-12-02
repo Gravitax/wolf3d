@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/29 14:14:59 by maboye           ###   ########.fr       */
+/*   Updated: 2019/12/02 15:24:04 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,8 @@ void			display(t_wolf *data)
 	raycasting(data);
 	monsters(data);
 	objects(data, data->object);
+	remove_objects(data, data->monster);
+	remove_objects(data, data->object);
 	weapons(data);
 	textures(data);
 	cursor(data);

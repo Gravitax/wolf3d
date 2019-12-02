@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 15:05:22 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/29 12:34:34 by maboye           ###   ########.fr       */
+/*   Updated: 2019/12/02 13:44:03 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,23 @@ static int		hitwall(t_wolf *data)
 		return (0);
 }
 
+static int		in_fov(t_wolf *data, float wx, float wy)
+{
+	float	angle;
+	float	eyex;
+	float	eyey;
+
+	eyex = cosf(data->player.angle);
+	eyey = sinf(data->player.angle);
+	angle = atan2f(eyex, eyey)
+		- atan2f(wx - data->player.x, wy - data->player.y);
+	if (angle < -3.14159)
+		angle += 2 * 3.14159;
+	else if (angle > 3.14159)
+		angle -= 2 * 3.14159;
+	return (fabs(angle) < data->player.fov);
+}
+
 static void		get_closerwall(t_wolf *data)
 {
 	int		i;
@@ -67,10 +84,15 @@ static void		get_closerwall(t_wolf *data)
 	while (++i < data->map.len)
 		if (data->pfdata.list[i].bobstacle == 1)
 		{
-			dst = distance(data->player.x, data->player.y,
-				data->pfdata.list[i].x, data->pfdata.list[i].y);
-			if (dst < data->cdst)
-				data->cdst = dst;
+			if (in_fov(data,
+					data->pfdata.list[i].x,
+					data->pfdata.list[i].y) == 1)
+			{
+				dst = distance(data->player.x, data->player.y,
+					data->pfdata.list[i].x, data->pfdata.list[i].y);
+				if (dst < data->cdst)
+					data->cdst = dst;
+			}
 		}
 	data->cdst -= 1.5f;
 	if (data->cdst < 0)

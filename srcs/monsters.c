@@ -6,39 +6,37 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/28 12:34:23 by maboye           ###   ########.fr       */
+/*   Updated: 2019/12/02 17:38:40 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/wolf3d.h"
 
-static void		remove_deadmobs(t_wolf *data)
+void			remove_objects(t_wolf *data, t_object *list)
 {
 	t_object	*tmp;
 	t_object	*head;
 
-	head = data->monster;
-	while (data->monster && data->monster->dead == 1)
+	head = list;
+	while (list && list->dead == 1)
 	{
-		data->pfdata.list[data->monster->i].bobstacle = 0;
-		tmp = data->monster->next;
-		ft_memdel((void **)&data->monster);
-		data->monster = tmp;
-		head = data->monster;
+		tmp = list->next;
+		ft_memdel((void **)&list);
+		list = tmp;
+		head = list;
 	}
-	while (data->monster)
+	while (list)
 	{
-		tmp = data->monster;
-		data->monster = data->monster->next;
-		while (data->monster && data->monster->dead == 1)
+		tmp = list;
+		list = list->next;
+		while (list && list->dead == 1)
 		{
-			data->pfdata.list[data->monster->i].bobstacle = 0;
-			tmp->next = data->monster->next;
-			ft_memdel((void **)&data->monster);
-			data->monster = tmp->next;
+			tmp->next = list->next;
+			ft_memdel((void **)&list);
+			list = tmp->next;
 		}
 	}
-	data->monster = head;
+	list = head;
 }
 
 static void		smoothness(t_wolf *data, t_node *current)
@@ -117,8 +115,6 @@ void			monsters(t_wolf *data)
 	head = data->monster;
 	while (data->monster)
 	{
-		data->monster->i = (int)data->monster->x
-			+ data->map.width * (int)data->monster->y;
 		if (data->monster->type > 5 && data->monster->type < 10)
 			if (--data->monster->delay < 1)
 			{
@@ -131,5 +127,4 @@ void			monsters(t_wolf *data)
 	}
 	data->monster = head;
 	objects(data, data->monster);
-	remove_deadmobs(data);
 }

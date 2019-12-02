@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/27 16:48:08 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/29 16:41:18 by maboye           ###   ########.fr       */
+/*   Updated: 2019/12/02 17:26:17 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 # include <SDL_ttf.h>
 # include "../libft/libft.h"
 
-# define W_WIDTH	1600
-# define W_HEIGHT	900
+# define W_WIDTH	1280
+# define W_HEIGHT	720
 
 # define FPS		60
 
@@ -45,7 +45,8 @@
 # define ML			11
 # define MR			12
 # define SHIFT		13
-# define KNB		14
+# define KG			14
+# define KNB		15
 
 typedef union	u_rsqrt
 {
@@ -68,8 +69,6 @@ typedef struct	s_objdata
 	float		dst_fromplayer;
 	float		ceiling;
 	float		floor;
-	float		eyex;
-	float		eyey;
 	float		height;
 	float		width;
 	float		samplex;
@@ -224,13 +223,17 @@ typedef struct	s_wolf
 }				t_wolf;
 
 void			display(t_wolf *data);
+void			deal_damage_tomonster(t_wolf *data, t_object *list, int damage);
 void			events(t_wolf *data);
 void			game_over(t_wolf *data);
+void			grenada(t_wolf *data);
 void			load_datagame(t_wolf *data);
 void			monsters(t_wolf *data);
 void			mouse_events(t_wolf *data);
 void			movements(t_wolf *data);
 void			objects(t_wolf *data, t_object *list);
+void			object_actions(t_wolf *data, t_object *list);
+void			remove_objects(t_wolf *data, t_object *list);
 void			shoot(t_wolf *data);
 void			skybox(t_wolf *data);
 void			spawner(t_wolf *data);

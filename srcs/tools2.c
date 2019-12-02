@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 15:05:22 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/28 12:34:49 by maboye           ###   ########.fr       */
+/*   Updated: 2019/12/02 17:31:59 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ uint32_t		get_pixel(t_wolf *data, int si, float samplex, float sampley)
 	int				sx;
 	int				sy;
 	uint8_t			*p;
-	uint32_t		pixel;
 	t_sprite		surface;
 
 	surface = data->sprite[si];
@@ -55,8 +54,7 @@ uint32_t		get_pixel(t_wolf *data, int si, float samplex, float sampley)
 	sy = sampley * surface.img->h;
 	p = (uint8_t *)surface.img->pixels + sy * surface.img->pitch
 		+ sx * surface.img->format->BytesPerPixel;
-	pixel = (p[2] | p[1] << 8 | p[0] << 16 | 255 << 24);
-	return (pixel);
+	return (p[2] | p[1] << 8 | p[0] << 16 | 255 << 24);
 }
 
 SDL_Surface		*new_surface(int w, int h)
