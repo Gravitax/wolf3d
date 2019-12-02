@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/29 17:04:49 by maboye           ###   ########.fr       */
+/*   Updated: 2019/12/02 18:53:51 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ static void		create_newmonster(t_wolf *data)
 	int			skin;
 	t_object	*newmonster;
 
-	newmonster = (t_object *)ft_memalloc(sizeof(t_object));
+	if (!(newmonster = (t_object *)ft_memalloc(sizeof(t_object))))
+		clean_exit(data, "wolf3d: malloc error", 0);
 	newmonster->x = data->monster->x;
 	newmonster->y = data->monster->y;
 	skin = 7;

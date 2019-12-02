@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/27 16:48:08 by maboye            #+#    #+#             */
-/*   Updated: 2019/12/02 17:26:17 by maboye           ###   ########.fr       */
+/*   Updated: 2019/12/02 18:28:23 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,7 +233,6 @@ void			mouse_events(t_wolf *data);
 void			movements(t_wolf *data);
 void			objects(t_wolf *data, t_object *list);
 void			object_actions(t_wolf *data, t_object *list);
-void			remove_objects(t_wolf *data, t_object *list);
 void			shoot(t_wolf *data);
 void			skybox(t_wolf *data);
 void			spawner(t_wolf *data);

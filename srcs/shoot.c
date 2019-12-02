@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/12/02 15:58:16 by maboye           ###   ########.fr       */
+/*   Updated: 2019/12/02 17:54:51 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void			deal_damage_tomonster(t_wolf *data, t_object *list, int damage)
 {
-	if (list->type < 7)
+	if (list == NULL || list->type < 7)
 		return ;
 	list->hp -= damage;
 	if (list->hp < 1)

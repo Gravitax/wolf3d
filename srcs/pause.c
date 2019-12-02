@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 16:33:16 by bebosson          #+#    #+#             */
-/*   Updated: 2019/11/28 15:17:16 by maboye           ###   ########.fr       */
+/*   Updated: 2019/12/02 18:52:42 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ void				w_pause(t_wolf *data)
 
 	if (data->key[KP] == 0)
 		return ;
+	SDL_FlushEvent(SDL_KEYDOWN);
+	SDL_FlushEvent(SDL_MOUSEMOTION);
 	cursor = 1;
 	draw_main_rect(data, cursor);
 	while (data->key[KP])
@@ -97,6 +99,4 @@ void				w_pause(t_wolf *data)
 			draw_main_rect(data, cursor);
 		}
 	}
-	SDL_FlushEvent(SDL_KEYDOWN);
-	SDL_FlushEvent(SDL_MOUSEMOTION);
 }

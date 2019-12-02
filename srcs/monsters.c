@@ -6,42 +6,43 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/12/02 17:38:40 by maboye           ###   ########.fr       */
+/*   Updated: 2019/12/02 18:36:10 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/wolf3d.h"
 
-void			remove_objects(t_wolf *data, t_object *list)
+void			remove_deadmobs(t_wolf *data)
 {
 	t_object	*tmp;
 	t_object	*head;
 
-	head = list;
-	while (list && list->dead == 1)
+	head = data->monster;
+	while (data->monster && data->monster->dead == 1)
 	{
-		tmp = list->next;
-		ft_memdel((void **)&list);
-		list = tmp;
-		head = list;
+		data->pfdata.list[data->monster->i].bobstacle = 0;
+		tmp = data->monster->next;
+		ft_memdel((void **)&data->monster);
+		data->monster = tmp;
+		head = data->monster;
 	}
-	while (list)
+	while (data->monster)
 	{
-		tmp = list;
-		list = list->next;
-		while (list && list->dead == 1)
+		tmp = data->monster;
+		data->monster = data->monster->next;
+		while (data->monster && data->monster->dead == 1)
 		{
-			tmp->next = list->next;
-			ft_memdel((void **)&list);
-			list = tmp->next;
+			data->pfdata.list[data->monster->i].bobstacle = 0;
+			tmp->next = data->monster->next;
+			ft_memdel((void **)&data->monster);
+			data->monster = tmp->next;
 		}
 	}
-	list = head;
+	data->monster = head;
 }
 
 static void		smoothness(t_wolf *data, t_node *current)
 {
-	int		pos;
 	float	tmpx;
 	float	tmpy;
 
@@ -51,13 +52,12 @@ static void		smoothness(t_wolf *data, t_node *current)
 	tmpy = (current->y + 0.5f - data->monster->y) * data->monster->speed;
 	data->monster->x += tmpx;
 	data->monster->y += tmpy;
-	pos = (int)data->monster->x
-		+ data->map.width * (int)data->monster->y;
 	if (data->monster->x < 0
 		|| data->monster->x > data->map.width
 		|| data->monster->y < 0
 		|| data->monster->y > data->map.height
-		|| data->map.map[pos] == 1)
+		|| data->map.map[(int)data->monster->x
+			+ data->map.width * (int)data->monster->y] == 1)
 	{
 		data->monster->x -= tmpx;
 		data->monster->y -= tmpy;
@@ -126,5 +126,5 @@ void			monsters(t_wolf *data)
 		data->monster = data->monster->next;
 	}
 	data->monster = head;
-	objects(data, data->monster);
+	remove_deadmobs(data);
 }

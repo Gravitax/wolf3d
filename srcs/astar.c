@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/28 12:33:39 by maboye           ###   ########.fr       */
+/*   Updated: 2019/12/02 18:47:24 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ static void		delvisited_nodes(t_wolf *data)
 
 void			astar(t_wolf *data)
 {
+	t_alst	*head;
 	t_node	*current;
 
 	resetdata(data);
@@ -90,6 +91,7 @@ void			astar(t_wolf *data)
 			data->pfdata.start->y, data->pfdata.end->x, data->pfdata.end->y);
 	if (!(data->pfdata.alst = (t_alst *)ft_memalloc(sizeof(t_alst))))
 		clean_exit(data, "wolf3d: malloc error", 0);
+	head = data->pfdata.alst;
 	data->pfdata.alst->node = data->pfdata.start;
 	while (current != data->pfdata.end)
 	{
@@ -104,5 +106,5 @@ void			astar(t_wolf *data)
 		neighbour(data, current, 2);
 		neighbour(data, current, 3);
 	}
-	alst_free(data->pfdata.alst);
+	alst_free(head);
 }

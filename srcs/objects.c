@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/27 16:48:08 by maboye            #+#    #+#             */
-/*   Updated: 2019/12/02 15:48:47 by maboye           ###   ########.fr       */
+/*   Updated: 2019/12/02 18:24:46 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,8 @@ void			objects(t_wolf *data, t_object *list)
 		if (list->type > 2 && list->type < 10)
 		{
 			list->i = (int)list->x + data->map.width * (int)list->y;
-			object_actions(data, list);
+			if (list->type < 4)
+				object_actions(data, list);
 			get_objangle(data, list);
 			if (fabs(list->data.angle) < data->player.fov / 2
 					&& list->data.dst_fromplayer > 1

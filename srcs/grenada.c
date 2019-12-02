@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/12/02 17:40:25 by maboye           ###   ########.fr       */
+/*   Updated: 2019/12/02 18:43:08 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void			object_actions(t_wolf *data, t_object *list)
 {
 	t_object	*head;
 
-	if (list == NULL || list->type > 5 || list->type < 3)
+	if (list == NULL || list->type != 3)
 		return ;
 	list->x += list->vx * list->speed;
 	list->y += list->vy * list->speed;
@@ -50,7 +50,6 @@ void			object_actions(t_wolf *data, t_object *list)
 		if (distance(list->x, list->y,
 					data->monster->x, data->monster->y) < 1)
 		{
-			data->monster = head;
 			explosions(data, list);
 			list->dead = 1;
 			break ;
@@ -60,6 +59,35 @@ void			object_actions(t_wolf *data, t_object *list)
 	data->monster = head;
 }
 
+static void		remove_objects(t_wolf *data)
+{
+	t_object	*tmp;
+	t_object	*head;
+
+	head = data->object;
+	while (data->object && data->object->dead == 1)
+	{
+		data->pfdata.list[data->object->i].bobstacle = 0;
+		tmp = data->object->next;
+		ft_memdel((void **)&data->object);
+		data->object = tmp;
+		head = data->object;
+	}
+	while (data->object)
+	{
+		tmp = data->object;
+		data->object = data->object->next;
+		while (data->object && data->object->dead == 1)
+		{
+			data->pfdata.list[data->object->i].bobstacle = 0;
+			tmp->next = data->object->next;
+			ft_memdel((void **)&data->object);
+			data->object = tmp->next;
+		}
+	}
+	data->object = head;
+}
+
 void			grenada(t_wolf *data)
 {
 	static int	delay = 0;
@@ -67,20 +95,21 @@ void			grenada(t_wolf *data)
 
 	if (--delay < 0)
 	{
-	    if (!(grenada = (t_object *)ft_memalloc(sizeof(t_object))))
-	    	clean_exit(data, "wolf3d: malloc error", 0);
-	    grenada->i = data->player.pos;
-	    grenada->x = data->player.x;
-	    grenada->y = data->player.y;
-	    grenada->type = 3;
-	    grenada->si = 28;
-	    grenada->sprite = data->sprite[grenada->si];
-	    grenada->vx = cosf(data->player.angle);
-	    grenada->vy = sinf(data->player.angle);
-	    grenada->speed = 0.1f;
-	    lst_pushback(data->object, grenada);
-	    if (data->object == NULL)
-	    	clean_exit(data, "wolf3d: malloc error", 0);
+		if (!(grenada = (t_object *)ft_memalloc(sizeof(t_object))))
+			clean_exit(data, "wolf3d: malloc error", 0);
+		grenada->i = data->player.pos;
+		grenada->x = data->player.x;
+		grenada->y = data->player.y;
+		grenada->type = 3;
+		grenada->si = 28;
+		grenada->sprite = data->sprite[grenada->si];
+		grenada->vx = cosf(data->player.angle);
+		grenada->vy = sinf(data->player.angle);
+		grenada->speed = 0.1f;
+		lst_pushback(data->object, grenada);
+		if (data->object == NULL)
+			clean_exit(data, "wolf3d: malloc error", 0);
 		delay = 20;
 	}
+	remove_objects(data);
 }
