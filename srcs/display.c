@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   display.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
+/*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/29 14:14:59 by maboye           ###   ########.fr       */
+/*   Updated: 2019/12/04 18:05:44 by saneveu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void		textures(t_wolf *data)
 	unsigned int	*pixels;
 	SDL_Rect		rect;
 
-	skybox(data);
+	//skybox(data);
 	rect.h = W_HEIGHT / 2;
 	rect.w = W_WIDTH;
 	rect.x = 0;

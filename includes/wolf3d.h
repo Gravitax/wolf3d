@@ -6,7 +6,7 @@
 /*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/27 16:48:08 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/29 19:05:28 by saneveu          ###   ########.fr       */
+/*   Updated: 2019/12/04 18:01:03 by saneveu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 
 # define FPS		60
 
-# define SNB		29
+# define SNB		31
 # define WNB		4
 
 # define UNITX		W_WIDTH / 16
@@ -142,8 +142,44 @@ typedef struct	s_player
 	float		speed;
 	float		x;
 	float		y;
+	double		dirx;
+	double		diry;
+	double		planex;
+	double		planey;
 	t_wdata		wdata[WNB];
 }				t_player;
+
+typedef struct	s_ray
+{
+	int			wallside;
+	int			wallhit;
+	int			walltop;
+	int			wallbot;
+	double		wallx;
+	double		perpWallDist;
+	double		distwall;
+	int			maposx;
+	int			maposy;
+	double		dirx;
+	double		diry;
+	double		deltadistx;
+	double		deltadisty;
+	double		sidedistx;
+	double		sidedisty;
+	double		camera;
+	int			stepx;
+	int			stepy;
+	int			height;
+	int			tex;
+	int			wtx;
+	int			wty;
+	double		floorwallx;
+	double		floorwally;
+	double		currentfloorx;
+	double		currentfloory;
+	double		distcurrent;
+	double		weight;
+}				t_ray;
 
 typedef struct	s_raydata
 {
@@ -232,6 +268,7 @@ typedef struct	s_wolf
 	t_pf					pfdata;
 	t_player				player;
 	t_raydata				raydata;
+	t_ray					ray;
 	t_object				*monster;
 	t_object				*object;
 	t_sprite				sprite[SNB];
@@ -271,6 +308,7 @@ int				get_objhp(t_wolf *data, t_object *list);
 uint32_t		get_pixel(t_wolf *data, int si, float samplex, float sampley);
 SDL_Surface		*new_surface(int w, int h);
 void			put_pixel(SDL_Surface *surface, int x, int y, uint32_t color);
+uint32_t		get_pixel_ray(t_wolf *data, int si, float samplex, float sampley);
 
 void			draw_fps(t_wolf *data);
 void			add_sc_x(t_wolf *data);
@@ -299,5 +337,7 @@ void            play_sound(t_wolf *data, Mix_Chunk *chunk, int channel);
 void            play_music(t_wolf *data, Mix_Music *music);
 void            free_sound(t_wolf *data);
 void            audio_init(t_wolf *data);
+
+void            draw_floor_ceilling(t_wolf *d, int x);
 
 #endif

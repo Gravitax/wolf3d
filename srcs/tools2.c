@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
+/*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 15:05:22 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/28 12:34:49 by maboye           ###   ########.fr       */
+/*   Updated: 2019/12/04 17:24:04 by saneveu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,23 @@ uint32_t		get_pixel(t_wolf *data, int si, float samplex, float sampley)
 	return (pixel);
 }
 
+uint32_t		get_pixel_ray(t_wolf *data, int si, float samplex, float sampley)
+{
+	int				sx;
+	int				sy;
+	uint8_t			*p;
+	uint32_t		pixel;
+	t_sprite		surface;
+
+	surface = data->sprite[si];
+	sx = samplex;
+	sy = sampley;
+	p = (uint8_t *)surface.img->pixels + sy * surface.img->pitch
+		+ sx * surface.img->format->BytesPerPixel;
+	pixel = (p[2] | p[1] << 8 | p[0] << 16 | 255 << 24);
+	return (pixel);
+}
+
 SDL_Surface		*new_surface(int w, int h)
 {
 	Uint32	color[4];
@@ -78,5 +95,5 @@ void			put_pixel(SDL_Surface *surface, int x, int y, uint32_t color)
 	if (x < 0 || x >= W_WIDTH || y < 0 || y >= W_HEIGHT)
 		return ;
 	pixels = (unsigned int *)surface->pixels;
-	pixels[x + (y * W_WIDTH)] = color;
+	pixels[y * W_WIDTH + x] = color;
 }

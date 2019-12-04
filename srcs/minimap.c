@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
+/*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/27 16:47:19 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/28 12:34:05 by maboye           ###   ########.fr       */
+/*   Updated: 2019/12/03 16:36:32 by saneveu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ void			minimap(t_wolf *data)
 	int			sc_x;
 	int			ny;
 
+	data->raydata.angle = data->ray.dirx;
 	data->player.pos = (int)data->player.x
 		+ ((int)data->player.y + 1) * data->map.width;
 	nx = -1;

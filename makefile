@@ -6,7 +6,7 @@
 #    By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/31 12:01:33 by maboye            #+#    #+#              #
-#    Updated: 2019/11/29 19:09:05 by saneveu          ###   ########.fr        #
+#    Updated: 2019/12/04 18:01:47 by saneveu          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,7 +60,8 @@ SRC		=	astar_list.c \
 			tool_render.c \
 			minimap_monster.c \
 			audio.c \
-
+			floor.c \
+			
 INC		=	wolf3d.h
 
 OBJ		=	$(addprefix $(OBJDIR)/,$(SRC:.c=.o))

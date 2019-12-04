@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sprites.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
+/*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/29 15:01:32 by maboye           ###   ########.fr       */
+/*   Updated: 2019/12/02 17:23:45 by saneveu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ void			sprites(t_wolf *data)
 	if (!(data->sprite[0].img = SDL_LoadBMP("img/textures/ceiling.bmp")))
 		clean_exit(data, "wolf3d: load_sprites error", 0);
 	if (!(data->sprite[1].img = SDL_LoadBMP("img/textures/floor.bmp")))
+		clean_exit(data, "wolf3d: load_sprites error", 0);
+	if (!(data->sprite[30].img = SDL_LoadBMP("img/floor.bmp")))
 		clean_exit(data, "wolf3d: load_sprites error", 0);
 	if (!(data->sprite[2].img = SDL_LoadBMP("img/doom.bmp")))
 		clean_exit(data, "wolf3d: load_sprites error", 0);

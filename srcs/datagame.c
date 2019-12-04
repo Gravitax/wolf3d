@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   datagame.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
+/*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/29 17:04:14 by maboye           ###   ########.fr       */
+/*   Updated: 2019/12/04 18:10:24 by saneveu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void			load_datagame(t_wolf *data)
 		clean_exit(data, "wolf3d: malloc error", 0);
 	get_list(data, data->object, 3, 5);
 	get_list(data, data->monster, 6, 9);
-	background(data);
+	//background(data);
 	if (!(data->screen = new_surface(W_WIDTH, W_HEIGHT)))
 		clean_exit(data, "wolf3d: error creating RGB surface", 0);
 	get_nodes(data);
