@@ -6,7 +6,7 @@
 /*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/04 17:26:54 by saneveu           #+#    #+#             */
-/*   Updated: 2019/12/04 18:14:19 by saneveu          ###   ########.fr       */
+/*   Updated: 2019/12/04 18:47:26 by saneveu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static  void    pxl_add(t_wolf *d, int y, int x, int tx)
         % d->sprite[tex].img->w;
     d->ray.wty = (int)(d->ray.currentfloory * d->sprite[tex].img->h)
         % d->sprite[tex].img->h;
-    put_pixel(d->screen, x, y, get_pixel_ray(d, d->ray.tex, d->ray.wtx, d->ray.wty));
+    put_pixel(d->screen, x, y, get_pixel_ray(d, tex, d->ray.wtx, d->ray.wty));
 }
 
 static  void    floor_calcul(t_wolf *d, int x)

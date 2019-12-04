@@ -6,7 +6,7 @@
 /*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 14:46:06 by saneveu           #+#    #+#             */
-/*   Updated: 2019/12/04 18:43:11 by saneveu          ###   ########.fr       */
+/*   Updated: 2019/12/04 18:46:12 by saneveu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void            draw_wall(t_wolf *d, int x)
     {
         dis = y * 256 - W_HEIGHT * 128 + d->ray.height * 128;
         d->ray.wty = ((dis * d->sprite[d->ray.tex].img->h) / d->ray.height) / 256;
-        put_pixel(d->screen, x, y, get_pixel(d, d->ray.tex, d->ray.wtx, d->ray.wty));
+        put_pixel(d->screen, x, y, get_pixel_ray(d, d->ray.tex, d->ray.wtx, d->ray.wty));
 		y++;
     }
 }
