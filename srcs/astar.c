@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/12/02 18:47:24 by maboye           ###   ########.fr       */
+/*   Updated: 2019/12/04 14:24:05 by bebosson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,5 +106,5 @@ void			astar(t_wolf *data)
 		neighbour(data, current, 2);
 		neighbour(data, current, 3);
 	}
-	alst_free(head);
+	alst_free(data->pfdata.alst);
 }

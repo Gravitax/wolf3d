@@ -6,7 +6,7 @@
 #    By: maboye <maboye@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/31 12:01:33 by maboye            #+#    #+#              #
-#    Updated: 2019/12/02 17:20:37 by maboye           ###   ########.fr        #
+#    Updated: 2019/12/04 15:35:35 by bebosson         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,6 +60,7 @@ SRC		=	astar_list.c \
 			pause.c \
 			tool_render.c \
 			minimap_monster.c \
+			minimap2.c
 
 INC		=	wolf3d.h
 

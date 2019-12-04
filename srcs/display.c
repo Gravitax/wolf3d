@@ -6,11 +6,40 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/12/02 18:28:28 by maboye           ###   ########.fr       */
+/*   Updated: 2019/12/04 20:18:39 by bebosson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/wolf3d.h"
+
+static void		remove_objects(t_wolf *data)
+{
+	t_object	*tmp;
+	t_object	*head;
+
+	head = data->object;
+	while (data->object && data->object->dead == 1)
+	{
+		data->pfdata.list[data->object->i].bobstacle = 0;
+		tmp = data->object->next;
+		ft_memdel((void **)&data->object);
+		data->object = tmp;
+		head = data->object;
+	}
+	while (data->object)
+	{
+		tmp = data->object;
+		data->object = data->object->next;
+		while (data->object && data->object->dead == 1)
+		{
+			data->pfdata.list[data->object->i].bobstacle = 0;
+			tmp->next = data->object->next;
+			ft_memdel((void **)&data->object);
+			data->object = tmp->next;
+		}
+	}
+	data->object = head;
+}
 
 static void		textures(t_wolf *data)
 {
@@ -105,6 +134,7 @@ void			display(t_wolf *data)
 	monsters(data);
 	objects(data, data->monster);
 	objects(data, data->object);
+	remove_objects(data);
 	weapons(data);
 	textures(data);
 	cursor(data);

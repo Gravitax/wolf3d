@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/27 16:48:08 by maboye            #+#    #+#             */
-/*   Updated: 2019/12/02 18:28:23 by maboye           ###   ########.fr       */
+/*   Updated: 2019/12/04 17:45:53 by bebosson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,14 @@ typedef struct	s_object
 	t_objdata		data;
 	struct s_object	*next;
 }				t_object;
+
+typedef struct	s_rect
+{
+	int				x;
+	int				y;
+	int				h;
+	int				w;
+}				t_rect;
 
 typedef struct	s_wdata
 {
@@ -212,10 +220,15 @@ typedef struct	s_wolf
 	t_object				*monster;
 	t_object				*object;
 	t_sprite				sprite[SNB];
+	SDL_Rect					*rect;
+	SDL_Point					*pl;
+	SDL_Point					*point;
 	SDL_MouseMotionEvent	mouse;
 	SDL_Event				event;
 	SDL_Renderer			*renderer;
 	SDL_Surface				*screen;
+	SDL_Surface				*surf_write;
+	SDL_Texture 			*text_write;
 	SDL_Texture				*bgc;
 	SDL_Texture				*bgf;
 	SDL_Texture				*window;
@@ -239,7 +252,7 @@ void			spawner(t_wolf *data);
 void			sprites(t_wolf *data);
 void			weapons(t_wolf *data);
 void			wolf3d(t_wolf *data);
-
+t_wolf			*minimap_alloc(t_wolf *data);
 void			get_blockside(t_wolf *data, int testx, int testy);
 void			raycasting(t_wolf *data);
 
@@ -273,5 +286,5 @@ void			set_write_to_screen(t_wolf *data,
 	SDL_Rect rect, int color, char *str);
 void			ft_mouse_motion_x(t_wolf *data);
 void			object_minimap(t_wolf *data, t_object *list);
-
+void			minimap2(t_wolf *data);
 #endif
