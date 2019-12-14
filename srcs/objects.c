@@ -3,91 +3,87 @@
 /*                                                        :::      ::::::::   */
 /*   objects.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
+/*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/27 16:48:08 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/28 12:34:33 by maboye           ###   ########.fr       */
+/*   Updated: 2019/12/14 01:15:53 by saneveu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/wolf3d.h"
 
-static void		get_objdata(t_wolf *data, t_object *list)
+static void				get_obj_calc2(t_object *l)
 {
-	list->data.ceiling = (float)(W_HEIGHT / 2)
-		- W_HEIGHT / list->data.dst_fromplayer;
-	list->data.floor = W_HEIGHT - list->data.ceiling;
-	list->data.height = list->data.floor - list->data.ceiling;
-	list->data.ratio = (float)list->sprite.img->h
-		/ (float)list->sprite.img->w;
-	list->data.width = list->data.height / list->data.ratio;
-	list->data.mid = (0.5 * (list->data.angle
-		/ (data->player.fov / 2)) + 0.5) * W_WIDTH;
+	l->data.spriteHeight = abs((int)(W_HEIGHT / (l->data.transformy)));
+	l->data.drawStartY = -l->data.spriteHeight / 2 + W_HEIGHT / 2;
+	if (l->data.drawStartY < 0)
+		l->data.drawStartY = 0;
+	l->data.drawEndY = l->data.spriteHeight / 2 + W_HEIGHT / 2;
+	if (l->data.drawEndY >= W_HEIGHT)
+		l->data.drawEndY = W_HEIGHT - 1;
+	l->data.spriteWidth = abs((int)(W_HEIGHT / l->data.transformy));
+	l->data.drawStartX = -l->data.spriteWidth / 2 + l->data.spriteScreenX;
+	if (l->data.drawStartX < 0)
+		l->data.drawStartX = 0;
+	l->data.drawEndX = l->data.spriteWidth / 2 + l->data.spriteScreenX;
+	if (l->data.drawEndX >= W_WIDTH)
+		l->data.drawEndX = W_WIDTH - 1;
+	l->data.mid = (l->data.drawStartX / 2) + (l->data.drawEndX / 2);
 }
 
-static void		get_objangle(t_wolf *data, t_object *list)
+static void				get_obj_calc(t_wolf *d, t_object *l)
 {
-	float	vecx;
-	float	vecy;
+	float	spritex;
+	float	spritey;
 
-	vecx = list->x - data->player.x;
-	vecy = list->y - data->player.y;
-	list->data.dst_fromplayer = ft_sqrt(vecx
-		* vecx + vecy * vecy);
-	list->data.eyex = cosf(data->player.angle);
-	list->data.eyey = sinf(data->player.angle);
-	list->data.angle = atan2f(list->data.eyex, list->data.eyey)
-		- atan2f(vecx, vecy);
-	if (list->data.angle < -3.14159)
-		list->data.angle += 2 * 3.14159;
-	else if (list->data.angle > 3.14159)
-		list->data.angle -= 2 * 3.14159;
+	l->data.dst_fromplayer = distance_calc(d->player.x, d->player.y,
+		l->x, l->y);
+	spritex = l->x - d->player.x;
+	spritey = l->y - d->player.y;
+	l->data.invDet = 1.0 / (d->player.planex * d->player.diry 
+		- d->player.dirx * d->player.planey); 
+	l->data.transformx = l->data.invDet * (d->player.diry * spritex
+		- d->player.dirx * spritey);
+	l->data.transformy = l->data.invDet * (-d->player.planey * spritex
+		+ d->player.planex * spritey);
+	l->data.spriteScreenX = (int)((W_WIDTH / 2) * (1 + l->data.transformx
+		/ l->data.transformy));
+	get_obj_calc2(l);
 }
 
-static void		put_objpixel(t_wolf *data, t_object *list, float sy)
+static void		display_object(t_wolf *d, t_object *l)
 {
+	int			sx;
+	int			sy;
+	int			p;
+	int			texY;
+	int			texX;
 	uint32_t	pixel;
 
-	if (list->data.column < 0 || list->data.column > W_WIDTH)
-		return ;
-	if (data->map.depth_buffer[list->data.column]
-			< list->data.dst_fromplayer)
-		return ;
-	pixel = get_pixel(data, list->si,
-			list->data.samplex, list->data.sampley);
-	if (pixel == list->data.zpixel)
-		return ;
-	put_pixel(data->screen,
-			list->data.column,
-			list->data.ceiling + sy, pixel);
-	data->map.depth_buffer[list->data.column] = list->data.dst_fromplayer;
-}
-
-static void		display_object(t_wolf *data, t_object *list)
-{
-	float	sx;
-	float	sy;
-	float	tx;
-	float	ty;
-	float	tmp;
-
-	list->data.zpixel = get_pixel(data, list->si, 0, 0);
-	tx = 1 / list->data.width;
-	ty = 1 / list->data.height;
-	tmp = list->data.width / 2;
-	sx = -1;
-	list->data.samplex = 0.0f;
-	while (++sx < list->data.width)
+	sx = l->data.drawStartX;
+	while (sx < l->data.drawEndX)
 	{
-		sy = -1;
-		list->data.sampley = 0.0f;
-		while (++sy < list->data.height)
+		texX = (int)(256 * (sx - (-((int)l->data.spriteWidth) / 2
+			+ l->data.spriteScreenX))
+				* l->sprite.img->w / l->data.spriteWidth) / 256; 
+		if (l->data.transformy > 0 && sx > 0 && sx < W_WIDTH
+		&& l->data.transformy < d->map.depth_buffer[sx])
 		{
-			list->data.column = (int)(list->data.mid + sx - tmp);
-			put_objpixel(data, list, sy);
-			list->data.sampley += ty;
+			sy = l->data.drawStartY;
+			while (sy < l->data.drawEndY)
+			{
+				p = (sy) * 256 - W_HEIGHT * 128 + l->data.spriteHeight * 128;
+				texY = ((p * l->sprite.img->h) / l->data.spriteHeight) / 256;
+				pixel = get_pixel_obj(l, l->si, texX, texY);
+				if (pixel != l->data.zpixel)
+					put_pixel(d->screen, sx, sy, pixel);
+				l->data.dst_fromplayer = distance(d->player.x, d->player.y,
+					l->x, l->y); 
+				d->map.depth_buffer[sx] = l->data.dst_fromplayer;
+				sy++;
+			}
 		}
-		list->data.samplex += tx;
+		sx++;
 	}
 }
 
@@ -100,16 +96,12 @@ void			objects(t_wolf *data, t_object *list)
 		return ;
 	while (list)
 	{
+		list->data.zpixel = get_pixel(data, list->si, 0, 0);
 		if (list->type > 2 && list->type < 10)
 		{
-			get_objangle(data, list);
-			if (fabs(list->data.angle) < data->player.fov / 2
-					&& list->data.dst_fromplayer > 1
-					&& list->data.dst_fromplayer < data->map.depth)
-			{
-				get_objdata(data, list);
-				display_object(data, list);
-			}
+			list->i = (int)list->x + data->map.width * (int)list->y;
+			get_obj_calc(data, list);
+			display_object(data, list);
 		}
 		list = list->next;
 	}

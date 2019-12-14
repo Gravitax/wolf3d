@@ -6,7 +6,7 @@
 /*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 15:05:22 by maboye            #+#    #+#             */
-/*   Updated: 2019/12/04 17:24:04 by saneveu          ###   ########.fr       */
+/*   Updated: 2019/12/13 00:13:10 by saneveu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,14 @@ float			distance(float x1, float y1, float x2, float y2)
 	return (1 / conv.f);
 }
 
+float			distance_calc(float x1, float y1, float x2, float y2)
+{
+	float	nb;
+
+	nb = (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2);
+	return (nb);
+}
+
 int				get_objhp(t_wolf *data, t_object *list)
 {
 	int	hp;
@@ -47,7 +55,6 @@ uint32_t		get_pixel(t_wolf *data, int si, float samplex, float sampley)
 	int				sx;
 	int				sy;
 	uint8_t			*p;
-	uint32_t		pixel;
 	t_sprite		surface;
 
 	surface = data->sprite[si];
@@ -55,8 +62,20 @@ uint32_t		get_pixel(t_wolf *data, int si, float samplex, float sampley)
 	sy = sampley * surface.img->h;
 	p = (uint8_t *)surface.img->pixels + sy * surface.img->pitch
 		+ sx * surface.img->format->BytesPerPixel;
-	pixel = (p[2] | p[1] << 8 | p[0] << 16 | 255 << 24);
-	return (pixel);
+	return (p[2] | p[1] << 8 | p[0] << 16 | 255 << 24);
+}
+
+uint32_t		get_pixel_obj(t_object *l, int si, int texX, int texY)
+{
+	int				sx;
+	int				sy;
+	uint8_t		*p;
+	t_sprite		surface;
+
+	surface	= l->sprite;
+	p = (uint8_t *)surface.img->pixels + texY * surface.img->pitch
+		+ texX * surface.img->format->BytesPerPixel;
+	return (p[2] | p[1] << 8 | p[0] << 16 | 255 << 24);	
 }
 
 uint32_t		get_pixel_ray(t_wolf *data, int si, float samplex, float sampley)
@@ -64,7 +83,6 @@ uint32_t		get_pixel_ray(t_wolf *data, int si, float samplex, float sampley)
 	int				sx;
 	int				sy;
 	uint8_t			*p;
-	uint32_t		pixel;
 	t_sprite		surface;
 
 	surface = data->sprite[si];
@@ -72,8 +90,7 @@ uint32_t		get_pixel_ray(t_wolf *data, int si, float samplex, float sampley)
 	sy = sampley;
 	p = (uint8_t *)surface.img->pixels + sy * surface.img->pitch
 		+ sx * surface.img->format->BytesPerPixel;
-	pixel = (p[2] | p[1] << 8 | p[0] << 16 | 255 << 24);
-	return (pixel);
+	return (p[2] | p[1] << 8 | p[0] << 16 | 255 << 24);
 }
 
 SDL_Surface		*new_surface(int w, int h)
@@ -95,5 +112,5 @@ void			put_pixel(SDL_Surface *surface, int x, int y, uint32_t color)
 	if (x < 0 || x >= W_WIDTH || y < 0 || y >= W_HEIGHT)
 		return ;
 	pixels = (unsigned int *)surface->pixels;
-	pixels[y * W_WIDTH + x] = color;
+	pixels[x + (y * W_WIDTH)] = color;
 }

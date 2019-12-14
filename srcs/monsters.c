@@ -6,13 +6,13 @@
 /*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/29 20:26:43 by saneveu          ###   ########.fr       */
+/*   Updated: 2019/12/13 02:28:19 by saneveu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/wolf3d.h"
 
-static void		remove_deadmobs(t_wolf *data)
+void			remove_deadmobs(t_wolf *data)
 {
 	t_object	*tmp;
 	t_object	*head;
@@ -43,23 +43,19 @@ static void		remove_deadmobs(t_wolf *data)
 
 static void		smoothness(t_wolf *data, t_node *current)
 {
-	int		pos;
 	float	tmpx;
 	float	tmpy;
 
-	if (data->monster->data.dst_fromplayer > data->map.depth)
-		return ;
 	tmpx = (current->x + 0.5f - data->monster->x) * data->monster->speed;
 	tmpy = (current->y + 0.5f - data->monster->y) * data->monster->speed;
 	data->monster->x += tmpx;
 	data->monster->y += tmpy;
-	pos = (int)data->monster->x
-		+ data->map.width * (int)data->monster->y;
 	if (data->monster->x < 0
 		|| data->monster->x > data->map.width
 		|| data->monster->y < 0
 		|| data->monster->y > data->map.height
-		|| data->map.map[pos] == 1)
+		|| data->map.map[(int)data->monster->x
+			+ data->map.width * (int)data->monster->y] == 1)
 	{
 		data->monster->x -= tmpx;
 		data->monster->y -= tmpy;
@@ -94,25 +90,21 @@ static void		monster_actions(t_wolf *data)
 	data->pfdata.end = &data->pfdata.list[data->player.pos];
 	dst = distance(data->monster->x, data->monster->y,
 			data->pfdata.end->x, data->pfdata.end->y);
-	if (dst > 2.5f)
+	if (dst > 0.95f)
 	{
 		data->monster->si = data->monster->type;
+		data->monster->sprite = data->sprite[data->monster->si];
 		if (dst < 12.5f || data->monster->hp < data->monster->hp_max)
 			monster_moves(data);
 	}
 	else
 	{
-		play_sound(data, data->sound.NMIatk, 10);
 		data->monster->si = data->monster->type + 3;
+		data->monster->sprite = data->sprite[data->monster->si];
 		data->player.health -= data->monster->type * 2;
 		data->monster->delay = data->monster->type * 10;
 		if (data->player.health < 1)
-		{
-			play_sound(data, data->sound.PlayerDeath, 5);
 			game_over(data);
-		}
-		else
-			play_sound(data, data->sound.PlayerHit, 5);
 	}
 }
 
@@ -136,6 +128,5 @@ void			monsters(t_wolf *data)
 		data->monster = data->monster->next;
 	}
 	data->monster = head;
-	objects(data, data->monster);
 	remove_deadmobs(data);
 }

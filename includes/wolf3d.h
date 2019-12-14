@@ -6,7 +6,7 @@
 /*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/27 16:48:08 by maboye            #+#    #+#             */
-/*   Updated: 2019/12/04 18:01:03 by saneveu          ###   ########.fr       */
+/*   Updated: 2019/12/14 01:07:52 by saneveu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,23 @@
 # include <time.h>
 # include <fcntl.h>
 # include <unistd.h>
-# include <SDL.h>
-# include <SDL_ttf.h>
-# include <SDL_mixer.h>
+# include <math.h>
+# include "/usr/include/SDL2/SDL.h"
+# include "/usr/include/SDL2/SDL_ttf.h"
+
+//# include "../SDL2.framework/Headers/SDL.h"
+//# include "../SDL2.framework/Headers/SDL_ttf.h"
+
 # include "../libft/libft.h"
 
-# define W_WIDTH	1600
-# define W_HEIGHT	900
+# define W_WIDTH	1280
+# define W_HEIGHT	720
+
+# define nTHREAD	8
 
 # define FPS		60
 
-# define SNB		31
+# define SNB		30
 # define WNB		4
 
 # define UNITX		W_WIDTH / 16
@@ -58,7 +64,7 @@ typedef struct	s_sprite
 {
 	SDL_Surface	*img;
 }				t_sprite;
-
+/*
 typedef struct	s_sound
 {
 	Mix_Chunk 	*walk;
@@ -79,7 +85,7 @@ typedef struct	s_sound
 	Mix_Chunk	*tic;
 	Uint8		token;
 }				t_sound;
-
+*/
 typedef struct	s_objdata
 {
 	int			column;
@@ -90,12 +96,20 @@ typedef struct	s_objdata
 	float		dst_fromplayer;
 	float		ceiling;
 	float		floor;
-	float		eyex;
-	float		eyey;
 	float		height;
 	float		width;
 	float		samplex;
 	float		sampley;
+	double		invDet;
+	double		transformx;
+	double		transformy;
+	int			spriteScreenX;
+	int			spriteHeight;
+	int			spriteWidth;
+	int			drawStartY;
+	int			drawEndY;
+	int			drawEndX;
+	int			drawStartX;
 }				t_objdata;
 
 typedef struct	s_object
@@ -116,6 +130,14 @@ typedef struct	s_object
 	t_objdata		data;
 	struct s_object	*next;
 }				t_object;
+
+typedef struct	s_rect
+{
+	int				x;
+	int				y;
+	int				h;
+	int				w;
+}				t_rect;
 
 typedef struct	s_wdata
 {
@@ -181,25 +203,6 @@ typedef struct	s_ray
 	double		weight;
 }				t_ray;
 
-typedef struct	s_raydata
-{
-	int			ceiling;
-	int			floor;
-	int			si;
-	float		angle;
-	float		bmx;
-	float		bmy;
-	float		dst_towall;
-	float		eyex;
-	float		eyey;
-	float		ray_step;
-	float		samplex;
-	float		sampley;
-	float		testangle;
-	float		testx;
-	float		testy;
-}				t_raydata;
-
 typedef struct	s_map
 {
 	int			len;
@@ -247,6 +250,7 @@ typedef struct	s_pf
 
 typedef struct	s_wolf
 {
+	int						style;
 	int						fire_delay;
 	int						fps;
 	int						kill_score;
@@ -260,6 +264,11 @@ typedef struct	s_wolf
 	float					cdst;
 	float					etime;
 	float					frame_start;
+	float					frametime;
+	float					oldtime;
+	float					time;
+	double					mv_speed;
+	double					rot_speed;
 	TTF_Font				*police;
 	TTF_Font				*police2;
 	TTF_Font				*police3;
@@ -267,16 +276,19 @@ typedef struct	s_wolf
 	t_map					map;
 	t_pf					pfdata;
 	t_player				player;
-	t_raydata				raydata;
 	t_ray					ray;
 	t_object				*monster;
 	t_object				*object;
 	t_sprite				sprite[SNB];
-	t_sound					sound;
+	SDL_Rect					*rect;
+	SDL_Point					*pl;
+	SDL_Point					*point;
 	SDL_MouseMotionEvent	mouse;
 	SDL_Event				event;
 	SDL_Renderer			*renderer;
 	SDL_Surface				*screen;
+	SDL_Surface				*surf_write;
+	SDL_Texture 			*text_write;
 	SDL_Texture				*bgc;
 	SDL_Texture				*bgf;
 	SDL_Texture				*window;
@@ -284,6 +296,7 @@ typedef struct	s_wolf
 }				t_wolf;
 
 void			display(t_wolf *data);
+void			deal_damage_tomonster(t_wolf *data, t_object *list, int damage);
 void			events(t_wolf *data);
 void			game_over(t_wolf *data);
 void			load_datagame(t_wolf *data);
@@ -291,24 +304,29 @@ void			monsters(t_wolf *data);
 void			mouse_events(t_wolf *data);
 void			movements(t_wolf *data);
 void			objects(t_wolf *data, t_object *list);
+void			object_actions(t_wolf *data, t_object *list);
 void			shoot(t_wolf *data);
 void			skybox(t_wolf *data);
 void			spawner(t_wolf *data);
 void			sprites(t_wolf *data);
+void			sprites_textures(t_wolf *data);
+void			sprites_textures1(t_wolf *data);
 void			weapons(t_wolf *data);
 void			wolf3d(t_wolf *data);
-
+t_wolf			*minimap_alloc(t_wolf *data);
 void			get_blockside(t_wolf *data, int testx, int testy);
 void			raycasting(t_wolf *data);
+void            draw_wall(t_wolf *d, int x);
+void            get_tex(t_wolf *d);
 
 void			minimap(t_wolf *data);
 
 float			distance(float x1, float y1, float x2, float y2);
+float			distance_calc(float x1, float y1, float x2, float y2);
 int				get_objhp(t_wolf *data, t_object *list);
 uint32_t		get_pixel(t_wolf *data, int si, float samplex, float sampley);
 SDL_Surface		*new_surface(int w, int h);
 void			put_pixel(SDL_Surface *surface, int x, int y, uint32_t color);
-uint32_t		get_pixel_ray(t_wolf *data, int si, float samplex, float sampley);
 
 void			draw_fps(t_wolf *data);
 void			add_sc_x(t_wolf *data);
@@ -332,12 +350,11 @@ void			set_write_to_screen(t_wolf *data,
 	SDL_Rect rect, int color, char *str);
 void			ft_mouse_motion_x(t_wolf *data);
 void			object_minimap(t_wolf *data, t_object *list);
+void			minimap2(t_wolf *data);
 
-void            play_sound(t_wolf *data, Mix_Chunk *chunk, int channel);
-void            play_music(t_wolf *data, Mix_Music *music);
-void            free_sound(t_wolf *data);
-void            audio_init(t_wolf *data);
-
+uint32_t		get_pixel_obj(t_object *l, int si, int texX, int texY);
+uint32_t		get_pixel_ray(t_wolf *data, int si, float samplex, float sampley);
 void            draw_floor_ceilling(t_wolf *d, int x);
+void			mouse(t_wolf *data, Sint16 xrel, int dir);
 
 #endif

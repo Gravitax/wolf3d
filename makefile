@@ -6,7 +6,7 @@
 #    By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/31 12:01:33 by maboye            #+#    #+#              #
-#    Updated: 2019/12/04 18:01:47 by saneveu          ###   ########.fr        #
+#    Updated: 2019/12/14 01:08:18 by saneveu          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,11 +35,11 @@ OBJDIR	=	./obj
 # src / obj files
 SRC		=	astar_list.c \
 			astar.c \
-			blockside.c \
 			datagame.c \
 			display.c \
 			events.c \
 			game_over.c \
+			grenada.c \
 			main.c \
 			minimap.c \
 			monsters.c \
@@ -49,7 +49,6 @@ SRC		=	astar_list.c \
 			objects.c \
 			raycasting.c \
 			shoot.c \
-			skybox.c \
 			spawner.c \
 			sprites.c \
 			tools.c \
@@ -59,9 +58,9 @@ SRC		=	astar_list.c \
 			pause.c \
 			tool_render.c \
 			minimap_monster.c \
-			audio.c \
 			floor.c \
-			
+			draw_ray.c
+
 INC		=	wolf3d.h
 
 OBJ		=	$(addprefix $(OBJDIR)/,$(SRC:.c=.o))
@@ -69,13 +68,13 @@ HEADER	=	$(addprefix $(INCDIR)/,$(INC))
 
 # compiler
 CC		=	gcc
-CFLAGS	=	-O3 #-Wall -Wextra -Werror #-g3 -fsanitize=address
+CFLAGS	=	#-Wall -Wextra -Werror #-g3 -fsanitize=address
 
 ifeq ($(OS), Linux)
-	SDL		=	-lSDL2-2.0 -lSDL2_mixer
+	SDL		=	-lSDL2-2.0 -lSDL2_ttf
 	DIRSDL	=	
 else
-	SDL		=	-F ~/Library/Frameworks -framework SDL2 -framework SDL2_ttf -framework SDL2_mixer
+	SDL		=	-F ~/Library/Frameworks -framework SDL2 -framework SDL2_ttf
 	DIRSDL	=	./SDL2.framework/Headers
 endif 
 
@@ -90,7 +89,8 @@ obj:
 
 $(OBJDIR)/%.o:$(SRCDIR)/%.c $(HEADER)
 			@echo "${TUR}compiling [$@] ...${END}"
-			@$(CC) $(CFLAGS) -I $(INCDIR) -I $(DIRSDL) -c -o $@ $<
+			@$(CC) $(CFLAGS) -I $(INCDIR) -c -o $@ $<
+			#-I $(DIRSDL)
 			@printf "$(UP)$(CUT)"
 
 $(FT_LIB):

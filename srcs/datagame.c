@@ -6,7 +6,7 @@
 /*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/12/04 18:10:24 by saneveu          ###   ########.fr       */
+/*   Updated: 2019/12/13 23:13:01 by saneveu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,21 +40,6 @@ static void		get_list(t_wolf *data, t_object *list, int min, int max)
 		}
 	list = head;
 }
-
-static void		background(t_wolf *data)
-{
-	SDL_LockSurface(data->sprite[0].img);
-	if (!(data->bgc = SDL_CreateTextureFromSurface(data->renderer,
-					data->sprite[0].img)))
-		clean_exit(data, "wolf3d: SDL_CreateTextures fail", 0);
-	SDL_UnlockSurface(data->sprite[0].img);
-	SDL_LockSurface(data->sprite[1].img);
-	if (!(data->bgf = SDL_CreateTextureFromSurface(data->renderer,
-					data->sprite[1].img)))
-		clean_exit(data, "wolf3d: SDL_CreateTextures fail", 0);
-	SDL_UnlockSurface(data->sprite[1].img);
-}
-
 static void		weapons_data(t_wolf *data)
 {
 	data->player.wdata[0].damage = 60;
@@ -85,7 +70,6 @@ void			load_datagame(t_wolf *data)
 		clean_exit(data, "wolf3d: malloc error", 0);
 	get_list(data, data->object, 3, 5);
 	get_list(data, data->monster, 6, 9);
-	//background(data);
 	if (!(data->screen = new_surface(W_WIDTH, W_HEIGHT)))
 		clean_exit(data, "wolf3d: error creating RGB surface", 0);
 	get_nodes(data);

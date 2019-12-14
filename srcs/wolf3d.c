@@ -6,7 +6,7 @@
 /*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/12/03 16:56:19 by saneveu          ###   ########.fr       */
+/*   Updated: 2019/12/14 00:50:48 by saneveu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,11 @@ static void		init_sdl(t_wolf *data)
 	if (SDL_Init(SDL_INIT_VIDEO) == -1)
 		clean_exit(data, "wolf3d: SDL_Init fail", 0);
 	data->sdl_on = 1;
+	if (!(data = minimap_alloc(data)))
+		clean_exit(data, "wolf3d: error malloc minimap", 0);
+
 	if (TTF_Init() == -1)
 		clean_exit(data, "wolf3d: error TTF_init", 0);
-	if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 1024) == -1)
-		clean_exit(data, "wolf3d: error Mix_OpenAudio", 0);
-	else
-		audio_init(data);
 	data->pwindow = SDL_CreateWindow("maboye wolf3d",
 			SDL_WINDOWPOS_CENTERED,
 			SDL_WINDOWPOS_CENTERED,
@@ -33,6 +32,7 @@ static void		init_sdl(t_wolf *data)
 		clean_exit(data, "wolf3d: error TTF_OpenFont", 0);
 	if (!(data->police3 = TTF_OpenFont("img/police/bit.ttf", 8)))
 		clean_exit(data, "wolf3d: error TTF_OpenFont", 0);
+	
 }
 
 static int		get_fps(t_wolf *data)
@@ -88,12 +88,11 @@ void			wolf3d(t_wolf *data)
 	data->player.health = 200;
 	data->player.health_max = 200;
 	data->player.weapon = 0;
-	data->raydata.ray_step = 0.01;
 	data->map.sc_x = 3;
 	data->key[KP] = 1;
 	data->player.dirx = 1;
 	data->player.diry = 0;
 	data->player.planex = 0;
-	data->player.planey = -data->player.fov;
+	data->player.planey = data->player.fov;
 	launch_game(data);
 }

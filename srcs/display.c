@@ -6,11 +6,40 @@
 /*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/12/04 18:05:44 by saneveu          ###   ########.fr       */
+/*   Updated: 2019/12/12 23:07:37 by saneveu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/wolf3d.h"
+
+static void		remove_objects(t_wolf *data)
+{
+	t_object	*tmp;
+	t_object	*head;
+
+	head = data->object;
+	while (data->object && data->object->dead == 1)
+	{
+		data->pfdata.list[data->object->i].bobstacle = 0;
+		tmp = data->object->next;
+		ft_memdel((void **)&data->object);
+		data->object = tmp;
+		head = data->object;
+	}
+	while (data->object)
+	{
+		tmp = data->object;
+		data->object = data->object->next;
+		while (data->object && data->object->dead == 1)
+		{
+			data->pfdata.list[data->object->i].bobstacle = 0;
+			tmp->next = data->object->next;
+			ft_memdel((void **)&data->object);
+			data->object = tmp->next;
+		}
+	}
+	data->object = head;
+}
 
 static void		textures(t_wolf *data)
 {
@@ -18,7 +47,6 @@ static void		textures(t_wolf *data)
 	unsigned int	*pixels;
 	SDL_Rect		rect;
 
-	//skybox(data);
 	rect.h = W_HEIGHT / 2;
 	rect.w = W_WIDTH;
 	rect.x = 0;
@@ -95,15 +123,23 @@ static void		health(t_wolf *data)
 	SDL_RenderFillRect(data->renderer, &rect);
 }
 
+void			get_fps(t_wolf *d)
+{
+	d->oldtime = d->time;
+	d->time = SDL_GetTicks();
+	d->frametime = (d->time - d->oldtime) / 1000.0;
+	d->fps = 1.0 / d->frametime;
+	d->mv_speed = d->frametime * 5.0;
+	d->rot_speed = d->frametime * 3.0;
+}
+
 void			display(t_wolf *data)
 {
-	if (data->player.angle >= 6.3f)
-		data->player.angle = 0;
-	else if (data->player.angle < 0)
-		data->player.angle = 6.3f;
 	raycasting(data);
 	monsters(data);
+	objects(data, data->monster);
 	objects(data, data->object);
+	remove_objects(data);
 	weapons(data);
 	textures(data);
 	cursor(data);
@@ -112,4 +148,5 @@ void			display(t_wolf *data)
 		minimap(data);
 	SDL_RenderPresent(data->renderer);
 	SDL_DestroyTexture(data->window);
+	get_fps(data);
 }

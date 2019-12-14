@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/27 16:47:19 by maboye            #+#    #+#             */
-/*   Updated: 2019/11/21 14:05:17 by maboye           ###   ########.fr       */
+/*   Updated: 2019/12/02 18:50:30 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ static int		get_map(t_wolf *data, int file)
 		if (r == -1)
 			clean_exit(data, "wolf3d: read error", 0);
 		buff[r] = '\0';
-		data->str = ft_strfjoin(data->str, buff, 1);
+		if (!(data->str = ft_strfjoin(data->str, buff, 1)))
+			clean_exit(data, "wolf3d: malloc error", 0);
 	}
 	data->map.len = (int)ft_strlen(data->str) + 1;
 	if (!(data->map.map = (int *)ft_memalloc(sizeof(int) * data->map.len)))

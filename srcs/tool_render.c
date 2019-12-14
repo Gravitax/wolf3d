@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 17:30:19 by bebosson          #+#    #+#             */
-/*   Updated: 2019/11/28 12:34:47 by maboye           ###   ########.fr       */
+/*   Updated: 2019/12/04 20:09:34 by bebosson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,11 @@
 
 void	set_write_to_screen(t_wolf *data, SDL_Rect rect, int c, char *str)
 {
-	SDL_Surface *surface;
-	SDL_Texture *texture;
-
-	surface = TTF_RenderText_Solid(data->policep, str, ft_hex_to_rgb(c));
-	texture = SDL_CreateTextureFromSurface(data->renderer, surface);
-	SDL_QueryTexture(texture, 0, 0, &(rect.w), &(rect.h));
-	SDL_RenderCopy(data->renderer, texture, NULL, &rect);
+	data->surf_write = TTF_RenderText_Solid(data->policep, str, ft_hex_to_rgb(c));
+	data->text_write = SDL_CreateTextureFromSurface(data->renderer, data->surf_write);
+	SDL_QueryTexture(data->text_write, 0, 0, &(rect.w), &(rect.h));
+	SDL_RenderCopy(data->renderer, data->text_write, NULL, &rect);
+	SDL_FreeSurface(data->surf_write);
 }
 
 void	set_rect_to_screen(t_wolf *data, SDL_Rect *rect, int c)

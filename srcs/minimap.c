@@ -6,96 +6,62 @@
 /*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/27 16:47:19 by maboye            #+#    #+#             */
-/*   Updated: 2019/12/03 16:36:32 by saneveu          ###   ########.fr       */
+/*   Updated: 2019/12/13 01:55:14 by saneveu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/wolf3d.h"
 
-static void		draw_player_minimap(t_wolf *data, int x, int y)
-{
-	int		coef;
-	int		tmp;
-	t_point	point[3];
-	t_point	player;
-
-	data->raydata.eyex = cosf(data->raydata.angle - 5 * 3.14159 / 6);
-	data->raydata.eyey = sinf(data->raydata.angle - 5 * 3.14159 / 6);
-	point[0].x = 10 * (data->raydata.eyex) + x;
-	point[0].y = 10 * (data->raydata.eyey) + y;
-	point[1].x = 10 * cosf(data->raydata.angle + 5 * 3.14159 / 6) + x;
-	point[1].y = 10 * sinf(data->raydata.angle + 5 * 3.14159 / 6) + y;
-	SDL_SetRenderDrawColor(data->renderer, 0, 255, 0, 100);
-	SDL_RenderDrawLine(data->renderer, x, y, point[0].x, point[0].y);
-	SDL_RenderDrawLine(data->renderer, x, y, point[1].x, point[1].y);
-	SDL_RenderDrawLine(data->renderer,
-			point[0].x, point[0].y,
-			point[1].x, point[1].y);
-}
-
 static void		draw_ray_fov(t_wolf *data, int i, int x, int y)
 {
-	data->raydata.angle = (data->player.angle - data->player.fov / 2)
-		+ ((float)i / (float)W_WIDTH) * data->player.fov;
 	SDL_SetRenderDrawColor(data->renderer, 155, 0, 150, 100);
-	if (i == W_WIDTH / 2)
-		draw_player_minimap(data, x, y);
 	SDL_RenderDrawLine(data->renderer, x, y,
 			data->map.depth_buffer[i]
 			* W_WIDTH / (data->map.sc_x * data->map.width)
-			* (cosf(data->raydata.angle)) + x, data->map.depth_buffer[i]
+			* (data->player.dirx) + x, data->map.depth_buffer[i]
 			* W_HEIGHT / (data->map.sc_x * data->map.height)
-			* (sinf(data->raydata.angle)) + y);
+			* (data->player.diry) + y);
 }
 
-static void		calc_player(t_wolf *data, int sc_x)
+static void		calc_player(t_wolf *d)
 {
 	int			i;
-	SDL_Point	pl;
 
-	pl.x = data->player.x * W_WIDTH / (data->map.sc_x * data->map.width);
-	pl.y = data->player.y * W_HEIGHT / (data->map.sc_x * data->map.height);
-	SDL_SetRenderDrawColor(data->renderer, 0, 0xFF, 0, 0);
+	d->pl->x = d->player.x * W_WIDTH / (d->map.sc_x * d->map.width);
+	d->pl->y = d->player.y * W_HEIGHT / (d->map.sc_x * d->map.height);
+	SDL_SetRenderDrawColor(d->renderer, 0, 0xFF, 0, 0);
 	i = -1;
 	while (++i < W_WIDTH)
-		draw_ray_fov(data, i, pl.x, pl.y);
-	SDL_SetRenderDrawColor(data->renderer, 155, 150, 150, 100);
-	draw_ray_fov(data, i / 2, pl.x, pl.y);
+		draw_ray_fov(d, i, d->pl->x, d->pl->y);
 }
 
-static void		draw_minimap(t_wolf *data, int nx, int sc_x)
+static void		draw_minimap(t_wolf *data, int nx)
 {
 	int			ny;
-	SDL_Rect	rect;
 
 	ny = -1;
-	rect.h = 2 * W_HEIGHT / (data->map.sc_x * data->map.height);
-	rect.w = 2 * W_WIDTH / (data->map.sc_x * data->map.width);
+	data->rect->h = 2 * W_HEIGHT / (data->map.sc_x * data->map.height);
+	data->rect->w = 2 * W_WIDTH / (data->map.sc_x * data->map.width);
 	while (++ny < data->map.height)
 	{
-		rect.x = nx * W_WIDTH / (data->map.sc_x * data->map.width);
-		rect.y = ny * W_HEIGHT / (data->map.sc_x * data->map.height);
+		data->rect->x = nx * W_WIDTH / (data->map.sc_x * data->map.width);
+		data->rect->y = ny * W_HEIGHT / (data->map.sc_x * data->map.height);
 		if (data->map.map[ny * data->map.width + nx] == 1)
 			SDL_SetRenderDrawColor(data->renderer, 255, 0, 0, 100);
 		else
-			SDL_SetRenderDrawColor(data->renderer, 155, 0, 0, 100);
-		SDL_RenderFillRect(data->renderer, &rect);
+			SDL_SetRenderDrawColor(data->renderer, 75, 100, 100, 100);
+		SDL_RenderFillRect(data->renderer, data->rect);
 	}
 }
 
 void			minimap(t_wolf *data)
 {
 	int			nx;
-	int			sc_x;
 	int			ny;
-
-	data->raydata.angle = data->ray.dirx;
-	data->player.pos = (int)data->player.x
-		+ ((int)data->player.y + 1) * data->map.width;
+	
 	nx = -1;
-	sc_x = 3;
 	while (++nx < data->map.width)
-		draw_minimap(data, nx, sc_x);
+		draw_minimap(data, nx);
 	nx = -1;
 	while (++nx < data->map.width)
 	{
@@ -103,7 +69,7 @@ void			minimap(t_wolf *data)
 		while (++ny < data->map.height)
 		{
 			if ((ny + 1) * data->map.width + nx == data->player.pos)
-				calc_player(data, sc_x);
+				calc_player(data);
 		}
 	}
 	draw_fps(data);

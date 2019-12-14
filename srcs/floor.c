@@ -6,7 +6,7 @@
 /*   By: saneveu <saneveu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/04 17:26:54 by saneveu           #+#    #+#             */
-/*   Updated: 2019/12/04 18:47:26 by saneveu          ###   ########.fr       */
+/*   Updated: 2019/12/05 23:53:48 by saneveu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static  void    pxl_add(t_wolf *d, int y, int x, int tx)
     int tex;
 
     tex = 0;
-    tx == 0 ? (tex = 19) : (tex = 19);
+    tx == 0 ? (tex = 1) : (tex = 0);
     d->ray.wtx = (int)(d->ray.currentfloorx * d->sprite[tex].img->w)
         % d->sprite[tex].img->w;
     d->ray.wty = (int)(d->ray.currentfloory * d->sprite[tex].img->h)
