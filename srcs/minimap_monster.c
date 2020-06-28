@@ -15,7 +15,6 @@
 void			object_minimap(t_wolf *data, t_object *list)
 {
 	int			i;
-	SDL_Rect	rect;
 
 	i = 0;
 	if (list == NULL)

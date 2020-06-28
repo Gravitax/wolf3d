@@ -14,9 +14,6 @@
 
 static void		draw_player_minimap(t_wolf *d, int x, int y)
 {
-	int		coef;
-	int		tmp;
-
 	d->raydata.eyex = cosf(d->raydata.angle - 5 * 3.14159 / 6);
 	d->raydata.eyey = sinf(d->raydata.angle - 5 * 3.14159 / 6);
 	d->point[0].x = 10 * (d->raydata.eyex) + x;
@@ -46,7 +43,7 @@ static void		draw_ray_fov(t_wolf *data, int i, int x, int y)
 			* (sinf(data->raydata.angle)) + y);
 }
 
-static void		calc_player(t_wolf *d, int sc_x)
+static void		calc_player(t_wolf *d)
 {
 	int			i;
 
@@ -60,7 +57,7 @@ static void		calc_player(t_wolf *d, int sc_x)
 	draw_ray_fov(d, i / 2, d->pl->x, d->pl->y);
 }
 
-static void		draw_minimap(t_wolf *data, int nx, int sc_x)
+static void		draw_minimap(t_wolf *data, int nx)
 {
 	int			ny;
 
@@ -82,13 +79,11 @@ static void		draw_minimap(t_wolf *data, int nx, int sc_x)
 void			minimap(t_wolf *data)
 {
 	int			nx;
-	int			sc_x;
 	int			ny;
 	
 	nx = -1;
-	sc_x = 3;
 	while (++nx < data->map.width)
-		draw_minimap(data, nx, sc_x);
+		draw_minimap(data, nx);
 	nx = -1;
 	while (++nx < data->map.width)
 	{
@@ -96,7 +91,7 @@ void			minimap(t_wolf *data)
 		while (++ny < data->map.height)
 		{
 			if ((ny + 1) * data->map.width + nx == data->player.pos)
-				calc_player(data, sc_x);
+				calc_player(data);
 		}
 	}
 	draw_fps(data);

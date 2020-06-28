@@ -56,7 +56,11 @@ static void		launch_game(t_wolf *data)
 	if (data->pwindow)
 	{
 		if (!(data->renderer = SDL_CreateRenderer(data->pwindow, -1, 0)))
+		{
+			printf("%p\n", data->renderer);
+			printf("%s\n",SDL_GetError());
 			clean_exit(data, "wolf3d: SDL_CreateRenderer fail", 0);
+		}
 		load_datagame(data);
 		while (1)
 		{

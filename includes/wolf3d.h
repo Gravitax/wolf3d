@@ -16,8 +16,8 @@
 # include <time.h>
 # include <fcntl.h>
 # include <unistd.h>
-# include <SDL.h>
-# include <SDL_ttf.h>
+# include <SDL2/SDL.h>
+# include <SDL2/SDL_ttf.h>
 # include "../libft/libft.h"
 
 # define W_WIDTH	1280

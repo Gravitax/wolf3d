@@ -16,7 +16,6 @@ void			skybox(t_wolf *data)
 {
 	int			width;
 	float		ratio;
-	float		ratio2;
 	SDL_Rect	rect;
 
 	width = data->sprite[0].img->w;

@@ -81,7 +81,6 @@ static void		delvisited_nodes(t_wolf *data)
 
 void			astar(t_wolf *data)
 {
-	t_alst	*head;
 	t_node	*current;
 
 	resetdata(data);
@@ -91,7 +90,6 @@ void			astar(t_wolf *data)
 			data->pfdata.start->y, data->pfdata.end->x, data->pfdata.end->y);
 	if (!(data->pfdata.alst = (t_alst *)ft_memalloc(sizeof(t_alst))))
 		clean_exit(data, "wolf3d: malloc error", 0);
-	head = data->pfdata.alst;
 	data->pfdata.alst->node = data->pfdata.start;
 	while (current != data->pfdata.end)
 	{

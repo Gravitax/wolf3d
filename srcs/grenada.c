@@ -14,11 +14,9 @@
 
 static void		explosions(t_wolf *data, t_object *list)
 {
-	t_object	*head;
 	float		damage;
 	float		dst;
 
-	head = data->monster;
 	while (data->monster)
 	{
 		dst = distance(list->x, list->y,

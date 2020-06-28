@@ -59,8 +59,7 @@ SRC		=	astar_list.c \
 			wolf3d.c  \
 			pause.c \
 			tool_render.c \
-			minimap_monster.c \
-			minimap2.c
+			minimap_monster.c 
 
 INC		=	wolf3d.h
 
@@ -69,11 +68,12 @@ HEADER	=	$(addprefix $(INCDIR)/,$(INC))
 
 # compiler
 CC		=	gcc
-CFLAGS	=	#-Wall -Wextra -Werror #-g3 -fsanitize=address
+CFLAGS	=	-Wall -Wextra -Werror #-g3 -fsanitize=address
 
 ifeq ($(OS), Linux)
-	SDL		=	-lSDL2-2.0
-	DIRSDL	=	
+	SDL		=	 -lSDL2_ttf -lSDL2
+	DIRSDL	= -D_REENTRANT -I/usr/local/include/SDL2
+	
 else
 	SDL		=	-F ~/Library/Frameworks -framework SDL2 -framework SDL2_ttf
 	DIRSDL	=	./SDL2.framework/Headers
@@ -90,7 +90,7 @@ obj:
 
 $(OBJDIR)/%.o:$(SRCDIR)/%.c $(HEADER)
 			@echo "${TUR}compiling [$@] ...${END}"
-			@$(CC) $(CFLAGS) -I $(INCDIR) -I $(DIRSDL) -c -o $@ $<
+			@$(CC) $(CFLAGS) -I $(INCDIR) -c -o $@ $<
 			@printf "$(UP)$(CUT)"
 
 $(FT_LIB):
