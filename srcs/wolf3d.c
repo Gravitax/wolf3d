@@ -19,7 +19,6 @@ static void		init_sdl(t_wolf *data)
 	data->sdl_on = 1;
 	if (!(data = minimap_alloc(data)))
 		clean_exit(data, "wolf3d: error malloc minimap", 0);
-
 	if (TTF_Init() == -1)
 		clean_exit(data, "wolf3d: error TTF_init", 0);
 	data->pwindow = SDL_CreateWindow("maboye wolf3d",

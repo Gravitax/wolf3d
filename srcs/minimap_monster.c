@@ -35,18 +35,6 @@ void			object_minimap(t_wolf *data, t_object *list)
 	}
 }
 
-void			draw_fps(t_wolf *data)
-{
-	char		*fps;
-
-	fps = ft_strfjoin("fps ", ft_itoa(data->fps), 2);
-	(*(data->rect)) = (SDL_Rect){0, W_HEIGHT / data->map.sc_x - 5,
-		10 * data->map.sc_x, 3 * data->map.sc_x};
-	data->policep = data->police3;
-	set_write_to_screen(data, (*(data->rect)), 0, fps);
-	ft_strdel(&fps);
-}
-
 t_wolf 	*minimap_alloc(t_wolf *data)
 {
 	if (!(data->rect = malloc(sizeof(SDL_Rect))))

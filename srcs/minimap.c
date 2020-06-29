@@ -94,6 +94,5 @@ void			minimap(t_wolf *data)
 				calc_player(data);
 		}
 	}
-	draw_fps(data);
 	object_minimap(data, data->monster);
 }

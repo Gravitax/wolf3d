@@ -79,11 +79,11 @@ void				w_pause(t_wolf *data)
 	while (data->key[KP])
 	{
 		SDL_PollEvent(&data->event);
-		if ((data->event.key.keysym.sym == SDLK_SPACE && cursor == 1)
-		|| (data->event.key.keysym.sym == SDLK_p
-		&& data->event.type == SDL_KEYDOWN))
+		if (data->event.key.keysym.sym == SDLK_SPACE && cursor == 1)
 			data->key[KP] = 0;
-		else if (data->event.key.keysym.sym == SDLK_SPACE && cursor == 2)
+		else if ((data->event.key.keysym.sym == SDLK_SPACE && cursor == 2)
+				|| data->event.key.keysym.sym == SDLK_ESCAPE
+				|| data->event.key.keysym.sym == SDL_QUIT)
 			clean_exit(data, NULL, 1);
 		else if (data->event.key.keysym.sym == SDLK_UP
 				|| data->event.key.keysym.sym == SDLK_DOWN)
