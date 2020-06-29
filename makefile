@@ -38,6 +38,7 @@ SRC		=	astar_list.c \
 			blockside.c \
 			datagame.c \
 			display.c \
+			display_tool.c \
 			events.c \
 			game_over.c \
 			grenada.c \
@@ -88,7 +89,9 @@ all: 		obj $(FT_LIB) $(NAME)
 obj:
 			mkdir -p $(OBJDIR)
 # script configure
-CONF =./configure
+CONFIG = ./configure
+CONF : 
+	sudo sh $(CONFIG)
 
 
 $(OBJDIR)/%.o:$(SRCDIR)/%.c $(HEADER)
@@ -100,8 +103,7 @@ $(FT_LIB):
 			@$(MAKE) -C $(FT)
 			@echo "${GREEN}[LIBRARY COMPILED]${END}"
 
-$(NAME):	$(OBJ) $(FT_LIB)
-			@sudo sh $(CONF) 
+$(NAME): $(CONF) $(OBJ) $(FT_LIB)
 			@ $(CC) $(CFLAGS) $(OBJ) $(FT_LIB) $(SDL) -lm -lpthread -o $@
 			@echo "${GREEN}[$@ COMPILED]${END}"
 

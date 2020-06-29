@@ -15,9 +15,9 @@
 void	set_write_to_screen(t_wolf *data, SDL_Rect rect, int c, char *str)
 {
 	data->surf = TTF_RenderText_Solid(data->policep, str, ft_hex_to_rgb(c));
-	data->text = SDL_CreateTextureFromSurface(data->renderer, data->surf_write);
-	SDL_QueryTexture(data->text_write, 0, 0, &(rect.w), &(rect.h));
-	SDL_RenderCopy(data->renderer, data->text_write, NULL, &rect);
+	data->text = SDL_CreateTextureFromSurface(data->renderer, data->surf);
+	SDL_QueryTexture(data->text, 0, 0, &(rect.w), &(rect.h));
+	SDL_RenderCopy(data->renderer, data->text, NULL, &rect);
 	SDL_FreeSurface(data->surf);
 }
 
