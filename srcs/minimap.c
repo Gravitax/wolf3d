@@ -80,7 +80,7 @@ void			minimap(t_wolf *data)
 {
 	int			nx;
 	int			ny;
-	
+
 	nx = -1;
 	while (++nx < data->map.width)
 		draw_minimap(data, nx);

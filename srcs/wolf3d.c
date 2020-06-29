@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wolf3d.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bebosson <bebosson@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2019/12/04 17:23:30 by bebosson         ###   ########.fr       */
+/*   Updated: 2020/06/29 09:15:35 by bebosson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ static void		init_sdl(t_wolf *data)
 		clean_exit(data, "wolf3d: error TTF_OpenFont", 0);
 	if (!(data->police3 = TTF_OpenFont("img/police/bit.ttf", 8)))
 		clean_exit(data, "wolf3d: error TTF_OpenFont", 0);
-	
 }
 
 static int		get_fps(t_wolf *data)
@@ -55,11 +54,7 @@ static void		launch_game(t_wolf *data)
 	if (data->pwindow)
 	{
 		if (!(data->renderer = SDL_CreateRenderer(data->pwindow, -1, 0)))
-		{
-			printf("%p\n", data->renderer);
-			printf("%s\n",SDL_GetError());
 			clean_exit(data, "wolf3d: SDL_CreateRenderer fail", 0);
-		}
 		load_datagame(data);
 		while (1)
 		{

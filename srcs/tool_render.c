@@ -14,11 +14,11 @@
 
 void	set_write_to_screen(t_wolf *data, SDL_Rect rect, int c, char *str)
 {
-	data->surf_write = TTF_RenderText_Solid(data->policep, str, ft_hex_to_rgb(c));
-	data->text_write = SDL_CreateTextureFromSurface(data->renderer, data->surf_write);
+	data->surf = TTF_RenderText_Solid(data->policep, str, ft_hex_to_rgb(c));
+	data->text = SDL_CreateTextureFromSurface(data->renderer, data->surf_write);
 	SDL_QueryTexture(data->text_write, 0, 0, &(rect.w), &(rect.h));
 	SDL_RenderCopy(data->renderer, data->text_write, NULL, &rect);
-	SDL_FreeSurface(data->surf_write);
+	SDL_FreeSurface(data->surf);
 }
 
 void	set_rect_to_screen(t_wolf *data, SDL_Rect *rect, int c)

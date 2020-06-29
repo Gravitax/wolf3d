@@ -227,8 +227,8 @@ typedef struct	s_wolf
 	SDL_Event				event;
 	SDL_Renderer			*renderer;
 	SDL_Surface				*screen;
-	SDL_Surface				*surf_write;
-	SDL_Texture 			*text_write;
+	SDL_Surface				*surf;
+	SDL_Texture 			*text;
 	SDL_Texture				*bgc;
 	SDL_Texture				*bgf;
 	SDL_Texture				*window;
@@ -287,4 +287,9 @@ void			set_write_to_screen(t_wolf *data,
 void			ft_mouse_motion_x(t_wolf *data);
 void			object_minimap(t_wolf *data, t_object *list);
 void			minimap2(t_wolf *data);
+void			remove_objects(t_wolf *data);
+void			textures(t_wolf *data);
+void			cursor(t_wolf *data);
+void			health_color(t_wolf *data, int ratio);
+void			health(t_wolf *data);
 #endif
