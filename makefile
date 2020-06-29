@@ -31,6 +31,7 @@ OS		=	$(shell uname)
 SRCDIR	=	./srcs
 INCDIR	=	./includes
 OBJDIR	=	./obj
+CONFIG  = ./configure
 
 # src / obj files
 SRC		=	astar_list.c \
@@ -84,14 +85,13 @@ endif
 FT		=	./libft/
 FT_LIB	=	$(addprefix $(FT),libft.a)
 
-all: 		obj $(FT_LIB) $(NAME)
+all: 		conf obj $(FT_LIB) $(NAME)
 
-obj:
-			mkdir -p $(OBJDIR)
+obj: 
+	@mkdir -p $(OBJDIR)
 # script configure
-CONFIG = ./configure
-CONF : 
-	sudo sh $(CONFIG)
+conf : 
+	@sudo sh $(CONFIG)
 
 
 $(OBJDIR)/%.o:$(SRCDIR)/%.c $(HEADER)
