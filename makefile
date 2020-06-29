@@ -87,6 +87,9 @@ all: 		obj $(FT_LIB) $(NAME)
 
 obj:
 			mkdir -p $(OBJDIR)
+# script configure
+CONF =./configure
+
 
 $(OBJDIR)/%.o:$(SRCDIR)/%.c $(HEADER)
 			@echo "${TUR}compiling [$@] ...${END}"
@@ -98,15 +101,14 @@ $(FT_LIB):
 			@echo "${GREEN}[LIBRARY COMPILED]${END}"
 
 $(NAME):	$(OBJ) $(FT_LIB)
-			@$(CC) $(CFLAGS) $(OBJ) $(FT_LIB) $(SDL) -lm -lpthread -o $@
+			@sudo sh $(CONF) 
+			@ $(CC) $(CFLAGS) $(OBJ) $(FT_LIB) $(SDL) -lm -lpthread -o $@
 			@echo "${GREEN}[$@ COMPILED]${END}"
 
 clean:
 			@/bin/rm -rf $(OBJDIR)
 			@$(MAKE) -C $(FT) clean
 			@echo "${PURPLE}[.o deleted]${END}"
-
-#$(MAKE) -C $(MLX) clean
 
 fclean:		clean
 			@/bin/rm -rf $(NAME)
