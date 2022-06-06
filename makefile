@@ -6,7 +6,7 @@
 #    By: maboye <maboye@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/31 12:01:33 by maboye            #+#    #+#              #
-#    Updated: 2019/12/04 15:35:35 by bebosson         ###   ########.fr        #
+#    Updated: 2022/06/06 16:56:16 by maboye           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,10 +70,10 @@ HEADER	=	$(addprefix $(INCDIR)/,$(INC))
 
 # compiler
 CC		=	gcc
-CFLAGS	=	-Wall -Wextra -Werror #-g3 -fsanitize=address
+CFLAGS	=	-Wall -Wextra -Werror
 
 ifeq ($(OS), Linux)
-	SDL		=	 -lSDL2_ttf -lSDL2
+	SDL		=	 -lSDL2-2.0
 	DIRSDL	= -D_REENTRANT -I/usr/local/include/SDL2
 	
 else
@@ -85,13 +85,10 @@ endif
 FT		=	./libft/
 FT_LIB	=	$(addprefix $(FT),libft.a)
 
-all: 		conf obj $(FT_LIB) $(NAME)
+all: 		obj $(FT_LIB) $(NAME)
 
 obj: 
 	@mkdir -p $(OBJDIR)
-# script configure
-conf : 
-	@sudo sh $(CONFIG)
 
 
 $(OBJDIR)/%.o:$(SRCDIR)/%.c $(HEADER)

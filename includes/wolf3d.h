@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/27 16:48:08 by maboye            #+#    #+#             */
-/*   Updated: 2019/12/04 17:45:53 by bebosson         ###   ########.fr       */
+/*   Updated: 2022/06/06 16:50:06 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <fcntl.h>
 # include <unistd.h>
 # include <SDL2/SDL.h>
-# include <SDL2/SDL_ttf.h>
+// # include <SDL2/SDL_ttf.h>
 # include "../libft/libft.h"
 
 # define W_WIDTH	1280
@@ -209,10 +209,6 @@ typedef struct	s_wolf
 	float					cdst;
 	float					etime;
 	float					frame_start;
-	TTF_Font				*police;
-	TTF_Font				*police2;
-	TTF_Font				*police3;
-	TTF_Font				*policep;
 	t_map					map;
 	t_pf					pfdata;
 	t_player				player;

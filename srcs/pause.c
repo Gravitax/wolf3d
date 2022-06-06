@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 16:33:16 by bebosson          #+#    #+#             */
-/*   Updated: 2019/12/04 18:24:24 by bebosson         ###   ########.fr       */
+/*   Updated: 2022/06/06 16:51:44 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,10 @@ static void			draw_main_rect(t_wolf *data, int cursor)
 	(*(data->rect)) = (SDL_Rect){0, 0, W_WIDTH, W_HEIGHT};
 	set_rect_to_screen(data, data->rect, 0xff0000);
 	(*(data->rect)) = (SDL_Rect){0, 0, 0, 0};
-	data->policep = data->police;
+	// data->policep = data->police;
 	set_write_to_screen(data, (*(data->rect)), 0, "DOOM");
 	(*(data->rect)) = (SDL_Rect){2 * UNITX, 7 * UNITY, 2 * UNITX, 0.75 * UNITY};
-	data->policep = data->police2;
+	// data->policep = data->police2;
 	set_write_to_screen(data, (*(data->rect)), 0, "CONTINUE");
 	(*(data->rect)) = (SDL_Rect){2 * UNITX, 8 * UNITY, 2 * UNITX, 0.75 * UNITY};
 	set_write_to_screen(data, (*(data->rect)), 0, "QUIT");

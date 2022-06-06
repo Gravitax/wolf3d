@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wolf3d.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bebosson <bebosson@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:52:38 by maboye            #+#    #+#             */
-/*   Updated: 2020/06/29 09:15:35 by bebosson         ###   ########.fr       */
+/*   Updated: 2022/06/06 16:51:30 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,18 @@ static void		init_sdl(t_wolf *data)
 	data->sdl_on = 1;
 	if (!(data = minimap_alloc(data)))
 		clean_exit(data, "wolf3d: error malloc minimap", 0);
-	if (TTF_Init() == -1)
-		clean_exit(data, "wolf3d: error TTF_init", 0);
+	// if (TTF_Init() == -1)
+	// 	clean_exit(data, "wolf3d: error TTF_init", 0);
 	data->pwindow = SDL_CreateWindow("maboye wolf3d",
 			SDL_WINDOWPOS_CENTERED,
 			SDL_WINDOWPOS_CENTERED,
 			W_WIDTH, W_HEIGHT, 0);
-	if (!(data->police = TTF_OpenFont("img/police/AmazDooMLeft.ttf", 200)))
-		clean_exit(data, "wolf3d: error TTF_OpenFont", 0);
-	if (!(data->police2 = TTF_OpenFont("img/police/bit.ttf", 20)))
-		clean_exit(data, "wolf3d: error TTF_OpenFont", 0);
-	if (!(data->police3 = TTF_OpenFont("img/police/bit.ttf", 8)))
-		clean_exit(data, "wolf3d: error TTF_OpenFont", 0);
+	// if (!(data->police = TTF_OpenFont("img/police/AmazDooMLeft.ttf", 200)))
+	// 	clean_exit(data, "wolf3d: error TTF_OpenFont", 0);
+	// if (!(data->police2 = TTF_OpenFont("img/police/bit.ttf", 20)))
+	// 	clean_exit(data, "wolf3d: error TTF_OpenFont", 0);
+	// if (!(data->police3 = TTF_OpenFont("img/police/bit.ttf", 8)))
+	// 	clean_exit(data, "wolf3d: error TTF_OpenFont", 0);
 }
 
 static int		get_fps(t_wolf *data)
